@@ -15,7 +15,7 @@ const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => 
       onClick={onFlip}
     >
       <div
-        className="relative w-full h-full transition-transform duration-700"
+        className="relative w-full h-full transition-transform duration-500 ease-in-out"
         style={{ transformStyle: 'preserve-3d', transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
       >
         {/* Front of the card */}
@@ -41,27 +41,43 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void }> =
   const [articles, setArticles] = useState(() => shuffleArray(CONSTITUTION_ARTICLES));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  
+  const animationDuration = 500;
+  const contentChangeDelay = animationDuration / 2;
 
   const goToNext = () => {
-    setIsFlipped(false);
-    setTimeout(() => {
+    if (isFlipped) {
+        setIsFlipped(false);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev + 1) % articles.length);
+        }, contentChangeDelay);
+    } else {
         setCurrentIndex((prev) => (prev + 1) % articles.length);
-    }, 150); // Delay to allow flip back animation
+    }
   };
 
   const goToPrev = () => {
-    setIsFlipped(false);
-     setTimeout(() => {
+    if (isFlipped) {
+        setIsFlipped(false);
+         setTimeout(() => {
+            setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
+        }, contentChangeDelay);
+    } else {
         setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
-    }, 150);
+    }
   };
 
   const shuffleCards = () => {
-    setIsFlipped(false);
-    setTimeout(() => {
+    if (isFlipped) {
+        setIsFlipped(false);
+        setTimeout(() => {
+            setArticles(shuffleArray(CONSTITUTION_ARTICLES));
+            setCurrentIndex(0);
+        }, contentChangeDelay);
+    } else {
         setArticles(shuffleArray(CONSTITUTION_ARTICLES));
         setCurrentIndex(0);
-    }, 150);
+    }
   };
   
   const currentArticle = useMemo(() => articles[currentIndex], [articles, currentIndex]);
