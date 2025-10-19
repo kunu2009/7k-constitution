@@ -1,6 +1,6 @@
 import React from 'react';
 import { LearningMode } from '../types';
-import { HomeIcon, CardIcon, QuestionIcon, ReelsIcon } from '../constants/icons';
+import { HomeIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon } from '../constants/icons';
 
 interface NavbarProps {
   activeMode: LearningMode;
@@ -56,6 +56,12 @@ const Navbar: React.FC<NavbarProps> = ({ activeMode, setMode }) => {
         icon={<ReelsIcon />}
         isActive={activeMode === LearningMode.Reels}
         onClick={() => setMode(LearningMode.Reels)}
+      />
+       <NavButton
+        label="Progress"
+        icon={<ProgressIcon />}
+        isActive={activeMode === LearningMode.Progress}
+        onClick={() => setMode(LearningMode.Progress)}
       />
     </nav>
   );

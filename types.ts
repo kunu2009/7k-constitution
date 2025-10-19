@@ -11,6 +11,7 @@ export enum LearningMode {
   Flashcards = 'FLASHCARDS',
   MCQ = 'MCQ',
   Reels = 'REELS',
+  Progress = 'PROGRESS',
 }
 
 export interface MCQQuestion {

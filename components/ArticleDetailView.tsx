@@ -10,12 +10,20 @@ interface ArticleDetailViewProps {
   onUpdateNotes: (notes: string) => void;
 }
 
+const DetailSection: React.FC<{ title: string; borderColorClass: string; children: React.ReactNode }> = ({ title, borderColorClass, children }) => (
+    <div className={`bg-slate-50 dark:bg-slate-800/60 p-4 rounded-lg border-l-4 ${borderColorClass} mb-6 shadow-sm`}>
+        <h2 className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 tracking-wider mb-2">{title}</h2>
+        {children}
+    </div>
+);
+
+
 const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData, onClose, onToggleFavorite, onUpdateNotes }) => {
   const isFavorite = userData?.isFavorite || false;
   const notes = userData?.notes || '';
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
       <header className="flex-shrink-0 bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10">
         <button onClick={onClose} className="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold transition-colors">
           &larr; Back
@@ -35,25 +43,22 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
       <div className="flex-grow p-4 sm:p-8 overflow-y-auto">
         <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
           
-          <div className="mb-6">
-            <h2 className="text-xs font-semibold uppercase text-saffron tracking-wider mb-2">Part</h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">{article.part}</p>
-          </div>
+          <DetailSection title="Part" borderColorClass="border-saffron">
+             <p className="text-lg text-gray-800 dark:text-gray-200">{article.part}</p>
+          </DetailSection>
 
-          <div className="mb-6">
-            <h2 className="text-xs font-semibold uppercase text-saffron tracking-wider mb-2">Summary</h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">{article.summary}</p>
-          </div>
+          <DetailSection title="Summary" borderColorClass="border-navy">
+            <p className="text-lg text-gray-800 dark:text-gray-200 leading-relaxed">{article.summary}</p>
+          </DetailSection>
           
-          <div className="mb-6">
-            <h2 className="text-xs font-semibold uppercase text-saffron tracking-wider mb-2">Full Text</h2>
-            <p className="text-base text-gray-600 dark:text-gray-400 leading-7 whitespace-pre-wrap">{article.fullText}</p>
-          </div>
+          <DetailSection title="Full Text" borderColorClass="border-green">
+            <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap font-serif">{article.fullText}</p>
+          </DetailSection>
 
           <hr className="my-8 border-gray-200 dark:border-gray-700" />
           
           <div>
-            <h2 className="text-xs font-semibold uppercase text-navy dark:text-blue-300 tracking-wider mb-3">My Notes</h2>
+            <h2 className="text-sm font-semibold uppercase text-navy dark:text-blue-300 tracking-wider mb-3">My Notes</h2>
             <textarea
               value={notes}
               onChange={(e) => onUpdateNotes(e.target.value)}

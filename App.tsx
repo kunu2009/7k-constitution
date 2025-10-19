@@ -6,7 +6,9 @@ import FlashcardMode from './components/FlashcardMode';
 import MCQMode from './components/MCQMode';
 import ReelsMode from './components/ReelsMode';
 import ArticleDetailView from './components/ArticleDetailView';
+import ProgressView from './components/ProgressView';
 import { useUserData } from './hooks/useUserData';
+import { CONSTITUTION_ARTICLES } from './constants/articles';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<LearningMode>(LearningMode.Home);
@@ -29,6 +31,8 @@ const App: React.FC = () => {
         return <MCQMode onSelectArticle={handleSelectArticle} />;
       case LearningMode.Reels:
         return <ReelsMode onSelectArticle={handleSelectArticle} />;
+      case LearningMode.Progress:
+        return <ProgressView userData={userData} totalArticles={CONSTITUTION_ARTICLES.length} />;
       case LearningMode.Home:
       default:
         return <Home onStart={() => setMode(LearningMode.Flashcards)} />;
