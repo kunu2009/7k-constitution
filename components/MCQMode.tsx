@@ -107,17 +107,30 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void }> = ({ on
         </div>
 
         {isAnswered && (
-          <div className="mt-6 text-center">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-               <button 
-                onClick={() => onSelectArticle(question.article)} 
-                className="px-8 py-3 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white font-bold rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
-               >
-                View Article Details
-               </button>
-               <button onClick={handleNext} className="px-8 py-3 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-blue-900 transition-colors">
-                 Next Question
-               </button>
+          <div className="mt-6">
+            <div className="bg-green-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-green-500 text-left mb-6 transition-opacity duration-500">
+              <h4 className="font-bold text-green-800 dark:text-green-300">
+                {selectedAnswer === question.correctAnswer ? "Correct!" : "Explanation"}
+              </h4>
+              <p className="mt-1 text-gray-800 dark:text-gray-200">
+                <span className="font-semibold">{question.article.id}</span> is about "{question.correctAnswer}".
+              </p>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                {question.article.summary}
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button 
+                  onClick={() => onSelectArticle(question.article)} 
+                  className="px-8 py-3 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white font-bold rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                >
+                  View Article Details
+                </button>
+                <button onClick={handleNext} className="px-8 py-3 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-blue-900 transition-colors">
+                  Next Question
+                </button>
+              </div>
             </div>
           </div>
         )}
