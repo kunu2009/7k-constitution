@@ -9,9 +9,10 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => void }> = ({ article, isFlipped, onFlip }) => {
   return (
     <div
-      className="w-full h-full cursor-pointer"
+      className="w-full h-full cursor-pointer group"
       style={{ perspective: '1000px' }}
       onClick={onFlip}
+      aria-label={`Flashcard for ${article.id}. Click to flip.`}
     >
       <div
         className="relative w-full h-full transition-transform duration-500 ease-in-out"
@@ -22,13 +23,16 @@ const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => 
           <span className="text-sm font-semibold text-saffron uppercase">{article.part}</span>
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-navy dark:text-white mt-2">{article.id}</h2>
           <p className="text-xl text-center text-gray-700 dark:text-gray-300 mt-4">{article.title}</p>
-          <p className="absolute bottom-4 text-sm text-gray-400">Click to flip</p>
+          <p className="absolute bottom-4 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Click to flip</p>
         </div>
         {/* Back of the card */}
-        <div className="absolute w-full h-full backface-hidden flex flex-col justify-center p-6 bg-blue-50 dark:bg-gray-700 rounded-xl shadow-2xl border border-blue-200 dark:border-blue-600" style={{ transform: 'rotateY(180deg)' }}>
-          <h3 className="text-lg font-bold text-navy dark:text-saffron mb-2">Summary</h3>
-          <p className="text-base text-gray-800 dark:text-gray-200 overflow-y-auto text-center">{article.summary}</p>
-           <p className="absolute bottom-4 text-sm text-gray-400">Click to flip</p>
+        <div 
+          className="absolute w-full h-full backface-hidden flex flex-col justify-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border-t-4 border-navy dark:border-saffron" 
+          style={{ transform: 'rotateY(180deg)' }}
+        >
+          <h3 className="text-lg font-bold text-navy dark:text-saffron mb-2 text-center">Key Points</h3>
+          <p className="text-base text-gray-800 dark:text-gray-200 overflow-y-auto text-center flex-grow">{article.summary}</p>
+          <p className="absolute bottom-4 text-sm text-gray-400 w-full text-center left-0">Click to flip</p>
         </div>
       </div>
     </div>
@@ -49,6 +53,10 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
 
   const animationDuration = 500;
   const contentChangeDelay = animationDuration / 2;
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
 
   const goToNext = () => {
     if (articles.length === 0) return;
@@ -102,7 +110,7 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
   return (
     <div className="flex flex-col items-center justify-center h-full p-4 bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-2xl h-80 sm:h-96 mb-6">
-        <Flashcard article={currentArticle} isFlipped={isFlipped} onFlip={() => setIsFlipped(!isFlipped)} />
+        <Flashcard article={currentArticle} isFlipped={isFlipped} onFlip={handleFlip} />
       </div>
 
       <div className="text-center text-gray-600 dark:text-gray-400 mb-6">

@@ -1,5 +1,25 @@
 import React from 'react';
 
+export const AppLogo = () => (
+  <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30 170V30H170V170H30Z" fill="url(#paint0_linear_101_2)"/>
+    <path d="M100 130C116.569 130 130 116.569 130 100C130 83.4315 116.569 70 100 70C83.4315 70 70 83.4315 70 100C70 116.569 83.4315 130 100 130Z" stroke="#000080" strokeWidth="10"/>
+    <path d="M100 70V130" stroke="#000080" strokeWidth="10"/>
+    <path d="M121.213 78.7868L78.7868 121.213" stroke="#000080" strokeWidth="10"/>
+    <path d="M130 100L70 100" stroke="#000080" strokeWidth="10"/>
+    <path d="M121.213 121.213L78.7868 78.7868" stroke="#000080" strokeWidth="10"/>
+    <path d="M92 30H108V170H92V30Z" fill="#D1D5DB"/>
+    <defs>
+      <linearGradient id="paint0_linear_101_2" x1="100" y1="30" x2="100" y2="170" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#FF9933"/>
+        <stop offset="0.5" stopColor="#FFFFFF"/>
+        <stop offset="1" stopColor="#138808"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+
 export const HomeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />

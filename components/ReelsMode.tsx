@@ -5,7 +5,7 @@ import { InfoIcon } from '../constants/icons';
 
 const ReelCard: React.FC<{ article: Article; color: string; onSelectArticle: (article: Article) => void }> = ({ article, color, onSelectArticle }) => {
   return (
-    <div className={`h-full w-full flex-shrink-0 snap-center flex flex-col justify-center items-center p-8 text-white ${color}`}>
+    <div className={`h-screen w-full flex-shrink-0 snap-center flex flex-col justify-center items-center p-8 text-white ${color}`}>
       <div className="w-full max-w-md bg-black bg-opacity-30 p-8 rounded-2xl shadow-lg backdrop-blur-sm">
         <span className="text-sm font-bold uppercase tracking-widest opacity-80">{article.part}</span>
         <h2 className="text-4xl font-extrabold my-3">{article.id}</h2>
@@ -33,7 +33,7 @@ const ReelsMode: React.FC<{ onSelectArticle: (article: Article) => void }> = ({ 
     ];
     
   return (
-    <div className="h-full w-full overflow-y-scroll snap-y snap-mandatory">
+    <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory">
       {CONSTITUTION_ARTICLES.map((article, index) => (
         <ReelCard 
           key={article.id} 

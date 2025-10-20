@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
-import { UserData } from '../types';
+import { UserData, LearningMode } from '../types';
 
 interface ProgressViewProps {
   userData: UserData;
   totalArticles: number;
+  setMode: (mode: LearningMode) => void;
 }
 
 const ProgressCard: React.FC<{ title: string; value: number; max: number; color: string; format?: 'count' | 'percentage' }> = ({ title, value, max, color, format = 'percentage' }) => {
@@ -30,7 +31,7 @@ const ProgressCard: React.FC<{ title: string; value: number; max: number; color:
   );
 };
 
-const ProgressView: React.FC<ProgressViewProps> = ({ userData, totalArticles }) => {
+const ProgressView: React.FC<ProgressViewProps> = ({ userData, totalArticles, setMode }) => {
   const stats = useMemo(() => {
     const userArticleIds = Object.keys(userData);
 
