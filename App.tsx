@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { LearningMode, Article } from './types';
-import Navbar from './components/Navbar';
+import Navigation from './components/Navigation';
 import Home from './components/Home';
 import FlashcardMode from './components/FlashcardMode';
 import MCQMode from './components/MCQMode';
@@ -62,53 +62,57 @@ const App: React.FC = () => {
         return <Home onStart={() => setMode(LearningMode.Flashcards)} />;
     }
   };
+  
+  const handleSetMode = (newMode: LearningMode) => {
+    setActivePartFilter('All');
+    setMode(newMode);
+  };
 
   return (
-    <div className="flex flex-col h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-      {!selectedArticle && (
-        <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-saffron via-navy to-green">
+    <div className="flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {!selectedArticle && (
+          <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
+            <h1 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-saffron via-gray-100 to-green dark:via-gray-400">
               7k Constitution
             </h1>
-             <button
+            <button
               onClick={() => setIsSearchModalOpen(true)}
               className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Search for an article"
             >
               <SearchIcon />
             </button>
-          </div>
-          <Navbar activeMode={mode} setMode={(newMode) => {
-            setActivePartFilter('All');
-            setMode(newMode);
-          }} />
-        </header>
-      )}
-      <main className="flex-grow overflow-hidden">
-        {selectedArticle ? (
-          <ArticleDetailView
-            article={selectedArticle}
-            userData={userData[selectedArticle.id]}
-            onClose={handleCloseDetailView}
-            onToggleFavorite={() => toggleFavorite(selectedArticle.id)}
-            onUpdateNotes={(notes) => updateNotes(selectedArticle.id, notes)}
-          />
-        ) : (
-          <div className="h-full flex flex-col">
-            {showFilterBar && (
-              <FilterBar
-                parts={allParts}
-                activePart={activePartFilter}
-                onFilterChange={setActivePartFilter}
-              />
-            )}
-            <div className="flex-grow overflow-y-auto">
-              {renderContent()}
-            </div>
-          </div>
+          </header>
         )}
-      </main>
+        <main className="flex-grow overflow-hidden">
+          {selectedArticle ? (
+            <ArticleDetailView
+              article={selectedArticle}
+              userData={userData[selectedArticle.id]}
+              onClose={handleCloseDetailView}
+              onToggleFavorite={() => toggleFavorite(selectedArticle.id)}
+              onUpdateNotes={(notes) => updateNotes(selectedArticle.id, notes)}
+            />
+          ) : (
+            <div className="h-full flex flex-col">
+              {showFilterBar && (
+                <FilterBar
+                  parts={allParts}
+                  activePart={activePartFilter}
+                  onFilterChange={setActivePartFilter}
+                />
+              )}
+              <div className="flex-grow overflow-y-auto pb-16 md:pb-0">
+                {renderContent()}
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
+
+      {!selectedArticle && <Navigation activeMode={mode} setMode={handleSetMode} />}
+      
       <SearchModal
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
