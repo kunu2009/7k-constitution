@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article, UserArticleData } from '../types';
+import { Article, UserArticleData, LandmarkCase } from '../types';
 import { StarIcon } from '../constants/icons';
 
 interface ArticleDetailViewProps {
@@ -15,6 +15,13 @@ const DetailSection: React.FC<{ title: string; borderColorClass: string; childre
         <h2 className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 tracking-wider mb-2">{title}</h2>
         {children}
     </div>
+);
+
+const LandmarkCaseCard: React.FC<{ caseItem: LandmarkCase }> = ({ caseItem }) => (
+  <div className="mb-4 last:mb-0">
+    <h3 className="font-semibold text-md text-gray-800 dark:text-gray-200">{caseItem.caseName}</h3>
+    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{caseItem.caseSummary}</p>
+  </div>
 );
 
 
@@ -47,13 +54,25 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
              <p className="text-lg text-gray-800 dark:text-gray-200">{article.part}</p>
           </DetailSection>
 
-          <DetailSection title="Summary" borderColorClass="border-navy">
+          <DetailSection title="Summary" borderColorClass="border-blue-500">
             <p className="text-lg text-gray-800 dark:text-gray-200 leading-relaxed">{article.summary}</p>
+          </DetailSection>
+
+           <DetailSection title="Detailed Explanation" borderColorClass="border-navy">
+            <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{article.detailedExplanation}</p>
           </DetailSection>
           
           <DetailSection title="Full Text" borderColorClass="border-green">
             <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap font-serif">{article.fullText}</p>
           </DetailSection>
+
+          {article.landmarkCases && article.landmarkCases.length > 0 && (
+             <DetailSection title="Landmark Cases" borderColorClass="border-red-500">
+              {article.landmarkCases.map((caseItem) => (
+                <LandmarkCaseCard key={caseItem.caseName} caseItem={caseItem} />
+              ))}
+            </DetailSection>
+          )}
 
           <hr className="my-8 border-gray-200 dark:border-gray-700" />
           

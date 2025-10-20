@@ -1,9 +1,16 @@
+export interface LandmarkCase {
+  caseName: string;
+  caseSummary: string;
+}
+
 export interface Article {
   id: string;
   title: string;
   summary: string;
+  detailedExplanation: string;
   fullText: string;
   part: string;
+  landmarkCases: LandmarkCase[];
 }
 
 export enum LearningMode {
