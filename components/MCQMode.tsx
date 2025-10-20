@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
 import { Article, MCQQuestion } from '../types';
 
-const generateMCQ = (): MCQQuestion => {
-  const articlesCopy = [...CONSTITUTION_ARTICLES];
+const generateMCQ = (questionPool: Article[]): MCQQuestion | null => {
+  if (questionPool.length === 0) {
+    return null;
+  }
   
-  const correctArticleIndex = Math.floor(Math.random() * articlesCopy.length);
-  const correctArticle = articlesCopy.splice(correctArticleIndex, 1)[0];
+  // Correct article is from the filtered pool
+  const correctArticle = questionPool[Math.floor(Math.random() * questionPool.length)];
+
+  // Wrong answers can be from the whole constitution to ensure variety and have enough options
+  const articlesCopy = [...CONSTITUTION_ARTICLES].filter(a => a.id !== correctArticle.id);
   
   const options = [correctArticle.title];
   
@@ -29,16 +34,20 @@ const generateMCQ = (): MCQQuestion => {
   };
 };
 
-const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void }> = ({ onSelectArticle }) => {
-  const [question, setQuestion] = useState<MCQQuestion | null>(null);
+const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[] }> = ({ onSelectArticle, articles: filteredArticles }) => {
+  const [question, setQuestion] = useState<MCQQuestion | null>(() => generateMCQ(filteredArticles));
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
 
   useEffect(() => {
-    setQuestion(generateMCQ());
-  }, []);
+    setQuestion(generateMCQ(filteredArticles));
+    setSelectedAnswer(null);
+    setIsAnswered(false);
+    setScore(0);
+    setQuestionCount(0);
+  }, [filteredArticles]);
 
   const handleAnswer = (option: string) => {
     if (isAnswered) return;
@@ -52,14 +61,14 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void }> = ({ on
   const handleNext = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(generateMCQ());
+    setQuestion(generateMCQ(filteredArticles));
     setQuestionCount(questionCount + 1);
   };
   
   const handleRestart = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(generateMCQ());
+    setQuestion(generateMCQ(filteredArticles));
     setScore(0);
     setQuestionCount(0);
   };
@@ -78,7 +87,12 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void }> = ({ on
   };
 
   if (!question) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+        <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">No Articles Available</h3>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">Cannot generate a quiz. Please change your filter.</p>
+      </div>
+    );
   }
 
   return (

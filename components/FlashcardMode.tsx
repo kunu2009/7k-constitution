@@ -1,5 +1,4 @@
-import React, { useState, useMemo } from 'react';
-import { CONSTITUTION_ARTICLES } from '../constants/articles';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Article } from '../types';
 import { InfoIcon } from '../constants/icons';
 
@@ -37,15 +36,22 @@ const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => 
 };
 
 
-const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void }> = ({ onSelectArticle }) => {
-  const [articles, setArticles] = useState(() => shuffleArray(CONSTITUTION_ARTICLES));
+const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[] }> = ({ onSelectArticle, articles: filteredArticles }) => {
+  const [articles, setArticles] = useState(() => shuffleArray(filteredArticles));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   
+  useEffect(() => {
+    setArticles(shuffleArray(filteredArticles));
+    setCurrentIndex(0);
+    setIsFlipped(false);
+  }, [filteredArticles]);
+
   const animationDuration = 500;
   const contentChangeDelay = animationDuration / 2;
 
   const goToNext = () => {
+    if (articles.length === 0) return;
     if (isFlipped) {
         setIsFlipped(false);
         setTimeout(() => {
@@ -57,6 +63,7 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void }> =
   };
 
   const goToPrev = () => {
+    if (articles.length === 0) return;
     if (isFlipped) {
         setIsFlipped(false);
          setTimeout(() => {
@@ -68,19 +75,29 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void }> =
   };
 
   const shuffleCards = () => {
+    if (articles.length === 0) return;
     if (isFlipped) {
         setIsFlipped(false);
         setTimeout(() => {
-            setArticles(shuffleArray(CONSTITUTION_ARTICLES));
+            setArticles(shuffleArray(filteredArticles));
             setCurrentIndex(0);
         }, contentChangeDelay);
     } else {
-        setArticles(shuffleArray(CONSTITUTION_ARTICLES));
+        setArticles(shuffleArray(filteredArticles));
         setCurrentIndex(0);
     }
   };
   
   const currentArticle = useMemo(() => articles[currentIndex], [articles, currentIndex]);
+
+  if (filteredArticles.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+        <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">No Articles Found</h3>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">Please change your filter to see more articles.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-4 bg-gray-100 dark:bg-gray-900">

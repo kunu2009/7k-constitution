@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LearningMode, Article } from './types';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -9,11 +9,25 @@ import ArticleDetailView from './components/ArticleDetailView';
 import ProgressView from './components/ProgressView';
 import { useUserData } from './hooks/useUserData';
 import { CONSTITUTION_ARTICLES } from './constants/articles';
+import FilterBar from './components/FilterBar';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<LearningMode>(LearningMode.Home);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const { userData, toggleFavorite, updateNotes } = useUserData();
+  const [activePartFilter, setActivePartFilter] = useState<string>('All');
+
+  const allParts = useMemo(() => {
+    const parts = new Set(CONSTITUTION_ARTICLES.map(a => a.part));
+    return ['All', ...Array.from(parts)];
+  }, []);
+
+  const filteredArticles = useMemo(() => {
+    if (activePartFilter === 'All' || !activePartFilter) {
+      return CONSTITUTION_ARTICLES;
+    }
+    return CONSTITUTION_ARTICLES.filter(a => a.part === activePartFilter);
+  }, [activePartFilter]);
 
   const handleSelectArticle = (article: Article) => {
     setSelectedArticle(article);
@@ -23,12 +37,14 @@ const App: React.FC = () => {
     setSelectedArticle(null);
   };
 
+  const showFilterBar = mode === LearningMode.Flashcards || mode === LearningMode.MCQ;
+
   const renderContent = () => {
     switch (mode) {
       case LearningMode.Flashcards:
-        return <FlashcardMode onSelectArticle={handleSelectArticle} />;
+        return <FlashcardMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
       case LearningMode.MCQ:
-        return <MCQMode onSelectArticle={handleSelectArticle} />;
+        return <MCQMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
       case LearningMode.Reels:
         return <ReelsMode onSelectArticle={handleSelectArticle} />;
       case LearningMode.Progress:
@@ -42,11 +58,14 @@ const App: React.FC = () => {
   return (
     <div className="flex flex-col h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
       {!selectedArticle && (
-        <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10">
+        <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
           <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-saffron via-navy to-green">
             7k Constitution
           </h1>
-          <Navbar activeMode={mode} setMode={setMode} />
+          <Navbar activeMode={mode} setMode={(newMode) => {
+            setActivePartFilter('All');
+            setMode(newMode);
+          }} />
         </header>
       )}
       <main className="flex-grow overflow-hidden">
@@ -59,7 +78,18 @@ const App: React.FC = () => {
             onUpdateNotes={(notes) => updateNotes(selectedArticle.id, notes)}
           />
         ) : (
-          renderContent()
+          <div className="h-full flex flex-col">
+            {showFilterBar && (
+              <FilterBar
+                parts={allParts}
+                activePart={activePartFilter}
+                onFilterChange={setActivePartFilter}
+              />
+            )}
+            <div className="flex-grow overflow-y-auto">
+              {renderContent()}
+            </div>
+          </div>
         )}
       </main>
     </div>
