@@ -11,7 +11,7 @@ import SearchModal from './components/SearchModal';
 import { useUserData } from './hooks/useUserData';
 import { CONSTITUTION_ARTICLES } from './constants/articles';
 import FilterBar from './components/FilterBar';
-import { SearchIcon, AppLogo, InstallIcon } from './constants/icons';
+import { SearchIcon, AppLogo, InstallIcon, FilterIcon } from './constants/icons';
 import ArticleListView from './components/ArticleListView';
 import SplashScreen from './components/SplashScreen';
 
@@ -62,6 +62,7 @@ const App: React.FC = () => {
   const [activeTagFilter, setActiveTagFilter] = useState<string>('All');
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isDetailMode, setIsDetailMode] = useState(false);
+  const [isFilterBarVisible, setIsFilterBarVisible] = useState(true);
 
 
   const allParts = useMemo(() => {
@@ -156,6 +157,16 @@ const App: React.FC = () => {
                         <span className="hidden sm:inline text-sm font-medium text-navy dark:text-white pr-2">Install</span>
                     </button>
                 )}
+                 {showFilterBar && (
+                  <button
+                    onClick={() => setIsFilterBarVisible(!isFilterBarVisible)}
+                    className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    aria-label="Toggle filters"
+                    title="Toggle filters"
+                  >
+                    <FilterIcon />
+                  </button>
+                )}
                 <button
                   onClick={() => setIsSearchModalOpen(true)}
                   className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -178,16 +189,18 @@ const App: React.FC = () => {
             ) : (
               <div className="h-full flex flex-col">
                 {showFilterBar && (
-                  <FilterBar
-                    parts={allParts}
-                    activePart={activePartFilter}
-                    onPartFilterChange={setActivePartFilter}
-                    tags={allTags}
-                    activeTag={activeTagFilter}
-                    onTagFilterChange={setActiveTagFilter}
-                    isDetailMode={isDetailMode}
-                    onDetailModeChange={setIsDetailMode}
-                  />
+                   <div className={`transition-all duration-300 ease-in-out ${isFilterBarVisible ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+                    <FilterBar
+                      parts={allParts}
+                      activePart={activePartFilter}
+                      onPartFilterChange={setActivePartFilter}
+                      tags={allTags}
+                      activeTag={activeTagFilter}
+                      onTagFilterChange={setActiveTagFilter}
+                      isDetailMode={isDetailMode}
+                      onDetailModeChange={setIsDetailMode}
+                    />
+                  </div>
                 )}
                 <div className="flex-grow overflow-y-auto pb-16 md:pb-0">
                   {renderContent()}

@@ -188,7 +188,8 @@ const ArticlePractice: React.FC<{ article: Article }> = ({ article }) => {
       {practiceMode === 'flashcards' && (
         <div className="animate-fade-in">
           <div className="h-64">
-            <Flashcard question={currentFlashcard.question} answer={currentFlashcard.answer} isRevealed={isFcRevealed} onReveal={() => setIsFcRevealed(!isFcRevealed)} />
+            {/* FIX: Add missing touchHandlers and animationClass props */}
+            <Flashcard question={currentFlashcard.question} answer={currentFlashcard.answer} isRevealed={isFcRevealed} onReveal={() => setIsFcRevealed(!isFcRevealed)} touchHandlers={{}} animationClass="" />
           </div>
           <Stepper current={fcIndex} total={flashcardDeck.length} onPrev={() => handleFcNav('prev')} onNext={() => handleFcNav('next')} />
         </div>

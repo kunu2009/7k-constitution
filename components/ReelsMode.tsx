@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { Article, LearningMode } from '../types';
-import { InfoIcon } from '../constants/icons';
+import { InfoIcon, FullscreenIcon, ExitFullscreenIcon } from '../constants/icons';
 
 const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
@@ -50,10 +50,17 @@ const BackButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     </button>
 );
 
-const ReelCard: React.FC<{ reel: ReelContent; color: string; onSelectArticle: (article: Article) => void; onBack: () => void }> = ({ reel, color, onSelectArticle, onBack }) => {
+const FullscreenButton: React.FC<{ onClick: () => void, isFullscreen: boolean }> = ({ onClick, isFullscreen }) => (
+  <button onClick={onClick} className="absolute top-6 right-6 z-20 p-3 bg-black bg-opacity-30 rounded-full hover:bg-opacity-50 transition-colors" aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}>
+    {isFullscreen ? <ExitFullscreenIcon /> : <FullscreenIcon />}
+  </button>
+);
+
+const ReelCard: React.FC<{ reel: ReelContent; color: string; onSelectArticle: (article: Article) => void; onBack: () => void; onToggleFullscreen: () => void; isFullscreen: boolean }> = ({ reel, color, onSelectArticle, onBack, onToggleFullscreen, isFullscreen }) => {
   return (
     <div className={`h-full w-full flex-shrink-0 snap-center flex flex-col justify-center items-center p-8 text-white relative ${color}`}>
       <BackButton onClick={onBack} />
+      <FullscreenButton onClick={onToggleFullscreen} isFullscreen={isFullscreen} />
       <div className="w-full max-w-md bg-black bg-opacity-30 p-8 rounded-2xl shadow-lg backdrop-blur-sm">
         <span className="text-sm font-bold uppercase tracking-widest opacity-80">{reel.type}</span>
         <h2 className="text-4xl font-extrabold my-3">{reel.article.id}</h2>
@@ -80,6 +87,28 @@ interface ReelsModeProps {
 
 const ReelsMode: React.FC<ReelsModeProps> = ({ articles, onSelectArticle, isDetailMode, setMode }) => {
     const reelDeck = useMemo(() => generateReelContent(articles, isDetailMode), [articles, isDetailMode]);
+    const reelsContainerRef = useRef<HTMLDivElement>(null);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    useEffect(() => {
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    }, []);
+
+    const toggleFullscreen = () => {
+        if (!reelsContainerRef.current) return;
+        if (!document.fullscreenElement) {
+            reelsContainerRef.current.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    };
     
     const colors = [
         'bg-gradient-to-br from-blue-500 to-indigo-700',
@@ -99,7 +128,7 @@ const ReelsMode: React.FC<ReelsModeProps> = ({ articles, onSelectArticle, isDeta
       }
 
   return (
-    <div className="h-full w-full overflow-y-scroll snap-y snap-mandatory">
+    <div ref={reelsContainerRef} className="h-full w-full overflow-y-scroll snap-y snap-mandatory bg-black">
       {reelDeck.map((reel, index) => (
         <ReelCard 
           key={reel.id} 
@@ -107,6 +136,8 @@ const ReelsMode: React.FC<ReelsModeProps> = ({ articles, onSelectArticle, isDeta
           color={colors[index % colors.length]}
           onSelectArticle={onSelectArticle}
           onBack={() => setMode(LearningMode.Home)}
+          onToggleFullscreen={toggleFullscreen}
+          isFullscreen={isFullscreen}
         />
       ))}
     </div>
