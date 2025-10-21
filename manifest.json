@@ -1,4 +1,3 @@
-
 {
   "short_name": "7k Constitution",
   "name": "7k Constitution: Learn the Indian Constitution",
@@ -37,22 +36,6 @@
       "description": "Review articles with flashcards.",
       "url": "/?mode=FLASHCARDS",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshot-1.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Interactive Flashcards"
-    },
-    {
-      "src": "/screenshot-2.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Engaging Quizzes"
     }
   ]
 }

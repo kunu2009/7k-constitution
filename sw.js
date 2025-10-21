@@ -1,7 +1,9 @@
-const CACHE_NAME = '7k-constitution-v7';
+const CACHE_NAME = '7k-constitution-v8';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/index.tsx',
+  'https://cdn.tailwindcss.com',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
