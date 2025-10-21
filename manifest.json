@@ -5,13 +5,13 @@
   "description": "An interactive PWA for learning the Indian Constitution (Articles 1-51A). Master the articles with flashcards, quizzes, and more, even offline!",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/image/icon-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/image/icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
@@ -28,14 +28,14 @@
       "short_name": "Quiz",
       "description": "Test your knowledge with multiple-choice questions.",
       "url": "/?mode=MCQ",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/image/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Flashcards",
       "short_name": "Flashcards",
       "description": "Review articles with flashcards.",
       "url": "/?mode=FLASHCARDS",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/image/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
