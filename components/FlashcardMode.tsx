@@ -93,8 +93,12 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
   const [animationClass, setAnimationClass] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isDraggingRef = useRef(false);
+  const touchState = useRef({
+    startX: 0,
+    startY: 0,
+    isScrolling: false, // User is scrolling vertically
+    isSwiping: false,   // User is swiping horizontally
+  });
 
   useEffect(() => {
     const newDeck = shuffleArray(generateFlashcardContent(filteredArticles, isDetailMode));
@@ -144,35 +148,53 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
 
   const touchHandlers = {
     onTouchStart: (e: React.TouchEvent) => {
-      touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      isDraggingRef.current = false;
+      // Reset state on new touch
+      touchState.current = {
+        startX: e.touches[0].clientX,
+        startY: e.touches[0].clientY,
+        isScrolling: false,
+        isSwiping: false,
+      };
     },
     onTouchMove: (e: React.TouchEvent) => {
-      if (!touchStartRef.current) return;
-      const deltaX = Math.abs(e.touches[0].clientX - touchStartRef.current.x);
-      const deltaY = Math.abs(e.touches[0].clientY - touchStartRef.current.y);
+      // If we've already decided it's a scroll or swipe, do nothing more.
+      if (touchState.current.isScrolling || touchState.current.isSwiping) {
+        return;
+      }
+  
+      const deltaX = Math.abs(e.touches[0].clientX - touchState.current.startX);
+      const deltaY = Math.abs(e.touches[0].clientY - touchState.current.startY);
+  
+      // We need a minimum movement threshold to trigger a scroll/swipe
       if (deltaX > 10 || deltaY > 10) {
-        isDraggingRef.current = true;
+        // It's a vertical scroll if Y movement is greater
+        if (deltaY > deltaX) {
+          touchState.current.isScrolling = true;
+        } else {
+          // Otherwise, it's a horizontal swipe
+          touchState.current.isSwiping = true;
+        }
       }
     },
     onTouchEnd: (e: React.TouchEvent) => {
-      if (!touchStartRef.current) return;
+      // If it was a vertical scroll, do nothing and let the browser handle it.
+      if (touchState.current.isScrolling) {
+        return;
+      }
       
-      const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
-      const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
-
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) { // Horizontal swipe
+      const deltaX = e.changedTouches[0].clientX - touchState.current.startX;
+      
+      // If it was a horizontal swipe and it moved far enough
+      if (touchState.current.isSwiping && Math.abs(deltaX) > 50) {
         if (deltaX < 0) {
           goToNext();
         } else {
           goToPrev();
         }
-      } else if (!isDraggingRef.current) { // It's a tap, not a drag/scroll
+      } else {
+        // If it wasn't a scroll or a significant swipe, it's a tap.
         handleReveal();
       }
-      
-      touchStartRef.current = null;
-      isDraggingRef.current = false;
     },
   };
   
