@@ -2,6 +2,7 @@
 {
   "short_name": "7k Constitution",
   "name": "7k Constitution: Learn the Indian Constitution",
+  "id": "/",
   "description": "An interactive PWA for learning the Indian Constitution (Articles 1-51A). Master the articles with flashcards, quizzes, and more, even offline!",
   "icons": [
     {
