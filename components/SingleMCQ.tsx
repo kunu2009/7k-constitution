@@ -7,32 +7,55 @@ const generateSingleMCQ = (correctArticle: Article): MCQQuestion | null => {
     return null;
   }
   
-  // Wrong answers can be from the whole constitution to ensure variety
   const articlesCopy = [...CONSTITUTION_ARTICLES].filter(a => a.id !== correctArticle.id);
+  const wrongArticles: Article[] = [];
   
-  const options = [correctArticle.title];
-  
-  // Ensure we have enough articles to generate 3 other options
   const numOptionsToGenerate = Math.min(3, articlesCopy.length);
 
-  while (options.length < (numOptionsToGenerate + 1) && articlesCopy.length > 0) {
+  while (wrongArticles.length < numOptionsToGenerate && articlesCopy.length > 0) {
     const wrongArticleIndex = Math.floor(Math.random() * articlesCopy.length);
-    const wrongArticle = articlesCopy.splice(wrongArticleIndex, 1)[0];
-    options.push(wrongArticle.title);
+    wrongArticles.push(articlesCopy.splice(wrongArticleIndex, 1)[0]);
   }
+  
+  const options = [correctArticle.title, ...wrongArticles.map(a => a.title)];
 
-  // Shuffle options
   for (let i = options.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [options[i], options[j]] = [options[j], options[i]];
   }
   
+  const explanationParts: string[] = [];
+  explanationParts.push(`**Correct:** "${correctArticle.title}" is the correct title for **${correctArticle.id}**. This article focuses on *${correctArticle.summary.split('.')[0]}*.`);
+  
+  if (wrongArticles.length > 0) {
+      explanationParts.push(`\n**Incorrect Options:**`);
+      wrongArticles.forEach(wa => {
+          explanationParts.push(`• **"${wa.title}"** is the title for **${wa.id}**.`);
+      });
+  }
+  const explanation = explanationParts.join('\n');
+
   return {
     article: correctArticle,
     options,
     correctAnswer: correctArticle.title,
+    explanation,
   };
 };
+
+const Explanation: React.FC<{ text: string }> = ({ text }) => {
+    const lines = text.split('\n').map((line, i) => {
+        line = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-navy dark:text-saffron">$1</strong>');
+        line = line.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+        if (line.startsWith('•')) {
+            line = `<span class="mr-2 text-gray-500 dark:text-gray-400">•</span>${line.substring(1)}`;
+            return <p key={i} className="flex" dangerouslySetInnerHTML={{ __html: line }} />;
+        }
+        return <p key={i} dangerouslySetInnerHTML={{ __html: line }} />;
+    });
+    return <div className="space-y-2 text-xs text-gray-700 dark:text-gray-300 leading-relaxed">{lines}</div>;
+};
+
 
 const SingleMCQ: React.FC<{ article: Article }> = ({ article }) => {
   const [question, setQuestion] = useState<MCQQuestion | null>(() => generateSingleMCQ(article));
@@ -76,7 +99,7 @@ const SingleMCQ: React.FC<{ article: Article }> = ({ article }) => {
   }
 
   return (
-    <div className="w-full bg-gray-50 dark:bg-gray-800/60 p-4 rounded-lg shadow-sm h-full">
+    <div className="w-full bg-gray-50 dark:bg-gray-800/60 p-4 rounded-lg shadow-sm h-full flex flex-col">
       <h2 className="text-base font-semibold mb-4 text-center text-gray-800 dark:text-gray-200">
         Which of the following is the title of <span className="font-bold text-navy dark:text-saffron">{question.article.id}</span>?
       </h2>
@@ -95,13 +118,18 @@ const SingleMCQ: React.FC<{ article: Article }> = ({ article }) => {
       </div>
 
       {isAnswered && (
-        <div className="mt-4 text-center">
-            {isCorrect ? (
-                 <p className="font-semibold text-green-600 dark:text-green-400">Correct!</p>
-            ) : (
-                <p className="font-semibold text-red-600 dark:text-red-400">Not quite. Try again!</p>
-            )}
-            <button onClick={handleTryAgain} className="mt-2 px-4 py-1 bg-navy text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors">
+        <div className="mt-4 text-center flex-grow flex flex-col">
+            <div className="flex-grow">
+              {isCorrect ? (
+                  <p className="font-semibold text-green-600 dark:text-green-400">Correct!</p>
+              ) : (
+                  <p className="font-semibold text-red-600 dark:text-red-400">Not quite.</p>
+              )}
+              <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600 text-left">
+                  <Explanation text={question.explanation} />
+              </div>
+            </div>
+            <button onClick={handleTryAgain} className="mt-2 w-full px-4 py-2 bg-navy text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors">
                 Try Again
             </button>
         </div>

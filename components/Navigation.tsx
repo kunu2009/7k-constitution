@@ -1,6 +1,6 @@
 import React from 'react';
 import { LearningMode } from '../types';
-import { HomeIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon } from '../constants/icons';
+import { HomeIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon } from '../constants/icons';
 
 interface NavigationProps {
   activeMode: LearningMode;
@@ -36,6 +36,7 @@ const NAV_ITEMS = [
     { mode: LearningMode.Home, label: 'Home', icon: <HomeIcon /> },
     { mode: LearningMode.Flashcards, label: 'Flashcards', icon: <CardIcon /> },
     { mode: LearningMode.MCQ, label: 'MCQ', icon: <QuestionIcon /> },
+    { mode: LearningMode.List, label: 'Browse', icon: <ListIcon /> },
     { mode: LearningMode.Reels, label: 'Reels', icon: <ReelsIcon /> },
     { mode: LearningMode.Progress, label: 'Progress', icon: <ProgressIcon /> },
 ]

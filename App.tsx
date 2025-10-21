@@ -12,6 +12,7 @@ import { useUserData } from './hooks/useUserData';
 import { CONSTITUTION_ARTICLES } from './constants/articles';
 import FilterBar from './components/FilterBar';
 import { SearchIcon, AppLogo } from './constants/icons';
+import ArticleListView from './components/ArticleListView';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<LearningMode>(LearningMode.Home);
@@ -51,7 +52,7 @@ const App: React.FC = () => {
     setIsSearchModalOpen(false);
   };
 
-  const showFilterBar = mode === LearningMode.Flashcards || mode === LearningMode.MCQ;
+  const showFilterBar = mode === LearningMode.Flashcards || mode === LearningMode.MCQ || mode === LearningMode.List;
   const isImmersiveMode = mode === LearningMode.Reels;
 
   const renderContent = () => {
@@ -60,6 +61,8 @@ const App: React.FC = () => {
         return <FlashcardMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
       case LearningMode.MCQ:
         return <MCQMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
+      case LearningMode.List:
+        return <ArticleListView articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
       case LearningMode.Reels:
         return <ReelsMode onSelectArticle={handleSelectArticle} />;
       case LearningMode.Progress:

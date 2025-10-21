@@ -20,12 +20,14 @@ export enum LearningMode {
   MCQ = 'MCQ',
   Reels = 'REELS',
   Progress = 'PROGRESS',
+  List = 'LIST',
 }
 
 export interface MCQQuestion {
   article: Article;
   options: string[];
   correctAnswer: string;
+  explanation: string;
 }
 
 export interface UserArticleData {
