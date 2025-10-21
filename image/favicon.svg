@@ -1,0 +1,37 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="circleClip"><circle cx="50" cy="50" r="50"/></clipPath>
+    <g id="spoke"><line x1="50" y1="50" x2="50" y2="30" stroke="#000080" stroke-width="2"/></g>
+  </defs>
+  <g clip-path="url(#circleClip)">
+    <rect width="100" height="33.3%" fill="#FF9933"/>
+    <rect y="33.3%" width="100" height="33.4%" fill="#FFFFFF"/>
+    <rect y="66.7%" width="100" height="33.3%" fill="#138808"/>
+  </g>
+  <circle cx="50" cy="50" r="20" fill="none" stroke="#000080" stroke-width="2"/>
+  <circle cx="50" cy="50" r="2.5" fill="#000080"/>
+  <use href="#spoke"/>
+  <use href="#spoke" transform="rotate(15, 50, 50)"/>
+  <use href="#spoke" transform="rotate(30, 50, 50)"/>
+  <use href="#spoke" transform="rotate(45, 50, 50)"/>
+  <use href="#spoke" transform="rotate(60, 50, 50)"/>
+  <use href="#spoke" transform="rotate(75, 50, 50)"/>
+  <use href="#spoke" transform="rotate(90, 50, 50)"/>
+  <use href="#spoke" transform="rotate(105, 50, 50)"/>
+  <use href="#spoke" transform="rotate(120, 50, 50)"/>
+  <use href="#spoke" transform="rotate(135, 50, 50)"/>
+  <use href="#spoke" transform="rotate(150, 50, 50)"/>
+  <use href="#spoke" transform="rotate(165, 50, 50)"/>
+  <use href="#spoke" transform="rotate(180, 50, 50)"/>
+  <use href="#spoke" transform="rotate(195, 50, 50)"/>
+  <use href="#spoke" transform="rotate(210, 50, 50)"/>
+  <use href="#spoke" transform="rotate(225, 50, 50)"/>
+  <use href="#spoke" transform="rotate(240, 50, 50)"/>
+  <use href="#spoke" transform="rotate(255, 50, 50)"/>
+  <use href="#spoke" transform="rotate(270, 50, 50)"/>
+  <use href="#spoke" transform="rotate(285, 50, 50)"/>
+  <use href="#spoke" transform="rotate(300, 50, 50)"/>
+  <use href="#spoke" transform="rotate(315, 50, 50)"/>
+  <use href="#spoke" transform="rotate(330, 50, 50)"/>
+  <use href="#spoke" transform="rotate(345, 50, 50)"/>
+</svg>
