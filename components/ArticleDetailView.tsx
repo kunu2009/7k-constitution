@@ -30,7 +30,8 @@ const LandmarkCaseCard: React.FC<{ caseItem: LandmarkCase }> = ({ caseItem }) =>
 const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData, onClose, onToggleFavorite, onUpdateNotes }) => {
   const isFavorite = userData?.isFavorite || false;
   const notes = userData?.notes || '';
-  const [isFlipped, setIsFlipped] = useState(false);
+  // FIX: Renamed state from `isFlipped` to `isRevealed` for consistency with the Flashcard component's props.
+  const [isRevealed, setIsRevealed] = useState(false);
 
   return (
     <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
@@ -85,7 +86,8 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
                 <div>
                     <h3 className="font-semibold text-lg mb-4 text-center text-gray-700 dark:text-gray-300">Flashcard</h3>
                     <div className="h-64">
-                        <Flashcard article={article} isFlipped={isFlipped} onFlip={() => setIsFlipped(!isFlipped)} />
+                        {/* FIX: Passed `isRevealed` and `onReveal` props to match the `Flashcard` component's definition, resolving the TypeScript error. */}
+                        <Flashcard article={article} isRevealed={isRevealed} onReveal={() => setIsRevealed(!isRevealed)} />
                     </div>
                 </div>
                 <div>

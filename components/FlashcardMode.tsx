@@ -6,35 +6,29 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
 };
 
-export const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => void }> = ({ article, isFlipped, onFlip }) => {
+export const Flashcard: React.FC<{ article: Article; isRevealed: boolean; onReveal: () => void }> = ({ article, isRevealed, onReveal }) => {
   return (
     <div
-      className="w-full h-full cursor-pointer group"
-      style={{ perspective: '1000px' }}
-      onClick={onFlip}
-      aria-label={`Flashcard for ${article.id}. Click to flip.`}
+      className="w-full h-full cursor-pointer group flex flex-col justify-center items-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 relative"
+      onClick={onReveal}
+      aria-live="polite"
     >
-      <div
-        className="relative w-full h-full transition-transform duration-500 ease-in-out"
-        style={{ transformStyle: 'preserve-3d', transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
-      >
-        {/* Front of the card */}
-        <div className="absolute w-full h-full backface-hidden flex flex-col justify-center items-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700">
-          <span className="text-sm font-semibold text-saffron uppercase">{article.part}</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-navy dark:text-white mt-2">{article.id}</h2>
-          <p className="text-xl text-center text-gray-700 dark:text-gray-300 mt-4">{article.title}</p>
-          <p className="absolute bottom-4 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Click to flip</p>
-        </div>
-        {/* Back of the card */}
-        <div 
-          className="absolute w-full h-full backface-hidden flex flex-col justify-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border-t-4 border-navy dark:border-saffron" 
-          style={{ transform: 'rotateY(180deg)' }}
-        >
-          <h3 className="text-lg font-bold text-navy dark:text-saffron mb-2 text-center">{article.id}: {article.title}</h3>
-          <p className="text-base text-gray-800 dark:text-gray-200 overflow-y-auto text-center flex-grow px-2">{article.summary}</p>
-          <p className="absolute bottom-4 text-sm text-gray-400 w-full text-center left-0">Click to flip</p>
-        </div>
-      </div>
+      {!isRevealed ? (
+        // Question View
+        <>
+          <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{article.part}</span>
+          <p className="text-lg text-gray-600 dark:text-gray-400 mt-4">Which article is titled:</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-navy dark:text-white mt-2">"{article.title}"?</h2>
+          <p className="absolute bottom-4 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Click to reveal</p>
+        </>
+      ) : (
+        // Answer View
+        <>
+          <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
+          <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{article.title}</p>
+          <p className="absolute bottom-4 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Click to hide</p>
+        </>
+      )}
     </div>
   );
 };
@@ -43,57 +37,35 @@ export const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip:
 const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[] }> = ({ onSelectArticle, articles: filteredArticles }) => {
   const [articles, setArticles] = useState(() => shuffleArray(filteredArticles));
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
   
   useEffect(() => {
     setArticles(shuffleArray(filteredArticles));
     setCurrentIndex(0);
-    setIsFlipped(false);
+    setIsRevealed(false);
   }, [filteredArticles]);
 
-  const animationDuration = 500;
-  const contentChangeDelay = animationDuration / 2;
-
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
+  const handleReveal = () => {
+    setIsRevealed(!isRevealed);
   };
 
   const goToNext = () => {
     if (articles.length === 0) return;
-    if (isFlipped) {
-        setIsFlipped(false);
-        setTimeout(() => {
-            setCurrentIndex((prev) => (prev + 1) % articles.length);
-        }, contentChangeDelay);
-    } else {
-        setCurrentIndex((prev) => (prev + 1) % articles.length);
-    }
+    setIsRevealed(false);
+    setCurrentIndex((prev) => (prev + 1) % articles.length);
   };
 
   const goToPrev = () => {
     if (articles.length === 0) return;
-    if (isFlipped) {
-        setIsFlipped(false);
-         setTimeout(() => {
-            setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
-        }, contentChangeDelay);
-    } else {
-        setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
-    }
+    setIsRevealed(false);
+    setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
   };
 
   const shuffleCards = () => {
-    if (articles.length === 0) return;
-    if (isFlipped) {
-        setIsFlipped(false);
-        setTimeout(() => {
-            setArticles(shuffleArray(filteredArticles));
-            setCurrentIndex(0);
-        }, contentChangeDelay);
-    } else {
-        setArticles(shuffleArray(filteredArticles));
-        setCurrentIndex(0);
-    }
+    if (filteredArticles.length === 0) return;
+    setArticles(shuffleArray(filteredArticles));
+    setCurrentIndex(0);
+    setIsRevealed(false);
   };
   
   const currentArticle = useMemo(() => articles[currentIndex], [articles, currentIndex]);
@@ -110,7 +82,7 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
   return (
     <div className="flex flex-col items-center justify-center h-full p-4 bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-2xl h-80 sm:h-96 mb-6">
-        <Flashcard article={currentArticle} isFlipped={isFlipped} onFlip={handleFlip} />
+        <Flashcard article={currentArticle} isRevealed={isRevealed} onReveal={handleReveal} />
       </div>
 
       <div className="text-center text-gray-600 dark:text-gray-400 mb-6">
