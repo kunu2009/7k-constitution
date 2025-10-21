@@ -1,3 +1,4 @@
+
 import React, { useMemo } from 'react';
 import { Article, LearningMode, UserData } from '../types';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
@@ -99,9 +100,6 @@ const QuickStartCard: React.FC<{ title: string; description: string; icon: React
         onClick={onClick}
         className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-left flex items-center space-x-4 transform hover:scale-105 transition-transform duration-300 w-full"
     >
-        {/* FIX: The original `React.cloneElement` call caused a TypeScript error because the icon components do not accept a `className` prop.
-            This was replaced with a more robust CSS-based approach. The icon is rendered directly,
-            and Tailwind's arbitrary variants are used to style the child SVG from the parent, correctly resizing it. */}
         <div className={`text-3xl ${color} [&>svg]:h-8 [&>svg]:w-8`}>
             {icon}
         </div>

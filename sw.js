@@ -1,3 +1,4 @@
+
 const CACHE_NAME = '7k-constitution-v5';
 const urlsToCache = [
   '/',

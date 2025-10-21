@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
 import { Article, MCQQuestion } from '../types';

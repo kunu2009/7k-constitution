@@ -1,3 +1,4 @@
+
 import { Article } from '../types';
 
 export const CONSTITUTION_ARTICLES: Article[] = [

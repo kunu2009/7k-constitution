@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Article, UserArticleData, LandmarkCase } from '../types';
 import { StarIcon } from '../constants/icons';
@@ -30,7 +31,6 @@ const LandmarkCaseCard: React.FC<{ caseItem: LandmarkCase }> = ({ caseItem }) =>
 const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData, onClose, onToggleFavorite, onUpdateNotes }) => {
   const isFavorite = userData?.isFavorite || false;
   const notes = userData?.notes || '';
-  // FIX: Renamed state from `isFlipped` to `isRevealed` for consistency with the Flashcard component's props.
   const [isRevealed, setIsRevealed] = useState(false);
 
   return (
@@ -86,7 +86,6 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
                 <div>
                     <h3 className="font-semibold text-lg mb-4 text-center text-gray-700 dark:text-gray-300">Flashcard</h3>
                     <div className="h-64">
-                        {/* FIX: Passed `isRevealed` and `onReveal` props to match the `Flashcard` component's definition, resolving the TypeScript error. */}
                         <Flashcard article={article} isRevealed={isRevealed} onReveal={() => setIsRevealed(!isRevealed)} />
                     </div>
                 </div>

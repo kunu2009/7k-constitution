@@ -1,3 +1,4 @@
+
 # 7k Constitution
 
 An interactive Progressive Web App (PWA) designed to help you learn, understand, and master the foundational articles (1-51A) of the Indian Constitution.

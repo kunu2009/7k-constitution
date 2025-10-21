@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
 import { Article, MCQQuestion } from '../types';
