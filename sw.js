@@ -23,6 +23,7 @@ const urlsToCache = [
   '/components/Navigation.tsx',
   '/components/SingleMCQ.tsx',
   '/components/ArticleListView.tsx',
+  '/components/SplashScreen.tsx',
   'https://cdn.tailwindcss.com',
   'https://aistudiocdn.com/react@^19.2.0',
   'https://aistudiocdn.com/react-dom@^19.2.0/',

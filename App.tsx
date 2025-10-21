@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { LearningMode, Article } from './types';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
@@ -14,8 +14,27 @@ import { CONSTITUTION_ARTICLES } from './constants/articles';
 import FilterBar from './components/FilterBar';
 import { SearchIcon, AppLogo } from './constants/icons';
 import ArticleListView from './components/ArticleListView';
+import SplashScreen from './components/SplashScreen';
 
 const App: React.FC = () => {
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
+  const [isSplashFading, setIsSplashFading] = useState(false);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setIsSplashFading(true);
+    }, 2000); // Start fading after 2 seconds
+
+    const unmountTimer = setTimeout(() => {
+      setIsSplashVisible(false);
+    }, 2500); // Remove from DOM after 0.5s fade
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(unmountTimer);
+    };
+  }, []);
+  
   const [mode, setMode] = useState<LearningMode>(() => {
     const params = new URLSearchParams(window.location.search);
     const modeFromURL = params.get('mode')?.toUpperCase();
@@ -88,63 +107,66 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isImmersiveMode ? 'h-screen' : ''}`}>
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {!selectedArticle && !isImmersiveMode && (
-          <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
-            <div className="flex items-center space-x-2">
-              <AppLogo />
-              <h1 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-saffron via-gray-500 to-green dark:via-gray-400">
-                7k Constitution
-              </h1>
-            </div>
-            <button
-              onClick={() => setIsSearchModalOpen(true)}
-              className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Search for an article"
-            >
-              <SearchIcon />
-            </button>
-          </header>
-        )}
-        <main className={`flex-grow overflow-hidden ${isImmersiveMode ? 'h-full' : ''}`}>
-          {selectedArticle ? (
-            <ArticleDetailView
-              article={selectedArticle}
-              userData={userData[selectedArticle.id]}
-              onClose={handleCloseDetailView}
-              onToggleFavorite={() => toggleFavorite(selectedArticle.id)}
-              onUpdateNotes={(notes) => updateNotes(selectedArticle.id, notes)}
-            />
-          ) : (
-            <div className={`h-full flex flex-col ${isImmersiveMode ? 'h-screen' : ''}`}>
-              {showFilterBar && (
-                <FilterBar
-                  parts={allParts}
-                  activePart={activePartFilter}
-                  onPartFilterChange={setActivePartFilter}
-                  tags={allTags}
-                  activeTag={activeTagFilter}
-                  onTagFilterChange={setActiveTagFilter}
-                />
-              )}
-              <div className="flex-grow overflow-y-auto pb-16 md:pb-0">
-                {renderContent()}
+    <>
+      {isSplashVisible && <SplashScreen isFading={isSplashFading} />}
+      <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isImmersiveMode ? 'h-screen' : ''} ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {!selectedArticle && !isImmersiveMode && (
+            <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
+              <div className="flex items-center space-x-2">
+                <AppLogo />
+                <h1 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-saffron via-gray-500 to-green dark:via-gray-400">
+                  7k Constitution
+                </h1>
               </div>
-            </div>
+              <button
+                onClick={() => setIsSearchModalOpen(true)}
+                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Search for an article"
+              >
+                <SearchIcon />
+              </button>
+            </header>
           )}
-        </main>
-      </div>
+          <main className={`flex-grow overflow-hidden ${isImmersiveMode ? 'h-full' : ''}`}>
+            {selectedArticle ? (
+              <ArticleDetailView
+                article={selectedArticle}
+                userData={userData[selectedArticle.id]}
+                onClose={handleCloseDetailView}
+                onToggleFavorite={() => toggleFavorite(selectedArticle.id)}
+                onUpdateNotes={(notes) => updateNotes(selectedArticle.id, notes)}
+              />
+            ) : (
+              <div className={`h-full flex flex-col ${isImmersiveMode ? 'h-screen' : ''}`}>
+                {showFilterBar && (
+                  <FilterBar
+                    parts={allParts}
+                    activePart={activePartFilter}
+                    onPartFilterChange={setActivePartFilter}
+                    tags={allTags}
+                    activeTag={activeTagFilter}
+                    onTagFilterChange={setActiveTagFilter}
+                  />
+                )}
+                <div className="flex-grow overflow-y-auto pb-16 md:pb-0">
+                  {renderContent()}
+                </div>
+              </div>
+            )}
+          </main>
+        </div>
 
-      {!selectedArticle && !isImmersiveMode && <Navigation activeMode={mode} setMode={handleSetMode} />}
-      
-      <SearchModal
-        isOpen={isSearchModalOpen}
-        onClose={() => setIsSearchModalOpen(false)}
-        articles={CONSTITUTION_ARTICLES}
-        onSelectArticle={handleSelectArticleFromSearch}
-      />
-    </div>
+        {!selectedArticle && !isImmersiveMode && <Navigation activeMode={mode} setMode={handleSetMode} />}
+        
+        <SearchModal
+          isOpen={isSearchModalOpen}
+          onClose={() => setIsSearchModalOpen(false)}
+          articles={CONSTITUTION_ARTICLES}
+          onSelectArticle={handleSelectArticleFromSearch}
+        />
+      </div>
+    </>
   );
 };
 
