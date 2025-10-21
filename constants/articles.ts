@@ -1,4 +1,3 @@
-
 import { Article } from '../types';
 
 export const CONSTITUTION_ARTICLES: Article[] = [
@@ -14,7 +13,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "In re Berubari Union (1960)", caseSummary: "The Supreme Court held that the power of Parliament to diminish the area of a state (under Article 3) does not cover the cession of Indian territory to a foreign country. This must be done through a constitutional amendment under Article 368." },
       { caseName: "State of West Bengal v. Union of India (1962)", caseSummary: "The court upheld the power of the Union Parliament to acquire a state's property. It reiterated that the Indian constitution is not truly federal and the states are not sovereign, reinforcing the 'Union of States' concept from Article 1." }
     ],
-    tags: ["Union", "Territory", "State Formation"]
+    tags: ["Union", "Territory", "State Formation"],
+    limitationsAndExceptions: "While Parliament has the power to reorganize states internally, ceding Indian territory to a foreign country requires a constitutional amendment under Article 368, as established in the Berubari Union case. The 'Union of States' concept implies states have no right to secede."
   },
   {
     id: "Article 2",
@@ -27,7 +27,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "N. Masthan Sahib v. Chief Commissioner, Pondicherry (1962)", caseSummary: "The court examined the status of a territory acquired under Article 1(3)(c) and held that Parliament has the power to make laws for such territories. It clarified the process of integration of acquired territories." },
         { caseName: "Maganbhai Ishwarbhai Patel vs Union Of India (1969)", caseSummary: "Related to the Rann of Kutch dispute, the court distinguished between cession of territory (requiring amendment) and settlement of a boundary dispute (which can be done by executive action), clarifying the scope of Parliament's power over external territories." }
     ],
-    tags: ["Parliament", "State Formation", "Union"]
+    tags: ["Parliament", "State Formation", "Union"],
+    limitationsAndExceptions: "This power applies to territories that are not part of India. For altering the boundaries or status of existing Indian states, the procedure under Article 3 must be followed. The wide discretion given to Parliament is subject to the basic structure of the Constitution."
   },
   {
     id: "Article 3",
@@ -40,7 +41,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "Babulal Parate v. State of Bombay (1960)", caseSummary: "The Supreme Court upheld the constitutionality of Article 3. It clarified that Parliament is not obligated to follow the views of the state legislatures and can introduce amendments to the reorganization bill without referring them back to the state." },
         { caseName: "State of Haryana v. State of Punjab (2002)", caseSummary: "In a dispute over the completion of the Sutlej-Yamuna Link (SYL) canal, the court emphasized that a state created under Article 3 is bound by the agreements and obligations of its parent state at the time of reorganization." }
     ],
-    tags: ["Parliament", "State Formation", "Territory"]
+    tags: ["Parliament", "State Formation", "Territory"],
+    limitationsAndExceptions: "A bill for such changes can only be introduced with the President's prior recommendation. While the bill must be referred to the concerned state legislature for its views, Parliament is not bound by these views. This power is for internal reorganization and cannot be used to cede territory to another country."
   },
   {
     id: "Article 4",
@@ -53,7 +55,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "Mangal Singh v. Union of India (1967)", caseSummary: "The Supreme Court clarified that while Article 4 allows for consequential changes to the First and Fourth Schedules, it does not empower Parliament to make any and all constitutional changes in the guise of reorganization. The changes must be incidental to the reorganization itself." },
         { caseName: "V.B. Raju v. State of Gujarat (1982)", caseSummary: "The court reiterated that laws made under Article 3, read with Article 4, do not need to follow the procedure of Article 368, reaffirming the simplicity and flexibility intended by the Constitution makers for state reorganization." }
     ],
-    tags: ["Parliament", "State Formation", "Constitutional Amendment"]
+    tags: ["Parliament", "State Formation", "Constitutional Amendment"],
+    limitationsAndExceptions: "The power to make consequential changes under this article is limited. It does not empower Parliament to make substantial constitutional amendments that are not incidental to the state reorganization itself. The core principles and basic structure of the Constitution cannot be altered through this simplified process."
   },
   // PART II: CITIZENSHIP
   {
@@ -67,7 +70,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Pradeep Jain v. Union of India (1984)", caseSummary: "The Supreme Court, while discussing domicile, held that India has only one domicile—the domicile of the country—and there is no separate state domicile. This affirmed the concept of single citizenship." },
       { caseName: "D.P. Joshi v. State of Madhya Bharat (1955)", caseSummary: "The court distinguished between 'domicile' and 'place of birth,' holding that discrimination based on residence for educational purposes was permissible, but discrimination based on place of birth alone was prohibited under Article 15." }
     ],
-    tags: ["Citizenship", "Domicile"]
+    tags: ["Citizenship", "Domicile"],
+    limitationsAndExceptions: "This article's provisions were applicable only at the commencement of the Constitution (Jan 26, 1950). It is not a current source for acquiring citizenship. Post-commencement citizenship matters are governed by laws made by Parliament under Article 11, primarily the Citizenship Act, 1955."
   },
   {
     id: "Article 6",
@@ -80,7 +84,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "State of Bihar v. Kumar Amar Singh (1955)", caseSummary: "The Supreme Court dealt with the concept of 'migration' under Article 6, holding that it implies a movement with the intention of residing permanently in the new country, not just a temporary visit." },
         { caseName: "Kulathil Mammu v. State of Kerala (1966)", caseSummary: "The court provided a comprehensive interpretation of the term 'migrated' as used in Articles 6 and 7, clarifying its meaning in the context of Partition." }
     ],
-    tags: ["Citizenship", "Partition", "Migration"]
+    tags: ["Citizenship", "Partition", "Migration"],
+    limitationsAndExceptions: "This is a specific provision dealing with the citizenship of migrants from Pakistan due to Partition and is not applicable to modern-day migration. The term 'migration' implies an intention to settle permanently, not just a temporary visit. It is also subject to the provisions of Article 7."
   },
   {
     id: "Article 7",
@@ -92,7 +97,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "State of A.P. v. Abdul Khader (1961)", caseSummary: "The Supreme Court clarified that Article 7 overrides Articles 5 and 6. A person who migrated to Pakistan after the specified date lost their Indian citizenship, even if they would have been eligible under Article 5." }
     ],
-    tags: ["Citizenship", "Partition", "Migration"]
+    tags: ["Citizenship", "Partition", "Migration"],
+    limitationsAndExceptions: "This article overrides Articles 5 and 6. It has a specific historical context tied to Partition. The exception for return is not automatic and requires a valid permit for resettlement issued by a competent authority, making it a conditional provision."
   },
   {
     id: "Article 8",
@@ -102,7 +108,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "Notwithstanding anything in article 5, any person who or either of whose parents or any of whose grand-parents was born in India as defined in the Government of India Act, 1935... and who is ordinarily residing in any country outside India... shall be deemed to be a citizen of India if he has been registered as a citizen of India by the diplomatic or consular representative of India in the country where he is for the time being residing...",
     part: "Part II: Citizenship",
     landmarkCases: [],
-    tags: ["Citizenship", "PIO", "Diaspora"]
+    tags: ["Citizenship", "PIO", "Diaspora"],
+    limitationsAndExceptions: "This is not an automatic grant of citizenship. The person of Indian origin must make an application and be formally registered as a citizen by an Indian diplomatic or consular representative. This provision was also primarily for the time of the Constitution's commencement."
   },
   {
     id: "Article 9",
@@ -114,7 +121,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "Bhagwati Prasad v. Rajeev Gandhi (1986)", caseSummary: "The court dealt with questions regarding the termination of citizenship upon acquiring foreign citizenship, affirming the principles laid down in Article 9." }
     ],
-    tags: ["Citizenship", "Dual Citizenship"]
+    tags: ["Citizenship", "Dual Citizenship"],
+    limitationsAndExceptions: "This article enforces single citizenship. The determination of 'voluntary acquisition' is governed by rules set by the central government. The loss of Indian citizenship is automatic upon acquiring foreign citizenship."
   },
   {
     id: "Article 10",
@@ -124,7 +132,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "Every person who is or is deemed to be a citizen of India under any of the foregoing provisions of this Part shall, subject to the provisions of any law that may be made by Parliament, continue to be such citizen.",
     part: "Part II: Citizenship",
     landmarkCases: [],
-    tags: ["Citizenship", "Parliament"]
+    tags: ["Citizenship", "Parliament"],
+    limitationsAndExceptions: "The right to continue as a citizen is not absolute. It is explicitly made 'subject to the provisions of any law that may be made by Parliament.' This means Parliament can enact laws for the termination or deprivation of citizenship under certain conditions."
   },
   {
     id: "Article 11",
@@ -137,7 +146,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "Izhar Ahmad Khan v. Union of India (1962)", caseSummary: "The Supreme Court upheld the power of Parliament under Article 11 to enact laws that may result in the deprivation of citizenship, holding that such powers are a sovereign prerogative and are not subject to judicial review on the grounds of wisdom or policy." },
         { caseName: "Sarbananda Sonowal v. Union of India (2005)", caseSummary: "In this case concerning the IMDT Act, the court, while not directly ruling on Article 11, implicitly acknowledged Parliament's power to legislate on citizenship while emphasizing that such laws must not violate other constitutional provisions, particularly fundamental rights." }
     ],
-    tags: ["Citizenship", "Parliament"]
+    tags: ["Citizenship", "Parliament"],
+    limitationsAndExceptions: "While Parliament's power over citizenship is extensive, any law it enacts must not violate the basic structure of the Constitution. The exercise of this power is subject to judicial review to ensure it is not arbitrary or discriminatory, thereby violating other fundamental rights like Article 14."
   },
   // PART III: FUNDAMENTAL RIGHTS
   {
@@ -151,7 +161,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Ajay Hasia v. Khalid Mujib (1981)", caseSummary: "The Supreme Court laid down a comprehensive test to determine whether a body is an 'agency or instrumentality' of the State. Factors include financial control by the government, functional character, monopolistic status, and deep and pervasive state control." },
       { caseName: "R.D. Shetty v. International Airport Authority (1979)", caseSummary: "This case was a precursor to Ajay Hasia, where the court held that the International Airport Authority, a statutory corporation, fell within the definition of 'the State' under Article 12. It established the groundwork for the instrumentality test." }
     ],
-    tags: ["Fundamental Rights", "State"]
+    tags: ["Fundamental Rights", "State"],
+    limitationsAndExceptions: "The definition, while broad, does not include purely private, non-state-controlled entities. The violation of fundamental rights by a private individual against another is generally not challengeable under this framework, except for certain rights like those under Articles 17 and 24. The judiciary itself is not explicitly included in the definition."
   },
   {
     id: "Article 13",
@@ -164,7 +175,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Kesavananda Bharati v. State of Kerala (1973)", caseSummary: "In this seminal case, the Supreme Court held that while Parliament has the power to amend the Constitution (including fundamental rights), it cannot alter its 'basic structure'. This ruling established that even constitutional amendments are subject to judicial review under the principles of Article 13." },
       { caseName: "A.K. Gopalan v. State of Madras (1950)", caseSummary: "In an early interpretation, the court took a narrow view, holding that 'law' in Article 13 meant only ordinary laws, not constitutional amendments. This view was later overruled in subsequent cases, culminating in the Kesavananda Bharati judgment." }
     ],
-    tags: ["Fundamental Rights", "Judicial Review", "Basic Structure"]
+    tags: ["Fundamental Rights", "Judicial Review", "Basic Structure"],
+    limitationsAndExceptions: "A law is not automatically void; it must be challenged and declared void by a competent court. Through the doctrine of 'basic structure', the Supreme Court has held that even constitutional amendments can be struck down if they violate the fundamental essence of the Constitution, thereby placing a check on Parliament's amending power."
   },
   {
     id: "Article 14",
@@ -177,7 +189,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "E. P. Royappa v. State of Tamil Nadu (1974)", caseSummary: "The Supreme Court expanded the scope of Article 14 beyond the traditional 'reasonable classification' test. It held that equality is a dynamic concept and is antithetical to arbitrariness. Thus, any state action that is arbitrary, irrational, or unreasonable is a violation of Article 14." },
       { caseName: "Maneka Gandhi v. Union of India (1978)", caseSummary: "This case further strengthened the principle against arbitrariness, holding that the procedure established by law under Article 21 must also pass the test of reasonableness under Article 14. It established a 'golden triangle' between Articles 14, 19, and 21." }
     ],
-    tags: ["Fundamental Rights", "Equality"]
+    tags: ["Fundamental Rights", "Equality"],
+    limitationsAndExceptions: "The right to equality is not absolute. It permits 'reasonable classification' by the State, meaning different groups can be treated differently if the classification is based on an intelligible differentia and has a rational nexus to the law's objective. It does not command mathematical or universal equality."
   },
   {
     id: "Article 15",
@@ -190,7 +203,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Indra Sawhney v. Union of India (1992)", caseSummary: "Also known as the Mandal Commission case, it upheld reservations for Other Backward Classes (OBCs) but capped total reservations at 50% and introduced the 'creamy layer' concept to exclude affluent members of a backward class from reservation benefits." },
       { caseName: "State of Madras v. Champakam Dorairajan (1951)", caseSummary: "This case led to the First Constitutional Amendment, which added Article 15(4). The court had struck down a government order for caste-based reservations in educational institutions, stating it violated Article 29(2). The amendment enabled the state to make special provisions for backward classes." }
     ],
-    tags: ["Fundamental Rights", "Equality", "Discrimination", "Reservation"]
+    tags: ["Fundamental Rights", "Equality", "Discrimination", "Reservation"],
+    limitationsAndExceptions: "The prohibition applies to discrimination on the specified grounds 'only', meaning discrimination on other grounds (like residence or qualification) may be permissible. The article itself contains exceptions, allowing the state to make special provisions (affirmative action) for women, children, and socially, educationally, or economically backward classes."
   },
   {
     id: "Article 16",
@@ -203,7 +217,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "M. Nagaraj v. Union of India (2006)", caseSummary: "The court upheld the constitutional validity of amendments enabling reservation in promotions for SCs and STs but laid down three compelling requirements for the state: demonstrating the backwardness of the class, the inadequacy of their representation, and ensuring administrative efficiency is maintained." },
       { caseName: "Jarnail Singh v. Lachhmi Narain Gupta (2018)", caseSummary: "The court modified the Nagaraj judgment by holding that the state does not need to collect quantifiable data to prove the backwardness of SCs and STs for reservations in promotions. However, it applied the 'creamy layer' principle to exclude affluent SC/ST members from these benefits." }
     ],
-    tags: ["Fundamental Rights", "Equality", "Public Employment", "Reservation"]
+    tags: ["Fundamental Rights", "Equality", "Public Employment", "Reservation"],
+    limitationsAndExceptions: "This article allows for reservation in public employment for backward classes, SCs, STs, and EWS. Parliament can also prescribe residence as a condition for certain state or local employments. The state can set necessary qualifications for any post."
   },
   {
     id: "Article 17",
@@ -216,7 +231,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "People's Union for Democratic Rights v. Union of India (1982)", caseSummary: "The Supreme Court held that the fundamental rights under Articles 17 and 24 are enforceable against private individuals as well, and it is the constitutional duty of the state to take necessary steps to prevent their violation." },
       { caseName: "State of Karnataka v. Appa Balu Ingale (1993)", caseSummary: "The court upheld the conviction of individuals for preventing Dalits from taking water from a public well, affirming that the objective of Article 17 is to create a new, ideal society free from caste-based hatred and to ensure the restoration of the Dalits' dignity." }
     ],
-    tags: ["Fundamental Rights", "Equality", "Untouchability", "Discrimination"]
+    tags: ["Fundamental Rights", "Equality", "Untouchability", "Discrimination"],
+    limitationsAndExceptions: "This right is considered absolute and has no constitutional limitations. Its effectiveness, however, relies on the enforcement of laws passed by Parliament to punish acts of untouchability, such as the Protection of Civil Rights Act, 1955."
   },
   {
     id: "Article 18",
@@ -229,7 +245,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Balaji Raghavan v. Union of India (1996)", caseSummary: "The Supreme Court upheld the constitutional validity of national awards like Bharat Ratna and Padma awards, clarifying that they are not 'titles' within the meaning of Article 18. The Court held that these are awards for meritorious service and not titles of nobility." },
       { caseName: "Indira Jaising v. Supreme Court of India (2017)", caseSummary: "While not directly on Article 18, this case addressed the use of the 'Senior Advocate' designation. The petitioner argued it was a title, but the court held it was a distinction based on merit and not a title, reinforcing the idea that merit-based distinctions are permissible." }
     ],
-    tags: ["Fundamental Rights", "Equality"]
+    tags: ["Fundamental Rights", "Equality"],
+    limitationsAndExceptions: "The article explicitly exempts military and academic distinctions. The Supreme Court has ruled that National Awards like the Bharat Ratna are not titles of nobility and are therefore not prohibited, but they cannot be used as prefixes or suffixes to names."
   },
   {
     id: "Article 19",
@@ -242,7 +259,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
        { caseName: "Shreya Singhal v. Union of India (2015)", caseSummary: "The Supreme Court struck down Section 66A of the Information Technology Act, 2000, as unconstitutional for being vague and overbroad, thus violating the freedom of speech and expression. It was a landmark judgment for online free speech." },
        { caseName: "Indian Express Newspapers v. Union of India (1985)", caseSummary: "The Court held that the freedom of press is included within the freedom of speech and expression under Article 19(1)(a). It stated that this freedom includes the right to circulation and is essential for a democracy." }
     ],
-    tags: ["Fundamental Rights", "Freedom of Speech", "Liberty"]
+    tags: ["Fundamental Rights", "Freedom of Speech", "Liberty"],
+    limitationsAndExceptions: "The freedoms guaranteed are not absolute. They are subject to 'reasonable restrictions' specified in clauses (2) to (6) on grounds like sovereignty and integrity of India, security of the State, public order, decency, morality, defamation, or incitement to an offence. The judiciary determines if a restriction is 'reasonable'."
   },
   {
     id: "Article 20",
@@ -255,7 +273,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "Selvi v. State of Karnataka (2010)", caseSummary: "The Supreme Court held that compelling an accused to undergo narco-analysis, polygraph tests, or brain-mapping violates the protection against self-incrimination under Article 20(3). It affirmed that the right against self-incrimination is a crucial safeguard in criminal law." },
         { caseName: "Nandini Satpathy v. P.L. Dani (1978)", caseSummary: "The court gave a wide interpretation to the phrase 'compelled to be a witness against himself', holding that the protection extends to the pre-trial stage of police investigation. A person cannot be forced to answer questions that could be self-incriminatory." }
     ],
-    tags: ["Fundamental Rights", "Criminal Justice", "Liberty"]
+    tags: ["Fundamental Rights", "Criminal Justice", "Liberty"],
+    limitationsAndExceptions: "Protection against ex-post-facto laws applies only to criminal laws, not civil laws or taxes. Protection against double jeopardy is only for prosecution and punishment before a court, not for departmental or administrative proceedings. Protection against self-incrimination does not extend to the compulsory production of material objects or giving physical evidence like fingerprints."
   },
   {
     id: "Article 21",
@@ -268,7 +287,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Maneka Gandhi v. Union of India (1978)", caseSummary: "The Supreme Court held that the 'procedure established by law' under Article 21 must be fair, just, and reasonable. This landmark judgment effectively introduced the American concept of 'substantive due process' into Indian constitutional law and interlinked Articles 14, 19, and 21." },
       { caseName: "Justice K.S. Puttaswamy (Retd.) v. Union of India (2017)", caseSummary: "A nine-judge bench unanimously affirmed that the Right to Privacy is a fundamental right, protected as an intrinsic part of the right to life and personal liberty under Article 21. This has had far-reaching implications for data protection and individual autonomy." }
     ],
-    tags: ["Fundamental Rights", "Life and Liberty", "Privacy"]
+    tags: ["Fundamental Rights", "Life and Liberty", "Privacy"],
+    limitationsAndExceptions: "This right is not absolute and can be curtailed 'according to procedure established by law.' Following the Maneka Gandhi case, this procedure must be fair, just, and reasonable, not arbitrary. The State can lawfully deprive a person of life or liberty through such a valid legal procedure (e.g., imprisonment after a fair trial)."
   },
   {
     id: "Article 21A",
@@ -281,7 +301,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Mohini Jain v. State of Karnataka (1992)", caseSummary: "In this case, the Supreme Court held that the right to education is a fundamental right that flows from the right to life under Article 21. This judgment paved the way for making education a fundamental right, although it was initially for higher education." },
       { caseName: "Unni Krishnan, J.P. v. State of Andhra Pradesh (1993)", caseSummary: "The court modified the Mohini Jain verdict, holding that the right to education is a fundamental right under Article 21, but it is limited to free and compulsory education for children up to the age of 14. This judgment was instrumental in the insertion of Article 21A." }
     ],
-    tags: ["Fundamental Rights", "Education"]
+    tags: ["Fundamental Rights", "Education"],
+    limitationsAndExceptions: "The right is specific to the age group of 6 to 14 years. It does not cover education before age 6 (which is a DPSP under Article 45) or higher education. The manner of providing education is determined by the State through law (e.g., the RTE Act, 2009)."
   },
   {
     id: "Article 22",
@@ -294,7 +315,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "D.K. Basu v. State of West Bengal (1997)", caseSummary: "The Supreme Court laid down detailed guidelines that the police must follow during arrest and detention to prevent custodial violence and protect the rights of the arrested person under Articles 21 and 22. These are known as the 'D.K. Basu guidelines'." },
       { caseName: "A.K. Roy v. Union of India (1982)", caseSummary: "In a case challenging the National Security Act, the court upheld the validity of preventive detention laws but emphasized that the procedure must be fair and reasonable. It held that the detenu has the right to legal representation before the Advisory Board, but not necessarily a lawyer." }
     ],
-    tags: ["Fundamental Rights", "Arrest and Detention", "Criminal Justice", "Liberty"]
+    tags: ["Fundamental Rights", "Arrest and Detention", "Criminal Justice", "Liberty"],
+    limitationsAndExceptions: "The safeguards in clauses (1) and (2) are not available to an enemy alien or a person arrested or detained under a law providing for preventive detention. Preventive detention laws themselves are a significant limitation on personal liberty, though subject to certain procedural safeguards within Article 22 itself."
   },
    {
     id: "Article 23",
@@ -306,7 +328,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
         { caseName: "People's Union for Democratic Rights v. Union of India (1982)", caseSummary: "Also known as the Asiad workers case, the court interpreted 'forced labour' broadly to include not just physical force but also compulsion arising from economic circumstances. It held that paying less than the minimum wage amounts to forced labour." }
     ],
-    tags: ["Fundamental Rights", "Exploitation", "Forced Labour"]
+    tags: ["Fundamental Rights", "Exploitation", "Forced Labour"],
+    limitationsAndExceptions: "The article provides an exception for the State to impose compulsory service for public purposes, such as military conscription or community service, without payment. However, the State cannot discriminate on grounds of religion, race, caste, or class while imposing such service."
   },
   {
     id: "Article 24",
@@ -318,7 +341,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "M.C. Mehta v. State of Tamil Nadu (1996)", caseSummary: "The court gave exhaustive directions on how to eradicate child labour, including the creation of a Child Labour Rehabilitation Welfare Fund and ensuring education for the children involved." }
     ],
-    tags: ["Fundamental Rights", "Exploitation", "Child Labour"]
+    tags: ["Fundamental Rights", "Exploitation", "Child Labour"],
+    limitationsAndExceptions: "The prohibition in this article is specific to employment in factories, mines, or other hazardous jobs. It does not explicitly prohibit child labour in non-hazardous occupations, although this is now largely covered by the Child Labour (Prohibition and Regulation) Act."
   },
   {
     id: "Article 25",
@@ -331,7 +355,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Rev. Stainislaus v. State of Madhya Pradesh (1977)", caseSummary: "The Supreme Court held that the right to 'propagate' religion under Article 25 does not include the right to convert. It clarified that propagation means spreading one's beliefs, but conversion by force, fraud, or inducement is not protected." },
       { caseName: "Indian Young Lawyers Association v. State of Kerala (2018)", caseSummary: "In the Sabarimala Temple entry case, the court held that the exclusion of women of a certain age group from the temple violated their fundamental right to freedom of religion under Article 25. It affirmed that religious practices cannot be a ground for gender discrimination." }
     ],
-    tags: ["Fundamental Rights", "Religion", "Secularism"]
+    tags: ["Fundamental Rights", "Religion", "Secularism"],
+    limitationsAndExceptions: "This right is subject to public order, morality, health, and other Fundamental Rights. The State can regulate or restrict any economic, financial, political, or other secular activity associated with religious practice. The right to propagate does not include the right to convert by force, fraud, or allurement."
   },
   {
     id: "Article 26",
@@ -343,7 +368,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
         { caseName: "The Commissioner, Hindu Religious Endowments, Madras v. Sri Lakshmindra Thirtha Swamiar of Sri Shirur Mutt (1954)", caseSummary: "The 'Shirur Mutt' case was pivotal in defining what constitutes a 'religious denomination' and distinguishing between essential religious matters and secular administrative activities, which can be regulated by the state." }
     ],
-    tags: ["Fundamental Rights", "Religion", "Secularism"]
+    tags: ["Fundamental Rights", "Religion", "Secularism"],
+    limitationsAndExceptions: "This right is also subject to public order, morality, and health. While denominations can manage their own religious affairs, the right to administer property is 'in accordance with law,' meaning the State can enact laws for the proper administration of such properties."
   },
   {
     id: "Article 27",
@@ -353,7 +379,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "No person shall be compelled to pay any taxes, the proceeds of which are specifically appropriated in payment of expenses for the promotion or maintenance of any particular religion or religious denomination.",
     part: "Part III: Fundamental Rights",
     landmarkCases: [],
-    tags: ["Fundamental Rights", "Religion", "Secularism", "Taxation"]
+    tags: ["Fundamental Rights", "Religion", "Secularism", "Taxation"],
+    limitationsAndExceptions: "The article prohibits taxes for promoting a specific religion, but it does not prohibit the charging of a fee. A fee can be levied to cover the costs of secular administration of religious institutions, provided the fee is not a disguised tax."
   },
   {
     id: "Article 28",
@@ -363,7 +390,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "(1) No religious instruction shall be provided in any educational institution wholly maintained out of State funds. (2) ... (3) No person attending any educational institution recognised by the State or receiving aid out of State funds shall be required to take part in any religious instruction that may be imparted in such institution or to attend any religious worship that may be conducted in such institution...",
     part: "Part III: Fundamental Rights",
     landmarkCases: [],
-    tags: ["Fundamental Rights", "Religion", "Education", "Secularism"]
+    tags: ["Fundamental Rights", "Religion", "Education", "Secularism"],
+    limitationsAndExceptions: "The absolute prohibition on religious instruction applies only to institutions 'wholly maintained out of State funds'. It does not apply to institutions that are state-administered but established under an endowment or trust requiring religious instruction, or to institutions that are state-aided or recognized."
   },
   {
     id: "Article 29",
@@ -375,7 +403,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "St. Xaviers College v. State of Gujarat (1974)", caseSummary: "The court held that the right to conserve language, script, or culture includes the right to establish and administer educational institutions for that purpose." }
     ],
-    tags: ["Fundamental Rights", "Minority Rights", "Education", "Culture"]
+    tags: ["Fundamental Rights", "Minority Rights", "Education", "Culture"],
+    limitationsAndExceptions: "The right to conserve culture is not absolute and cannot be used to justify practices that violate public order, morality, or other fundamental rights. Clause (2) is a specific anti-discrimination provision that applies only to state-maintained or state-aided institutions."
   },
   {
     id: "Article 30",
@@ -387,7 +416,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "T.M.A. Pai Foundation v. State of Karnataka (2002)", caseSummary: "In this landmark 11-judge bench decision, the court extensively interpreted Article 30, balancing the autonomy of minority institutions with the state's regulatory power in the interest of educational excellence." }
     ],
-    tags: ["Fundamental Rights", "Minority Rights", "Education"]
+    tags: ["Fundamental Rights", "Minority Rights", "Education"],
+    limitationsAndExceptions: "The right to administer does not mean the right to maladminister. The State can impose reasonable regulations relating to academic standards, employee service conditions, and eligibility criteria for students, as long as these regulations do not destroy the minority character of the institution."
   },
   {
     id: "Article 31",
@@ -399,7 +429,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
         { caseName: "I.C. Golaknath v. State of Punjab (1967)", caseSummary: "The court, in a case involving property rights, held that Parliament could not amend fundamental rights. This decision was later overruled in the Kesavananda Bharati case." }
     ],
-    tags: ["Fundamental Rights", "Property", "Repealed"]
+    tags: ["Fundamental Rights", "Property", "Repealed"],
+    limitationsAndExceptions: "This article has been repealed. The primary limitation is that the right to property is no longer a fundamental right. It is now a constitutional right under Article 300-A, meaning a person can be deprived of their property by authority of law, and its violation cannot be directly challenged in the Supreme Court under Article 32."
   },
   {
     id: "Article 32",
@@ -412,7 +443,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "L. Chandra Kumar v. Union of India (1997)", caseSummary: "The Supreme Court held that the power of judicial review of the High Courts under Article 226 and the Supreme Court under Article 32 is a 'basic feature' of the Constitution and cannot be taken away by a constitutional amendment." },
       { caseName: "Bandhua Mukti Morcha v. Union of India (1984)", caseSummary: "The court expanded the scope of Article 32, stating that it is not confined to issuing prerogative writs. It can include any procedure, including appointing commissions or taking evidence, to ensure justice. This case was a landmark in Public Interest Litigation (PIL)." }
     ],
-    tags: ["Fundamental Rights", "Judicial Review", "Writs", "Supreme Court"]
+    tags: ["Fundamental Rights", "Judicial Review", "Writs", "Supreme Court"],
+    limitationsAndExceptions: "This right can be suspended by the President during a National Emergency under Article 359. The remedy under Article 32 is available only for the violation of Fundamental Rights (Part III) and not for other legal or constitutional rights, for which a person must approach the High Court under Article 226 or a lower court."
   },
    {
     id: "Article 33",
@@ -422,7 +454,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "Parliament may, by law, determine to what extent any of the rights conferred by this Part shall, in their application to,— (a) the members of the Armed Forces; or (b) the members of the Forces charged with the maintenance of public order; or (c) persons employed in any bureau or other organisation established by the State for purposes of intelligence or counter intelligence... be restricted or abrogated so as to ensure the proper discharge of their duties and the maintenance of discipline among them.",
     part: "Part III: Fundamental Rights",
     landmarkCases: [],
-    tags: ["Fundamental Rights", "Parliament", "Armed Forces"]
+    tags: ["Fundamental Rights", "Parliament", "Armed Forces"],
+    limitationsAndExceptions: "This is an explicit exception to Fundamental Rights. The power to make such restrictive laws is vested exclusively with the Parliament, not state legislatures. A law made under this article cannot be challenged on the grounds of violating Part III rights."
   },
   {
     id: "Article 34",
@@ -432,7 +465,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "Notwithstanding anything in the foregoing provisions of this Part, Parliament may by law indemnify any person in the service of the Union or of a State... in respect of any act done by him in connection with the maintenance or restoration of order in any area within the territory of India where martial law was in force...",
     part: "Part III: Fundamental Rights",
     landmarkCases: [],
-    tags: ["Fundamental Rights", "Parliament", "Martial Law", "Emergency"]
+    tags: ["Fundamental Rights", "Parliament", "Martial Law", "Emergency"],
+    limitationsAndExceptions: "This is another explicit exception to Fundamental Rights, applicable only in areas where martial law is in force. The power to indemnify officials for their actions rests solely with Parliament."
   },
   {
     id: "Article 35",
@@ -442,7 +476,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "Notwithstanding anything in this Constitution,— (a) Parliament shall have, and the Legislature of a State shall not have, power to make laws— (i) with respect to any of the matters which under clause (3) of article 16, clause (3) of article 32, article 33 and article 34 may be provided for by law made by Parliament; and (ii) for prescribing punishment for those acts which are declared to be offences under this Part...",
     part: "Part III: Fundamental Rights",
     landmarkCases: [],
-    tags: ["Fundamental Rights", "Parliament"]
+    tags: ["Fundamental Rights", "Parliament"],
+    limitationsAndExceptions: "This article is a limitation on the power of state legislatures. It ensures national uniformity in laws related to certain fundamental rights by granting exclusive legislative power to the Parliament in these specific matters."
   },
   // PART IV: DIRECTIVE PRINCIPLES OF STATE POLICY
   {
@@ -453,7 +488,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "In this Part, unless the context otherwise requires, 'the State' has the same meaning as in Part III.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "State"]
+    tags: ["DPSP", "State"],
+    limitationsAndExceptions: "Like other DPSPs, this is a guiding principle. The primary limitation of all DPSPs is their non-justiciable nature as outlined in Article 37."
   },
   {
     id: "Article 37",
@@ -466,7 +502,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
         { caseName: "State of Madras v. Champakam Dorairajan (1951)", caseSummary: "In an early judgment, the Supreme Court held that Directive Principles must conform to and run subsidiary to Fundamental Rights. This led to constitutional amendments to give more weight to DPSPs." },
         { caseName: "Minerva Mills v. Union of India (1980)", caseSummary: "The court held that the Indian Constitution is founded on the bedrock of the balance between Fundamental Rights and Directive Principles. They are like two wheels of a chariot, and one cannot be given primacy over the other. This established the doctrine of 'harmony and balance' between Part III and Part IV." }
     ],
-    tags: ["DPSP", "Governance", "Justiciability"]
+    tags: ["DPSP", "Governance", "Justiciability"],
+    limitationsAndExceptions: "This article explicitly states the primary limitation of all DPSPs: they are 'not enforceable by any court.' They are fundamental guidelines for governance and impose a moral duty on the State, but they do not create legally enforceable rights for citizens."
   },
   {
     id: "Article 38",
@@ -476,7 +513,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "(1) The State shall strive to promote the welfare of the people by securing and protecting as effectively as it may a social order in which justice, social, economic and political, shall inform all the institutions of the national life. (2) The State shall, in particular, strive to minimise the inequalities in income, and endeavour to eliminate inequalities in status, facilities and opportunities...",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Welfare State", "Social Justice", "Equality"]
+    tags: ["DPSP", "Welfare State", "Social Justice", "Equality"],
+    limitationsAndExceptions: "As per Article 37, this principle is a directive and is not enforceable by any court of law. It is a fundamental guideline for governance, imposing a moral and political duty on the State, not a legally binding one on which citizens can sue."
   },
    {
     id: "Article 39",
@@ -488,7 +526,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "Randhir Singh v. Union of India (1982)", caseSummary: "The court held that the principle of 'equal pay for equal work,' though a DPSP, could be enforced as a fundamental right if there is arbitrary discrimination in pay scales for similar work." }
     ],
-    tags: ["DPSP", "Social Justice", "Economic Justice", "Equality"]
+    tags: ["DPSP", "Social Justice", "Economic Justice", "Equality"],
+    limitationsAndExceptions: "As per Article 37, these principles are not enforceable by any court. However, courts have sometimes read principles like 'equal pay for equal work' into the fundamental right to equality under Article 14, making them enforceable in specific contexts of arbitrary discrimination."
   },
   {
     id: "Article 39A",
@@ -501,7 +540,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Hussainara Khatoon v. Home Secretary, State of Bihar (1979)", caseSummary: "In this landmark PIL, the Supreme Court held that the right to free legal aid is an essential part of a 'reasonable, fair and just' procedure under Article 21. This effectively elevated the DPSP of Article 39A to the status of a fundamental right." },
       { caseName: "M.H. Hoskot v. State of Maharashtra (1978)", caseSummary: "Justice Krishna Iyer emphatically stated that providing free legal aid to an indigent accused is a state's duty, not just a matter of charity. This case helped solidify the link between Article 39A and the fundamental right to life and liberty under Article 21." }
     ],
-    tags: ["DPSP", "Social Justice", "Legal Aid"]
+    tags: ["DPSP", "Social Justice", "Legal Aid"],
+    limitationsAndExceptions: "While this is a DPSP, the Supreme Court has effectively made the right to free legal aid a fundamental right by linking it to the right to a fair trial under Article 21. Therefore, its non-enforceability as a DPSP has been largely overcome through judicial interpretation, at least in criminal cases."
   },
   {
     id: "Article 40",
@@ -514,7 +554,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "State of U.P. v. Pradhan Sangh Kshettra Samiti (1995)", caseSummary: "The Supreme Court, while interpreting the provisions of the U.P. Panchayat Raj Act, emphasized the importance of Article 40 and the 73rd Amendment in establishing genuine democratic decentralization and empowering local self-government institutions." },
       { caseName: "K. Krishna Murthy v. Union of India (2010)", caseSummary: "The court upheld reservations in Panchayati Raj Institutions, noting that they are aimed at remedying past discrimination and enhancing the democratic character of these bodies, which is in line with the spirit of Article 40." }
     ],
-    tags: ["DPSP", "Panchayats", "Gandhian Principles", "Governance"]
+    tags: ["DPSP", "Panchayats", "Gandhian Principles", "Governance"],
+    limitationsAndExceptions: "As a DPSP, this was not legally enforceable until the 73rd Constitutional Amendment Act, 1992, which gave constitutional status and a framework for Panchayati Raj Institutions. The extent of powers devolved to panchayats still varies significantly between states."
   },
   {
     id: "Article 41",
@@ -524,7 +565,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "The State shall, within the limits of its economic capacity and development, make effective provision for securing the right to work, to education and to public assistance in cases of unemployment, old age, sickness and disablement, and in other cases of undeserved want.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Welfare State", "Social Security"]
+    tags: ["DPSP", "Welfare State", "Social Security"],
+    limitationsAndExceptions: "The implementation of this directive is explicitly limited by the 'economic capacity and development' of the State. It does not create a legally enforceable right to employment or public assistance; these are goals to be achieved progressively."
   },
   {
     id: "Article 42",
@@ -534,7 +576,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "The State shall make provision for securing just and humane conditions of work and for maternity relief.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Labour Rights", "Welfare State"]
+    tags: ["DPSP", "Labour Rights", "Welfare State"],
+    limitationsAndExceptions: "As per Article 37, this principle is a directive and is not enforceable by any court of law. Its implementation depends on legislation passed by the State, such as the Maternity Benefit Act."
   },
   {
     id: "Article 43",
@@ -544,7 +587,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "The State shall endeavour to secure, by suitable legislation or economic organisation or in any other way, to all workers, agricultural, industrial or otherwise, work, a living wage, conditions of work ensuring a decent standard of life and full enjoyment of leisure and social and cultural opportunities and, in particular, the State shall endeavour to promote cottage industries on an individual or co-operative basis in rural areas.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Labour Rights", "Welfare State", "Gandhian Principles"]
+    tags: ["DPSP", "Labour Rights", "Welfare State", "Gandhian Principles"],
+    limitationsAndExceptions: "This directive is an aspirational goal. The concept of a 'living wage' is higher than a 'minimum wage' and is not legally enforceable. The State is only required to 'endeavour' to secure it."
   },
   {
     id: "Article 44",
@@ -557,7 +601,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Sarla Mudgal v. Union of India (1995)", caseSummary: "The Supreme Court again lamented the lack of a Uniform Civil Code, stating that it is necessary for national integration. It urged the government to take steps towards framing a UCC and to review the personal laws that conflict with constitutional principles." },
       { caseName: "Mohd. Ahmed Khan v. Shah Bano Begum (1985)", caseSummary: "In this landmark case, the Supreme Court granted maintenance to a divorced Muslim woman under the secular Code of Criminal Procedure, overriding Muslim personal law. The judgment sparked a huge political controversy and highlighted the need for a UCC to ensure gender justice." }
     ],
-    tags: ["DPSP", "Uniform Civil Code", "Secularism", "Gender Justice"]
+    tags: ["DPSP", "Uniform Civil Code", "Secularism", "Gender Justice"],
+    limitationsAndExceptions: "This is a non-justiciable directive. Its implementation is a highly sensitive issue, involving a perceived conflict between the goal of uniformity and the fundamental right to freedom of religion (Article 25). The State is only directed to 'endeavour' to secure a UCC."
   },
    {
     id: "Article 45",
@@ -567,7 +612,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "The State shall endeavour to provide early childhood care and education for all children until they complete the age of six years.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Education", "Welfare State"]
+    tags: ["DPSP", "Education", "Welfare State"],
+    limitationsAndExceptions: "Following the 86th Amendment, this article is now a non-enforceable directive for early childhood care (age 0-6), while education for ages 6-14 is a legally enforceable fundamental right under Article 21A."
   },
   {
     id: "Article 46",
@@ -577,7 +623,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "The State shall promote with special care the educational and economic interests of the weaker sections of the people, and, in particular, of the Scheduled Castes and the Scheduled Tribes, and shall protect them from social injustice and all forms of exploitation.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Social Justice", "Reservation", "SC/ST"]
+    tags: ["DPSP", "Social Justice", "Reservation", "SC/ST"],
+    limitationsAndExceptions: "This is a non-justiciable directive that provides the guiding principle for affirmative action policies. While not enforceable on its own, it provides the constitutional justification for reservation policies and other welfare schemes, which are themselves subject to legal and constitutional limits (e.g., the 50% cap on reservations)."
   },
   {
     id: "Article 47",
@@ -587,7 +634,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "The State shall regard the raising of the level of nutrition and the standard of living of its people and the improvement of public health as among its primary duties and, in particular, the State shall endeavour to bring about prohibition of the consumption except for medicinal purposes of intoxicating drinks and of drugs which are injurious to health.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Public Health", "Welfare State", "Gandhian Principles"]
+    tags: ["DPSP", "Public Health", "Welfare State", "Gandhian Principles"],
+    limitationsAndExceptions: "The duty to improve public health is a primary, but non-justiciable, duty. The directive to prohibit intoxicating drinks is an 'endeavour' and is not mandatory, which is why alcohol is not prohibited nationwide. The exception for 'medicinal purposes' is specified."
   },
   {
     id: "Article 48",
@@ -599,7 +647,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     landmarkCases: [
       { caseName: "State of Gujarat v. Mirzapur Moti Kureshi Kassab Jamat (2005)", caseSummary: "The Supreme Court upheld a law imposing a total ban on the slaughter of cows and their progeny, arguing that cattle become more valuable with age and that the ban was a reasonable restriction in the interest of the general public." }
     ],
-    tags: ["DPSP", "Agriculture", "Gandhian Principles"]
+    tags: ["DPSP", "Agriculture", "Gandhian Principles"],
+    limitationsAndExceptions: "This is a non-justiciable directive. Laws based on this article must still respect the fundamental rights of citizens, such as the right to practice a profession (Article 19(1)(g)). Courts have had to balance this directive with the rights of those involved in the cattle trade."
   },
   {
     id: "Article 49",
@@ -609,7 +658,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
     fullText: "It shall be the obligation of the State to protect every monument or place or object of artistic or historic interest, declared by or under law made by Parliament to be of national importance, from spoliation, disfigurement, destruction, removal, disposal or export, as the case may be.",
     part: "Part IV: Directive Principles of State Policy",
     landmarkCases: [],
-    tags: ["DPSP", "Culture", "Heritage"]
+    tags: ["DPSP", "Culture", "Heritage"],
+    limitationsAndExceptions: "This obligation applies specifically to monuments and objects that have been declared of 'national importance' by or under a law made by Parliament. It does not automatically apply to all historical sites."
   },
   {
     id: "Article 50",
@@ -622,7 +672,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "S.P. Gupta v. Union of India (1981)", caseSummary: "Also known as the First Judges Case, the Supreme Court discussed the importance of an independent judiciary as a basic feature of the Constitution, a principle that is strongly supported by the directive in Article 50." },
       { caseName: "Chandra Mohan v. State of U.P. (1966)", caseSummary: "The court emphasized that the appointment of district judges should be made by the Governor in consultation with the High Court to maintain the independence of the judiciary from the executive, thereby upholding the spirit of Article 50." }
     ],
-    tags: ["DPSP", "Judiciary", "Separation of Powers", "Governance"]
+    tags: ["DPSP", "Judiciary", "Separation of Powers", "Governance"],
+    limitationsAndExceptions: "This directive, while largely achieved in the criminal justice system through the CrPC, is still a goal. The separation applies to 'public services of the State', and some overlap in administrative functions can still exist, particularly with executive magistrates."
   },
   {
     id: "Article 51",
@@ -635,7 +686,8 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "Vishaka v. State of Rajasthan (1997)", caseSummary: "The Supreme Court, in the absence of a domestic law on sexual harassment at the workplace, relied on international conventions and treaties, thereby giving effect to the principle of fostering respect for international law as mentioned in Article 51(c)." },
       { caseName: "Gramophone Company of India Ltd. v. Birendra Bahadur Pandey (1984)", caseSummary: "The court ruled that in case of a conflict between municipal law and international law, the domestic law will prevail. However, it also stated that courts should attempt to interpret domestic laws in a way that is consistent with international law, in line with the spirit of Article 51." }
     ],
-    tags: ["DPSP", "Foreign Policy", "International Law"]
+    tags: ["DPSP", "Foreign Policy", "International Law"],
+    limitationsAndExceptions: "These are guiding principles for foreign policy and are non-justiciable. In case of a direct conflict between domestic law and international law, Indian courts are bound to apply the domestic law. National interest and security concerns can also override these principles in practice."
   },
   // PART IVA: FUNDAMENTAL DUTIES
   {
@@ -649,6 +701,7 @@ export const CONSTITUTION_ARTICLES: Article[] = [
       { caseName: "AIIMS Students' Union v. AIIMS (2002)", caseSummary: "The Supreme Court held that Fundamental Duties, although non-enforceable by themselves, can be used to interpret ambiguous statutes. It also observed that duties can help in determining the reasonableness of a legislative restriction on fundamental rights." },
       { caseName: "M.C. Mehta v. Union of India (1988)", caseSummary: "In a case related to environmental pollution in the Ganga river, the court held that under Article 51A(g), it is the duty of the central government to take steps to protect the environment. This case linked fundamental duties to environmental jurisprudence." }
     ],
-    tags: ["Fundamental Duties", "Citizenship"]
+    tags: ["Fundamental Duties", "Citizenship"],
+    limitationsAndExceptions: "Fundamental Duties are non-justiciable, meaning they are not directly enforceable by courts. They serve as moral and civic obligations for citizens. While courts can use them as an aid to interpreting statutes, there is no legal penalty for their violation unless a specific law makes such a violation an offence."
   }
 ];

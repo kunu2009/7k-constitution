@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Article, UserArticleData, LandmarkCase } from '../types';
 import { StarIcon } from '../constants/icons';
@@ -64,6 +63,10 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
 
            <DetailSection title="Detailed Explanation" borderColorClass="border-navy">
             <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{article.detailedExplanation}</p>
+          </DetailSection>
+
+          <DetailSection title="Limitations and Exceptions" borderColorClass="border-yellow-500">
+            <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{article.limitationsAndExceptions}</p>
           </DetailSection>
           
           <DetailSection title="Full Text" borderColorClass="border-green">

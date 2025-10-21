@@ -1,4 +1,3 @@
-
 export interface LandmarkCase {
   caseName: string;
   caseSummary: string;
@@ -13,6 +12,7 @@ export interface Article {
   part: string;
   landmarkCases: LandmarkCase[];
   tags: string[];
+  limitationsAndExceptions: string;
 }
 
 export enum LearningMode {
