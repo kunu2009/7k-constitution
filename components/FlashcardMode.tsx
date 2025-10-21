@@ -6,7 +6,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
 };
 
-const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => void }> = ({ article, isFlipped, onFlip }) => {
+export const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => void }> = ({ article, isFlipped, onFlip }) => {
   return (
     <div
       className="w-full h-full cursor-pointer group"
@@ -30,8 +30,8 @@ const Flashcard: React.FC<{ article: Article; isFlipped: boolean; onFlip: () => 
           className="absolute w-full h-full backface-hidden flex flex-col justify-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border-t-4 border-navy dark:border-saffron" 
           style={{ transform: 'rotateY(180deg)' }}
         >
-          <h3 className="text-lg font-bold text-navy dark:text-saffron mb-2 text-center">Key Points</h3>
-          <p className="text-base text-gray-800 dark:text-gray-200 overflow-y-auto text-center flex-grow">{article.summary}</p>
+          <h3 className="text-lg font-bold text-navy dark:text-saffron mb-2 text-center">{article.id}: {article.title}</h3>
+          <p className="text-base text-gray-800 dark:text-gray-200 overflow-y-auto text-center flex-grow px-2">{article.summary}</p>
           <p className="absolute bottom-4 text-sm text-gray-400 w-full text-center left-0">Click to flip</p>
         </div>
       </div>

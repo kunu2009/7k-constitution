@@ -11,6 +11,7 @@ export interface Article {
   fullText: string;
   part: string;
   landmarkCases: LandmarkCase[];
+  tags: string[];
 }
 
 export enum LearningMode {

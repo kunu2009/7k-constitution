@@ -18,19 +18,25 @@ const App: React.FC = () => {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const { userData, toggleFavorite, updateNotes } = useUserData();
   const [activePartFilter, setActivePartFilter] = useState<string>('All');
+  const [activeTagFilter, setActiveTagFilter] = useState<string>('All');
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const allParts = useMemo(() => {
     const parts = new Set(CONSTITUTION_ARTICLES.map(a => a.part));
     return ['All', ...Array.from(parts)];
   }, []);
+  
+  const allTags = useMemo(() => {
+    const tags = new Set(CONSTITUTION_ARTICLES.flatMap(a => a.tags));
+    return ['All', ...Array.from(tags).sort()];
+  }, []);
 
   const filteredArticles = useMemo(() => {
-    if (activePartFilter === 'All' || !activePartFilter) {
-      return CONSTITUTION_ARTICLES;
-    }
-    return CONSTITUTION_ARTICLES.filter(a => a.part === activePartFilter);
-  }, [activePartFilter]);
+    return CONSTITUTION_ARTICLES.filter(a => 
+      (activePartFilter === 'All' || a.part === activePartFilter) &&
+      (activeTagFilter === 'All' || a.tags.includes(activeTagFilter))
+    );
+  }, [activePartFilter, activeTagFilter]);
 
   const handleSelectArticle = (article: Article) => {
     setSelectedArticle(article);
@@ -66,6 +72,7 @@ const App: React.FC = () => {
   
   const handleSetMode = (newMode: LearningMode) => {
     setActivePartFilter('All');
+    setActiveTagFilter('All');
     setMode(newMode);
   };
 
@@ -104,7 +111,10 @@ const App: React.FC = () => {
                 <FilterBar
                   parts={allParts}
                   activePart={activePartFilter}
-                  onFilterChange={setActivePartFilter}
+                  onPartFilterChange={setActivePartFilter}
+                  tags={allTags}
+                  activeTag={activeTagFilter}
+                  onTagFilterChange={setActiveTagFilter}
                 />
               )}
               <div className="flex-grow overflow-y-auto pb-16 md:pb-0">

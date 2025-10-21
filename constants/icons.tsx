@@ -8,7 +8,6 @@ export const AppLogo = () => (
     <path d="M121.213 78.7868L78.7868 121.213" stroke="#000080" strokeWidth="10"/>
     <path d="M130 100L70 100" stroke="#000080" strokeWidth="10"/>
     <path d="M121.213 121.213L78.7868 78.7868" stroke="#000080" strokeWidth="10"/>
-    <path d="M92 30H108V170H92V30Z" fill="#D1D5DB"/>
     <defs>
       <linearGradient id="paint0_linear_101_2" x1="100" y1="30" x2="100" y2="170" gradientUnits="userSpaceOnUse">
         <stop stopColor="#FF9933"/>
