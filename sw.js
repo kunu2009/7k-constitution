@@ -1,4 +1,4 @@
-const CACHE_NAME = '7k-constitution-v10';
+const CACHE_NAME = '7k-constitution-v11';
 const urlsToCache = [
   '/',
   '/index.html',
