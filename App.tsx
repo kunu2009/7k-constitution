@@ -12,13 +12,27 @@ import SearchModal from './components/SearchModal';
 import { useUserData } from './hooks/useUserData';
 import { CONSTITUTION_ARTICLES } from './constants/articles';
 import FilterBar from './components/FilterBar';
-import { SearchIcon, AppLogo } from './constants/icons';
+import { SearchIcon, AppLogo, InstallIcon } from './constants/icons';
 import ArticleListView from './components/ArticleListView';
 import SplashScreen from './components/SplashScreen';
 
 const App: React.FC = () => {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
   const [isSplashFading, setIsSplashFading] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+        e.preventDefault();
+        setInstallPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -78,6 +92,17 @@ const App: React.FC = () => {
     handleSelectArticle(article);
     setIsSearchModalOpen(false);
   };
+  
+  const handleInstallClick = () => {
+    if (!installPrompt) return;
+    (installPrompt as any).prompt();
+    (installPrompt as any).userChoice.then((choiceResult: { outcome: 'accepted' | 'dismissed' }) => {
+        if (choiceResult.outcome === 'dismissed') {
+            console.log('User dismissed the install prompt');
+        }
+        setInstallPrompt(null);
+    });
+  };
 
   const showFilterBar = mode === LearningMode.Flashcards || mode === LearningMode.MCQ || mode === LearningMode.List;
   const isImmersiveMode = mode === LearningMode.Reels;
@@ -119,13 +144,26 @@ const App: React.FC = () => {
                   7k Constitution
                 </h1>
               </div>
-              <button
-                onClick={() => setIsSearchModalOpen(true)}
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                aria-label="Search for an article"
-              >
-                <SearchIcon />
-              </button>
+              <div className="flex items-center space-x-2">
+                 {installPrompt && (
+                    <button
+                        onClick={handleInstallClick}
+                        className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2 bg-blue-100 dark:bg-blue-900"
+                        aria-label="Install App"
+                        title="Install App"
+                    >
+                        <InstallIcon />
+                        <span className="hidden sm:inline text-sm font-medium text-navy dark:text-white pr-2">Install</span>
+                    </button>
+                )}
+                <button
+                  onClick={() => setIsSearchModalOpen(true)}
+                  className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  aria-label="Search for an article"
+                >
+                  <SearchIcon />
+                </button>
+              </div>
             </header>
           )}
           <main className={`flex-grow overflow-hidden ${isImmersiveMode ? 'h-full' : ''}`}>
