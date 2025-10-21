@@ -1,28 +1,10 @@
-const CACHE_NAME = '7k-constitution-v4';
+const CACHE_NAME = '7k-constitution-v5';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
-  '/index.tsx',
-  '/App.tsx',
-  '/types.ts',
-  '/constants/articles.ts',
-  '/constants/icons.tsx',
-  '/hooks/useUserData.ts',
-  '/components/Home.tsx',
-  '/components/FlashcardMode.tsx',
-  '/components/MCQMode.tsx',
-  '/components/ReelsMode.tsx',
-  '/components/ArticleDetailView.tsx',
-  '/components/ProgressView.tsx',
-  '/components/SearchModal.tsx',
-  '/components/FilterBar.tsx',
-  '/components/Navigation.tsx',
-  '/components/SingleMCQ.tsx',
-  '/components/ArticleListView.tsx',
-  '/components/SplashScreen.tsx'
 ];
 
 self.addEventListener('install', event => {
