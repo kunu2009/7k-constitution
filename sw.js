@@ -1,7 +1,11 @@
+
 const CACHE_NAME = '7k-constitution-v1';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
   '/index.tsx',
   '/App.tsx',
   '/types.ts',
@@ -17,6 +21,8 @@ const urlsToCache = [
   '/components/SearchModal.tsx',
   '/components/FilterBar.tsx',
   '/components/Navigation.tsx',
+  '/components/SingleMCQ.tsx',
+  '/components/ArticleListView.tsx',
   'https://cdn.tailwindcss.com',
   'https://aistudiocdn.com/react@^19.2.0',
   'https://aistudiocdn.com/react-dom@^19.2.0/',

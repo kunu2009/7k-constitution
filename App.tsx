@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { LearningMode, Article } from './types';
 import Navigation from './components/Navigation';
@@ -15,7 +16,14 @@ import { SearchIcon, AppLogo } from './constants/icons';
 import ArticleListView from './components/ArticleListView';
 
 const App: React.FC = () => {
-  const [mode, setMode] = useState<LearningMode>(LearningMode.Home);
+  const [mode, setMode] = useState<LearningMode>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const modeFromURL = params.get('mode')?.toUpperCase();
+    if (modeFromURL && Object.values(LearningMode).includes(modeFromURL as LearningMode)) {
+        return modeFromURL as LearningMode;
+    }
+    return LearningMode.Home;
+  });
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const { userData, toggleFavorite, updateNotes } = useUserData();
   const [activePartFilter, setActivePartFilter] = useState<string>('All');
