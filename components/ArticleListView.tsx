@@ -1,18 +1,26 @@
 import React from 'react';
 import { Article } from '../types';
 
-const ArticleCard: React.FC<{ article: Article; onSelect: () => void }> = ({ article, onSelect }) => (
-  <button
-    onClick={onSelect}
-    className="w-full text-left bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 dark:border-gray-700"
-  >
-    <div className="flex justify-between items-start">
-      <h3 className="text-lg font-bold text-navy dark:text-saffron pr-4">{article.id}: {article.title}</h3>
-    </div>
-    <p className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 tracking-wider mt-1">{article.part}</p>
-    <p className="mt-4 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">{article.summary}</p>
-  </button>
-);
+const ArticleCard: React.FC<{ article: Article; onSelect: () => void }> = ({ article, onSelect }) => {
+  // Extract the first sentence for a brief summary.
+  const briefSummary = article.summary.split('.')[0] + '.';
+
+  return (
+    <button
+      onClick={onSelect}
+      className="w-full text-left bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 dark:border-gray-700 flex flex-col h-full"
+    >
+      <div className="flex-grow">
+        <h3 className="text-lg font-bold text-navy dark:text-saffron pr-4">{article.id}: {article.title}</h3>
+        {/* Display the truncated first sentence of the summary below the title for a quick preview. */}
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 truncate" title={briefSummary}>
+          {briefSummary}
+        </p>
+      </div>
+      <p className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 tracking-wider mt-4">{article.part}</p>
+    </button>
+  );
+};
 
 const ArticleListView: React.FC<{ articles: Article[]; onSelectArticle: (article: Article) => void }> = ({ articles, onSelectArticle }) => {
   if (articles.length === 0) {

@@ -17,6 +17,7 @@ const getArticleOfTheDay = () => {
 
 const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalArticles }) => {
   const articleOfTheDay = useMemo(() => getArticleOfTheDay(), []);
+  const briefSummaryOfTheDay = articleOfTheDay.summary.split('.')[0] + '.';
 
   const studiedCount = useMemo(() => {
       return Object.values(userData).filter(d => d.isFavorite || d.notes.trim() !== '').length;
@@ -35,7 +36,7 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
         <div className="mb-8 bg-gradient-to-r from-navy to-blue-900 p-6 rounded-2xl shadow-lg text-white">
             <h2 className="text-sm font-bold uppercase tracking-wider text-saffron mb-2">Article of the Day</h2>
             <h3 className="text-2xl font-bold">{articleOfTheDay.id}: {articleOfTheDay.title}</h3>
-            <p className="mt-2 text-blue-200 leading-relaxed truncate">{articleOfTheDay.summary}</p>
+            <p className="mt-2 text-blue-200 leading-relaxed truncate" title={briefSummaryOfTheDay}>{briefSummaryOfTheDay}</p>
             <button 
                 onClick={() => onSelectArticle(articleOfTheDay)}
                 className="mt-4 px-4 py-2 bg-white text-navy font-semibold rounded-lg shadow-md hover:bg-gray-200 transition-colors"
