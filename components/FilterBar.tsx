@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface FilterBarProps {
@@ -13,7 +12,6 @@ interface FilterBarProps {
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({ parts, activePart, onPartFilterChange, tags, activeTag, onTagFilterChange, isDetailMode, onDetailModeChange }) => {
-  const showDetailToggle = onDetailModeChange !== undefined;
 
   return (
     <div className="flex-shrink-0 bg-gray-50 dark:bg-gray-800/50 p-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
@@ -51,22 +49,20 @@ const FilterBar: React.FC<FilterBarProps> = ({ parts, activePart, onPartFilterCh
           ))}
         </select>
       </div>
-      {showDetailToggle && (
-        <div className="flex items-center">
-          <label htmlFor="detail-mode-toggle" className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">
-            Focus on Details:
-          </label>
-          <button
-            id="detail-mode-toggle"
-            onClick={() => onDetailModeChange(!isDetailMode)}
-            className={`${isDetailMode ? 'bg-navy' : 'bg-gray-200 dark:bg-gray-600'} relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy`}
-            aria-pressed={isDetailMode}
-          >
-             <span className="sr-only">Focus on Details</span>
-            <span className={`${isDetailMode ? 'translate-x-6' : 'translate-x-1'} inline-block w-4 h-4 transform bg-white rounded-full transition-transform`} />
-          </button>
-        </div>
-      )}
+      <div className="flex items-center">
+        <label htmlFor="detail-mode-toggle" className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">
+          Focus on Details:
+        </label>
+        <button
+          id="detail-mode-toggle"
+          onClick={() => onDetailModeChange(!isDetailMode)}
+          className={`${isDetailMode ? 'bg-navy' : 'bg-gray-200 dark:bg-gray-600'} relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy`}
+          aria-pressed={isDetailMode}
+        >
+            <span className="sr-only">Focus on Details</span>
+          <span className={`${isDetailMode ? 'translate-x-6' : 'translate-x-1'} inline-block w-4 h-4 transform bg-white rounded-full transition-transform`} />
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Article } from '../types';
 import { InfoIcon } from '../constants/icons';
@@ -33,7 +32,7 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
           <>
             <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{detail.type}</span>
             <p className="text-md text-gray-600 dark:text-gray-400 mt-4">Which article covers the following point?</p>
-            <h2 className="text-xl sm:text-2xl font-bold text-navy dark:text-white mt-2 leading-tight">"{detail.question}"</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-navy dark:text-white mt-2 leading-tight">"{detail.question}"</h2>
           </>
         ),
         answer: (
@@ -74,7 +73,7 @@ export const Flashcard: React.FC<{ question: React.ReactNode; answer: React.Reac
       onClick={onReveal}
       aria-live="polite"
     >
-      <div className={`transition-opacity duration-300 ${isRevealed ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`transition-opacity duration-300 w-full h-full flex flex-col justify-center overflow-y-auto ${isRevealed ? 'opacity-0' : 'opacity-100'}`}>
         {question}
       </div>
       <div className={`absolute inset-0 p-6 flex flex-col justify-center items-center transition-opacity duration-300 ${isRevealed ? 'opacity-100' : 'opacity-0'}`}>

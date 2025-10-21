@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Article, UserArticleData, LandmarkCase } from '../types';
 import { StarIcon } from '../constants/icons';
-import { Flashcard } from './FlashcardMode';
-import SingleMCQ from './SingleMCQ';
+import ArticlePractice from './ArticlePractice';
 
 interface ArticleDetailViewProps {
   article: Article;
@@ -30,21 +29,6 @@ const LandmarkCaseCard: React.FC<{ caseItem: LandmarkCase }> = ({ caseItem }) =>
 const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData, onClose, onToggleFavorite, onUpdateNotes }) => {
   const isFavorite = userData?.isFavorite || false;
   const notes = userData?.notes || '';
-  const [isRevealed, setIsRevealed] = useState(false);
-
-  const flashcardQuestion = (
-    <>
-      <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{article.part}</span>
-      <p className="text-lg text-gray-600 dark:text-gray-400 mt-4">Which article is titled:</p>
-      <h2 className="text-2xl sm:text-3xl font-bold text-navy dark:text-white mt-2">"{article.title}"?</h2>
-    </>
-  );
-  const flashcardAnswer = (
-      <>
-        <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
-        <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{article.title}</p>
-      </>
-  );
 
   return (
     <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
@@ -97,22 +81,8 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
 
           <hr className="my-8 border-gray-200 dark:border-gray-700" />
           
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">Practice This Article</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                <div>
-                    <h3 className="font-semibold text-lg mb-4 text-center text-gray-700 dark:text-gray-300">Flashcard</h3>
-                    <div className="h-64">
-                        <Flashcard question={flashcardQuestion} answer={flashcardAnswer} isRevealed={isRevealed} onReveal={() => setIsRevealed(!isRevealed)} />
-                    </div>
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-4 text-center text-gray-700 dark:text-gray-300">Quick Quiz</h3>
-                    <SingleMCQ article={article} />
-                </div>
-            </div>
-          </div>
-
+          <ArticlePractice article={article} />
+          
           <hr className="my-8 border-gray-200 dark:border-gray-700" />
 
           <div>

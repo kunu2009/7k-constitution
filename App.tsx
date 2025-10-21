@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { LearningMode, Article } from './types';
 import Navigation from './components/Navigation';
@@ -106,8 +105,7 @@ const App: React.FC = () => {
     });
   };
 
-  const showFilterBar = mode === LearningMode.Flashcards || mode === LearningMode.MCQ || mode === LearningMode.List;
-  const isImmersiveMode = mode === LearningMode.Reels;
+  const showFilterBar = [LearningMode.Flashcards, LearningMode.MCQ, LearningMode.List, LearningMode.Reels].includes(mode);
 
   const renderContent = () => {
     switch (mode) {
@@ -118,7 +116,7 @@ const App: React.FC = () => {
       case LearningMode.List:
         return <ArticleListView articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
       case LearningMode.Reels:
-        return <ReelsMode onSelectArticle={handleSelectArticle} />;
+        return <ReelsMode articles={filteredArticles} onSelectArticle={handleSelectArticle} isDetailMode={isDetailMode} setMode={handleSetMode} />;
       case LearningMode.Progress:
         return <ProgressView userData={userData} totalArticles={CONSTITUTION_ARTICLES.length} setMode={handleSetMode} />;
       case LearningMode.Home:
@@ -136,9 +134,9 @@ const App: React.FC = () => {
   return (
     <>
       {isSplashVisible && <SplashScreen isFading={isSplashFading} />}
-      <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isImmersiveMode ? 'h-screen' : ''} ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
+      <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <div className="flex-1 flex flex-col overflow-hidden">
-          {!selectedArticle && !isImmersiveMode && (
+          {!selectedArticle && mode !== LearningMode.Reels && (
             <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <AppLogo />
@@ -168,7 +166,7 @@ const App: React.FC = () => {
               </div>
             </header>
           )}
-          <main className={`flex-grow overflow-hidden ${isImmersiveMode ? 'h-full' : ''}`}>
+          <main className="flex-grow overflow-hidden">
             {selectedArticle ? (
               <ArticleDetailView
                 article={selectedArticle}
@@ -178,7 +176,7 @@ const App: React.FC = () => {
                 onUpdateNotes={(notes) => updateNotes(selectedArticle.id, notes)}
               />
             ) : (
-              <div className={`h-full flex flex-col ${isImmersiveMode ? 'h-screen' : ''}`}>
+              <div className="h-full flex flex-col">
                 {showFilterBar && (
                   <FilterBar
                     parts={allParts}
@@ -199,7 +197,7 @@ const App: React.FC = () => {
           </main>
         </div>
 
-        {!selectedArticle && !isImmersiveMode && <Navigation activeMode={mode} setMode={handleSetMode} />}
+        {!selectedArticle && mode !== LearningMode.Reels && <Navigation activeMode={mode} setMode={handleSetMode} />}
         
         <SearchModal
           isOpen={isSearchModalOpen}
