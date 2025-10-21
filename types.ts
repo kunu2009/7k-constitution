@@ -25,6 +25,7 @@ export enum LearningMode {
 }
 
 export interface MCQQuestion {
+  questionText?: string;
   article: Article;
   options: string[];
   correctAnswer: string;

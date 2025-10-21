@@ -1,13 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
 import { Article, MCQQuestion } from '../types';
 import { CheckIcon, XIcon } from '../constants/icons';
 
-const generateMCQ = (questionPool: Article[]): MCQQuestion | null => {
-  if (questionPool.length === 0) {
-    return null;
-  }
+const shuffleArray = <T,>(array: T[]): T[] => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
+const generateTitleMCQ = (questionPool: Article[]): MCQQuestion | null => {
+  if (questionPool.length === 0) return null;
   
   const correctArticle = questionPool[Math.floor(Math.random() * questionPool.length)];
   const wrongArticles: Article[] = [];
@@ -18,12 +20,7 @@ const generateMCQ = (questionPool: Article[]): MCQQuestion | null => {
     wrongArticles.push(articlesCopy.splice(wrongArticleIndex, 1)[0]);
   }
 
-  const options = [correctArticle.title, ...wrongArticles.map(a => a.title)];
-
-  for (let i = options.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [options[i], options[j]] = [options[j], options[i]];
-  }
+  const options = shuffleArray([correctArticle.title, ...wrongArticles.map(a => a.title)]);
   
   const explanationParts: string[] = [];
   explanationParts.push(`**Correct:** "${correctArticle.title}" is the correct title for **${correctArticle.id}**. This article focuses on *${correctArticle.summary.split('.')[0]}*.`);
@@ -35,15 +32,47 @@ const generateMCQ = (questionPool: Article[]): MCQQuestion | null => {
       });
   }
   
-  const explanation = explanationParts.join('\n');
-  
   return {
     article: correctArticle,
     options,
     correctAnswer: correctArticle.title,
+    explanation: explanationParts.join('\n'),
+  };
+};
+
+const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
+  if (questionPool.length === 0) return null;
+
+  const correctArticle = questionPool[Math.floor(Math.random() * questionPool.length)];
+  
+  const details: string[] = [correctArticle.summary];
+  if(correctArticle.limitationsAndExceptions) details.push(correctArticle.limitationsAndExceptions);
+  
+  const selectedDetail = shuffleArray(details)[0];
+  const questionText = `Which article covers the principle: "${selectedDetail.substring(0, 200)}..."?`;
+  
+  const wrongArticles: Article[] = [];
+  const articlesCopy = [...CONSTITUTION_ARTICLES].filter(a => a.id !== correctArticle.id);
+  
+  while (wrongArticles.length < 3 && articlesCopy.length > 0) {
+    const wrongArticleIndex = Math.floor(Math.random() * articlesCopy.length);
+    wrongArticles.push(articlesCopy.splice(wrongArticleIndex, 1)[0]);
+  }
+  
+  const formatOption = (article: Article) => `${article.id}: ${article.title}`;
+  const options = shuffleArray([formatOption(correctArticle), ...wrongArticles.map(formatOption)]);
+  
+  const explanation = `**${correctArticle.id}** is correct. The question refers to its summary/limitation: *"${selectedDetail.split('.')[0]}."*`;
+  
+  return {
+    questionText,
+    article: correctArticle,
+    options,
+    correctAnswer: formatOption(correctArticle),
     explanation,
   };
 };
+
 
 const Explanation: React.FC<{ text: string }> = ({ text }) => {
     const lines = text.split('\n').map((line, i) => {
@@ -58,20 +87,22 @@ const Explanation: React.FC<{ text: string }> = ({ text }) => {
     return <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{lines}</div>;
 };
 
-const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[] }> = ({ onSelectArticle, articles: filteredArticles }) => {
-  const [question, setQuestion] = useState<MCQQuestion | null>(() => generateMCQ(filteredArticles));
+const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[]; isDetailMode: boolean }> = ({ onSelectArticle, articles: filteredArticles, isDetailMode }) => {
+  const [question, setQuestion] = useState<MCQQuestion | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
 
+  const questionGenerator = useMemo(() => isDetailMode ? generateDetailMCQ : generateTitleMCQ, [isDetailMode]);
+
   useEffect(() => {
-    setQuestion(generateMCQ(filteredArticles));
+    setQuestion(questionGenerator(filteredArticles));
     setSelectedAnswer(null);
     setIsAnswered(false);
     setScore(0);
     setQuestionCount(0);
-  }, [filteredArticles]);
+  }, [filteredArticles, questionGenerator]);
 
   const handleAnswer = (option: string) => {
     if (isAnswered) return;
@@ -85,14 +116,14 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
   const handleNext = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(generateMCQ(filteredArticles));
+    setQuestion(questionGenerator(filteredArticles));
     setQuestionCount(questionCount + 1);
   };
   
   const handleRestart = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(generateMCQ(filteredArticles));
+    setQuestion(questionGenerator(filteredArticles));
     setScore(0);
     setQuestionCount(0);
   };
@@ -110,6 +141,15 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
     }
     return `${baseClasses} bg-white dark:bg-gray-700 opacity-60 border-gray-300 dark:border-gray-600`;
   };
+
+  const questionPrompt = useMemo(() => {
+      if (!question) return '';
+      if (isDetailMode) {
+          return question.questionText || '';
+      }
+      return `From <span class="font-semibold text-gray-500 dark:text-gray-400">${question.article.part}</span>, which of the following is the title of <span class="font-bold text-navy dark:text-saffron">${question.article.id}</span>?`;
+  }, [question, isDetailMode]);
+
 
   if (!question) {
     return (
@@ -129,9 +169,10 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
         </div>
         
         <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-200 leading-relaxed">
-            From <span className="font-semibold text-gray-500 dark:text-gray-400">{question.article.part}</span>, which of the following is the title of <span className="font-bold text-navy dark:text-saffron">{question.article.id}</span>?
-          </h2>
+          <h2 
+            className="text-xl sm:text-2xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-200 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: questionPrompt }}
+          />
           
           <div className="grid grid-cols-1 gap-4">
             {question.options.map((option, index) => (

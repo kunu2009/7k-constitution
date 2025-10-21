@@ -32,6 +32,20 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
   const notes = userData?.notes || '';
   const [isRevealed, setIsRevealed] = useState(false);
 
+  const flashcardQuestion = (
+    <>
+      <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{article.part}</span>
+      <p className="text-lg text-gray-600 dark:text-gray-400 mt-4">Which article is titled:</p>
+      <h2 className="text-2xl sm:text-3xl font-bold text-navy dark:text-white mt-2">"{article.title}"?</h2>
+    </>
+  );
+  const flashcardAnswer = (
+      <>
+        <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
+        <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{article.title}</p>
+      </>
+  );
+
   return (
     <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
       <header className="flex-shrink-0 bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10">
@@ -89,7 +103,7 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
                 <div>
                     <h3 className="font-semibold text-lg mb-4 text-center text-gray-700 dark:text-gray-300">Flashcard</h3>
                     <div className="h-64">
-                        <Flashcard article={article} isRevealed={isRevealed} onReveal={() => setIsRevealed(!isRevealed)} />
+                        <Flashcard question={flashcardQuestion} answer={flashcardAnswer} isRevealed={isRevealed} onReveal={() => setIsRevealed(!isRevealed)} />
                     </div>
                 </div>
                 <div>

@@ -62,6 +62,8 @@ const App: React.FC = () => {
   const [activePartFilter, setActivePartFilter] = useState<string>('All');
   const [activeTagFilter, setActiveTagFilter] = useState<string>('All');
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isDetailMode, setIsDetailMode] = useState(false);
+
 
   const allParts = useMemo(() => {
     const parts = new Set(CONSTITUTION_ARTICLES.map(a => a.part));
@@ -110,9 +112,9 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (mode) {
       case LearningMode.Flashcards:
-        return <FlashcardMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
+        return <FlashcardMode articles={filteredArticles} onSelectArticle={handleSelectArticle} isDetailMode={isDetailMode} />;
       case LearningMode.MCQ:
-        return <MCQMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
+        return <MCQMode articles={filteredArticles} onSelectArticle={handleSelectArticle} isDetailMode={isDetailMode} />;
       case LearningMode.List:
         return <ArticleListView articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
       case LearningMode.Reels:
@@ -185,6 +187,8 @@ const App: React.FC = () => {
                     tags={allTags}
                     activeTag={activeTagFilter}
                     onTagFilterChange={setActiveTagFilter}
+                    isDetailMode={isDetailMode}
+                    onDetailModeChange={setIsDetailMode}
                   />
                 )}
                 <div className="flex-grow overflow-y-auto pb-16 md:pb-0">
