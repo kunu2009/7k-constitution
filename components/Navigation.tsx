@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { LearningMode } from '../types';
-import { HomeIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon } from '../constants/icons';
+import { ExamIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon } from '../constants/icons';
 
 interface NavigationProps {
   activeMode: LearningMode;
@@ -34,7 +33,7 @@ const NavButton: React.FC<{
 };
 
 const NAV_ITEMS = [
-    { mode: LearningMode.Home, label: 'Home', icon: <HomeIcon /> },
+    { mode: LearningMode.Home, label: 'Exam', icon: <ExamIcon /> },
     { mode: LearningMode.Flashcards, label: 'Flashcards', icon: <CardIcon /> },
     { mode: LearningMode.MCQ, label: 'MCQ', icon: <QuestionIcon /> },
     { mode: LearningMode.List, label: 'Browse', icon: <ListIcon /> },

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export const AppLogo = () => (
@@ -19,6 +18,11 @@ export const AppLogo = () => (
   </svg>
 );
 
+export const ExamIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm2.5 4a.5.5 0 000 1h6a.5.5 0 000-1h-6zM6.5 9a.5.5 0 000 1h6a.5.5 0 000-1h-6zM6.5 12a.5.5 0 000 1h3a.5.5 0 000-1h-3z" clipRule="evenodd" />
+  </svg>
+);
 
 export const HomeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { Article, LearningMode, UserData } from '../types';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
@@ -33,7 +32,7 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
     <div className="flex flex-col h-full p-4 sm:p-6 lg:p-8 bg-gray-100 dark:bg-gray-900 overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-6">
-          Welcome Back!
+          Exam Dashboard
         </h1>
         
         {/* Article of the Day */}
@@ -49,9 +48,9 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
             </button>
         </div>
 
-        {/* Quick Start */}
+        {/* Practice Modes */}
         <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Start Learning</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Practice Modes</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <QuickStartCard 
                     title="Flashcards" 
