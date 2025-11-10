@@ -17,6 +17,7 @@ export interface Article {
 
 export enum LearningMode {
   Home = 'HOME',
+  Exam = 'EXAM',
   Flashcards = 'FLASHCARDS',
   MCQ = 'MCQ',
   Reels = 'REELS',

@@ -14,6 +14,7 @@ import FilterBar from './components/FilterBar';
 import { SearchIcon, AppLogo, InstallIcon, FilterIcon } from './constants/icons';
 import ArticleListView from './components/ArticleListView';
 import SplashScreen from './components/SplashScreen';
+import ExamDashboard from './components/ExamDashboard';
 
 const App: React.FC = () => {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -142,6 +143,8 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     switch (mode) {
+      case LearningMode.Exam:
+        return <ExamDashboard setMode={setMode} />;
       case LearningMode.Flashcards:
         return <FlashcardMode articles={filteredArticles} onSelectArticle={handleSelectArticle} isDetailMode={isDetailMode} />;
       case LearningMode.MCQ:
