@@ -100,9 +100,16 @@ const ExamMCQMode: React.FC<{ onSelectArticle: (article: Article) => void; onBac
 
   const getButtonClass = (option: string) => {
     const baseClasses = 'p-4 w-full rounded-lg text-left border-2 transition-all duration-300 flex items-center justify-between text-gray-800 dark:text-gray-200';
-    if (!isAnswered) return `${baseClasses} bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-300 dark:border-gray-600`;
-    if (option === question?.correctAnswer) return `${baseClasses} bg-green-100 dark:bg-green-900/50 border-green-500 font-semibold`;
-    if (option === selectedAnswer) return `${baseClasses} bg-red-100 dark:bg-red-900/50 border-red-500 font-semibold`;
+    if (!isAnswered) {
+      return `${baseClasses} bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-300 dark:border-gray-600`;
+    }
+    if (option === question?.correctAnswer) {
+      // Apply a pulse animation to the correct answer to make it stand out.
+      return `${baseClasses} bg-green-100 dark:bg-green-900/50 border-green-500 font-semibold animate-correct-answer-pulse`;
+    }
+    if (option === selectedAnswer) {
+      return `${baseClasses} bg-red-100 dark:bg-red-900/50 border-red-500 font-semibold`;
+    }
     return `${baseClasses} bg-white dark:bg-gray-700 opacity-60 border-gray-300 dark:border-gray-600`;
   };
 
