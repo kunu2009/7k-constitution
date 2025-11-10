@@ -21,7 +21,10 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
   const briefSummaryOfTheDay = articleOfTheDay.summary.split('.')[0] + '.';
 
   const studiedCount = useMemo(() => {
-      return Object.values(userData).filter(d => d.isFavorite || d.notes.trim() !== '').length;
+      // FIX: Switched from Object.values to Object.keys for type safety.
+      // `Object.values` was inferring the array item type as 'unknown', causing a type error.
+      // Iterating by keys allows for safe access to `userData[id]`, which is correctly typed.
+      return Object.keys(userData).filter(id => userData[id].isFavorite || userData[id].notes.trim() !== '').length;
   }, [userData]);
   
   const studiedPercentage = totalArticles > 0 ? Math.round((studiedCount / totalArticles) * 100) : 0;
