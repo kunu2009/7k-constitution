@@ -82,6 +82,38 @@ const App: React.FC = () => {
     );
   }, [activePartFilter, activeTagFilter]);
 
+  const partCounts = useMemo(() => {
+    const counts: { [key: string]: number } = {};
+    const articlesToCount = CONSTITUTION_ARTICLES.filter(a => 
+      activeTagFilter === 'All' || a.tags.includes(activeTagFilter)
+    );
+    
+    allParts.forEach(part => {
+      if (part === 'All') {
+        counts[part] = articlesToCount.length;
+      } else {
+        counts[part] = articlesToCount.filter(a => a.part === part).length;
+      }
+    });
+    return counts;
+  }, [activeTagFilter, allParts]);
+
+  const tagCounts = useMemo(() => {
+    const counts: { [key: string]: number } = {};
+    const articlesToCount = CONSTITUTION_ARTICLES.filter(a =>
+      activePartFilter === 'All' || a.part === activePartFilter
+    );
+
+    allTags.forEach(tag => {
+      if (tag === 'All') {
+        counts[tag] = articlesToCount.length;
+      } else {
+        counts[tag] = articlesToCount.filter(a => a.tags.includes(tag)).length;
+      }
+    });
+    return counts;
+  }, [activePartFilter, allTags]);
+
   const handleSelectArticle = (article: Article) => {
     setSelectedArticle(article);
   };
@@ -199,6 +231,8 @@ const App: React.FC = () => {
                       onTagFilterChange={setActiveTagFilter}
                       isDetailMode={isDetailMode}
                       onDetailModeChange={setIsDetailMode}
+                      partCounts={partCounts}
+                      tagCounts={tagCounts}
                     />
                   </div>
                 )}

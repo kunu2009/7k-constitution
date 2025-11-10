@@ -9,9 +9,11 @@ interface FilterBarProps {
   onTagFilterChange: (tag: string) => void;
   isDetailMode: boolean;
   onDetailModeChange: (isDetailMode: boolean) => void;
+  partCounts: { [key: string]: number };
+  tagCounts: { [key: string]: number };
 }
 
-const FilterBar: React.FC<FilterBarProps> = ({ parts, activePart, onPartFilterChange, tags, activeTag, onTagFilterChange, isDetailMode, onDetailModeChange }) => {
+const FilterBar: React.FC<FilterBarProps> = ({ parts, activePart, onPartFilterChange, tags, activeTag, onTagFilterChange, isDetailMode, onDetailModeChange, partCounts, tagCounts }) => {
 
   return (
     <div className="flex-shrink-0 bg-gray-50 dark:bg-gray-800/50 p-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
@@ -27,7 +29,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ parts, activePart, onPartFilterCh
         >
           {parts.map(part => (
             <option key={part} value={part}>
-              {part}
+              {part} ({partCounts[part] ?? 0})
             </option>
           ))}
         </select>
@@ -44,7 +46,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ parts, activePart, onPartFilterCh
         >
           {tags.map(tag => (
             <option key={tag} value={tag}>
-              {tag}
+              {tag} ({tagCounts[tag] ?? 0})
             </option>
           ))}
         </select>
