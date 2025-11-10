@@ -1,12 +1,36 @@
-import React from 'react';
-import { LearningMode } from '../types';
+import React, { useState } from 'react';
+import { Article, LearningMode } from '../types';
 import { CardIcon, QuestionIcon, ReelsIcon } from '../constants/icons';
+import ExamFlashcardMode from './exam/ExamFlashcardMode';
+import ExamMCQMode from './exam/ExamMCQMode';
+import ExamReelsMode from './exam/ExamReelsMode';
+
+type ExamPracticeMode = 'dashboard' | 'flashcards' | 'mcq' | 'reels';
 
 interface ExamDashboardProps {
   setMode: (mode: LearningMode) => void;
+  onSelectArticle: (article: Article) => void;
 }
 
-const ExamDashboard: React.FC<ExamDashboardProps> = ({ setMode }) => {
+const ExamDashboard: React.FC<ExamDashboardProps> = ({ setMode, onSelectArticle }) => {
+  const [practiceMode, setPracticeMode] = useState<ExamPracticeMode>('dashboard');
+
+  const handleBackToDashboard = () => {
+    setPracticeMode('dashboard');
+  };
+
+  if (practiceMode === 'flashcards') {
+    return <ExamFlashcardMode onBack={handleBackToDashboard} onSelectArticle={onSelectArticle} />;
+  }
+
+  if (practiceMode === 'mcq') {
+    return <ExamMCQMode onBack={handleBackToDashboard} onSelectArticle={onSelectArticle} />;
+  }
+
+  if (practiceMode === 'reels') {
+    return <ExamReelsMode onBack={handleBackToDashboard} onSelectArticle={onSelectArticle} />;
+  }
+  
   return (
     <div className="flex flex-col h-full p-4 sm:p-6 lg:p-8 bg-gray-100 dark:bg-gray-900 overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
@@ -16,25 +40,26 @@ const ExamDashboard: React.FC<ExamDashboardProps> = ({ setMode }) => {
         
         <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Practice Modes</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">These modes cover all articles for comprehensive preparation and are separate from the filtered practice in other sections.</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <QuickStartCard 
                     title="Flashcards" 
-                    description="Quick revision" 
+                    description="Comprehensive review" 
                     icon={<CardIcon />} 
                     color="text-blue-500"
-                    onClick={() => setMode(LearningMode.Flashcards)} />
+                    onClick={() => setPracticeMode('flashcards')} />
                 <QuickStartCard 
                     title="MCQ Quiz" 
-                    description="Test yourself" 
+                    description="Full knowledge test" 
                     icon={<QuestionIcon />} 
                     color="text-green-500"
-                    onClick={() => setMode(LearningMode.MCQ)} />
+                    onClick={() => setPracticeMode('mcq')} />
                 <QuickStartCard 
                     title="Reels" 
-                    description="Bite-sized summaries" 
+                    description="All articles, bite-sized" 
                     icon={<ReelsIcon />} 
                     color="text-purple-500"
-                    onClick={() => setMode(LearningMode.Reels)} />
+                    onClick={() => setPracticeMode('reels')} />
             </div>
         </div>
       </div>

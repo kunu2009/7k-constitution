@@ -144,7 +144,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (mode) {
       case LearningMode.Exam:
-        return <ExamDashboard setMode={setMode} />;
+        return <ExamDashboard setMode={setMode} onSelectArticle={handleSelectArticle} />;
       case LearningMode.Flashcards:
         return <FlashcardMode articles={filteredArticles} onSelectArticle={handleSelectArticle} isDetailMode={isDetailMode} />;
       case LearningMode.MCQ:
@@ -172,7 +172,7 @@ const App: React.FC = () => {
       {isSplashVisible && <SplashScreen isFading={isSplashFading} />}
       <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <div className="flex-1 flex flex-col overflow-hidden">
-          {!selectedArticle && mode !== LearningMode.Reels && (
+          {!selectedArticle && mode !== LearningMode.Reels && mode !== LearningMode.Exam && (
             <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <AppLogo />
@@ -223,7 +223,7 @@ const App: React.FC = () => {
               />
             ) : (
               <div className="h-full flex flex-col">
-                {showFilterBar && (
+                {showFilterBar && mode !== LearningMode.Exam && (
                    <div className={`transition-all duration-300 ease-in-out ${isFilterBarVisible ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
                     <FilterBar
                       parts={allParts}
