@@ -17,7 +17,16 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
     // Generate detail-focused cards
     const detailCards = articles.flatMap(article => {
       const details: { question: string; type: string }[] = [];
-      details.push({ question: article.summary, type: 'Summary' });
+      
+      // Truncate summary for the flashcard question
+      const summaryParts = article.summary.split('.');
+      let summaryForCard = summaryParts[0];
+      if (summaryParts.length > 1 && summaryParts.slice(1).join('').trim().length > 0) {
+          summaryForCard += '...';
+      } else {
+          summaryForCard += '.';
+      }
+      details.push({ question: summaryForCard, type: 'Summary' });
       
       if (article.limitationsAndExceptions) {
         details.push({ question: article.limitationsAndExceptions, type: 'Limitations & Exceptions' });

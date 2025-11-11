@@ -46,16 +46,41 @@ const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
 };
 
 const Explanation: React.FC<{ text: string }> = ({ text }) => {
+    // This enhanced processor applies specific colors to keywords and handles markdown.
+    const processLine = (line: string): string => {
+        return line
+            .replace(/\*\*(.*?)\*\*/g, (_, content) => {
+                // Apply specific styling for keywords
+                if (content === 'Correct:') {
+                    return `<strong class="text-green-600 dark:text-green-400">${content}</strong>`;
+                }
+                if (content === 'Incorrect Options:') {
+                    return `<strong class="text-red-600 dark:text-red-400">${content}</strong>`;
+                }
+                // Default bold styling
+                return `<strong class="text-navy dark:text-saffron">${content}</strong>`;
+            })
+            // Italic styling
+            .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+    };
+
     const lines = text.split('\n').map((line, i) => {
-        line = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-navy dark:text-saffron">$1</strong>');
-        line = line.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
-        if (line.startsWith('•')) {
-            line = `<span class="mr-2 text-gray-500 dark:text-gray-400">•</span>${line.substring(1)}`;
-            return <p key={i} className="flex" dangerouslySetInnerHTML={{ __html: line }} />;
+        // Trim to handle empty lines from the input string
+        const trimmedLine = line.trim();
+        if (!trimmedLine) return null;
+
+        let processedLine = processLine(trimmedLine);
+        
+        // Handle bullet points
+        if (processedLine.startsWith('•')) {
+            processedLine = `<span class="mr-2 text-gray-500 dark:text-gray-400">•</span>${processedLine.substring(1).trim()}`;
+            return <p key={i} className="flex" dangerouslySetInnerHTML={{ __html: processedLine }} />;
         }
-        return <p key={i} dangerouslySetInnerHTML={{ __html: line }} />;
+        
+        return <p key={i} dangerouslySetInnerHTML={{ __html: processedLine }} />;
     });
-    return <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{lines}</div>;
+
+    return <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{lines.filter(Boolean)}</div>;
 };
 
 const ExamMCQMode: React.FC<{ onSelectArticle: (article: Article) => void; onBack: () => void; }> = ({ onSelectArticle, onBack }) => {
