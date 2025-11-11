@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Article, LearningMode, UserData } from '../types';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
-import { CardIcon, QuestionIcon, ReelsIcon, ProgressIcon } from '../constants/icons';
+import { CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, GamesIcon, ExploreIcon } from '../constants/icons';
 
 interface HomeProps {
   setMode: (mode: LearningMode) => void;
@@ -51,7 +51,7 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
         {/* Practice Modes */}
         <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Start Learning</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <QuickStartCard 
                     title="Flashcards" 
                     description="Quick revision" 
@@ -64,6 +64,18 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
                     icon={<QuestionIcon />} 
                     color="text-green-500"
                     onClick={() => setMode(LearningMode.MCQ)} />
+                <QuickStartCard 
+                    title="Games" 
+                    description="Interactive challenges" 
+                    icon={<GamesIcon />} 
+                    color="text-red-500"
+                    onClick={() => setMode(LearningMode.Games)} />
+                <QuickStartCard 
+                    title="Explore" 
+                    description="Visual learning tools" 
+                    icon={<ExploreIcon />} 
+                    color="text-yellow-500"
+                    onClick={() => setMode(LearningMode.Explore)} />
                 <QuickStartCard 
                     title="Reels" 
                     description="Bite-sized summaries" 

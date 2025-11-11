@@ -18,6 +18,47 @@ export const AppLogo = () => (
   </svg>
 );
 
+export const GamesIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 100 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 100-4V6z" />
+  </svg>
+);
+
+export const ExploreIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M8 16a6 6 0 006-6H8a6 6 0 000 12z" clipRule="evenodd" />
+        <path d="M8 2a6 6 0 100 12A6 6 0 008 2z" />
+        <path d="M15 8a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+);
+
+export const MindMapIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M11.75 5a1.75 1.75 0 10-3.5 0 1.75 1.75 0 003.5 0zm-3.25.25a.25.25 0 00-.5 0v.5c0 .138.112.25.25.25h.5a.25.25 0 00.25-.25v-.5a.25.25 0 00-.25-.25h-.25zM8 8.75A1.75 1.75 0 104.5 7 1.75 1.75 0 008 8.75zm-3.25.25a.25.25 0 00-.5 0v.5c0 .138.112.25.25.25h.5a.25.25 0 00.25-.25v-.5a.25.25 0 00-.25-.25h-.25zM15.5 8.75a1.75 1.75 0 10-3.5 0 1.75 1.75 0 003.5 0zm-.25-.25a.25.25 0 00-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 00.25-.25v-.5a.25.25 0 00-.25-.25h-.5zM8 15.25a1.75 1.75 0 10-3.5 0 1.75 1.75 0 003.5 0zm-3.25.25a.25.25 0 00-.5 0v.5c0 .138.112.25.25.25h.5a.25.25 0 00.25-.25v-.5a.25.25 0 00-.25-.25h-.25z" clipRule="evenodd" />
+    <path d="M8.866 6.134a.5.5 0 00-.732 0L6.25 8.75h3.5L8.866 6.134zM10 7.75a.5.5 0 000-1H8.5v1H10zM10 13.75V11h1.25l-2-2.5-2 2.5H8.5v2.75H10z" />
+  </svg>
+);
+
+
+export const TimelineIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z" clipRule="evenodd" />
+  </svg>
+);
+
+
+export const FillBlanksIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+  </svg>
+);
+
+export const MatchIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
+  </svg>
+);
+
 export const ExamIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
     <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm2.5 4a.5.5 0 000 1h6a.5.5 0 000-1h-6zM6.5 9a.5.5 0 000 1h6a.5.5 0 000-1h-6zM6.5 12a.5.5 0 000 1h3a.5.5 0 000-1h-3z" clipRule="evenodd" />

@@ -15,6 +15,12 @@ import { SearchIcon, AppLogo, InstallIcon, FilterIcon } from './constants/icons'
 import ArticleListView from './components/ArticleListView';
 import SplashScreen from './components/SplashScreen';
 import ExamDashboard from './components/ExamDashboard';
+import GamesDashboard from './components/GamesDashboard';
+import ExploreDashboard from './components/ExploreDashboard';
+import FillBlanksMode from './components/games/FillBlanksMode';
+import MatchMode from './components/games/MatchMode';
+import MindMapMode from './components/explore/MindMapMode';
+import TimelineMode from './components/explore/TimelineMode';
 
 const App: React.FC = () => {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -139,7 +145,15 @@ const App: React.FC = () => {
     });
   };
 
-  const showFilterBar = [LearningMode.Flashcards, LearningMode.MCQ, LearningMode.List, LearningMode.Reels].includes(mode);
+  const showFilterBar = [
+    LearningMode.Flashcards, 
+    LearningMode.MCQ, 
+    LearningMode.List, 
+    LearningMode.Reels,
+    LearningMode.MindMap,
+    LearningMode.FillBlanks,
+    LearningMode.Match
+  ].includes(mode);
 
   const renderContent = () => {
     switch (mode) {
@@ -155,6 +169,18 @@ const App: React.FC = () => {
         return <ReelsMode articles={filteredArticles} onSelectArticle={handleSelectArticle} isDetailMode={isDetailMode} setMode={handleSetMode} />;
       case LearningMode.Progress:
         return <ProgressView userData={userData} totalArticles={CONSTITUTION_ARTICLES.length} setMode={handleSetMode} />;
+      case LearningMode.Games:
+        return <GamesDashboard setMode={setMode} />;
+      case LearningMode.Explore:
+        return <ExploreDashboard setMode={setMode} />;
+      case LearningMode.FillBlanks:
+        return <FillBlanksMode articles={filteredArticles} />;
+      case LearningMode.Match:
+        return <MatchMode articles={filteredArticles} />;
+      case LearningMode.MindMap:
+        return <MindMapMode articles={filteredArticles} onSelectArticle={handleSelectArticle} />;
+      case LearningMode.Timeline:
+        return <TimelineMode onSelectArticle={handleSelectArticle} />;
       case LearningMode.Home:
       default:
         return <Home setMode={setMode} onSelectArticle={handleSelectArticle} userData={userData} totalArticles={CONSTITUTION_ARTICLES.length} />;
@@ -167,12 +193,21 @@ const App: React.FC = () => {
     setMode(newMode);
   };
 
+  const mainHeaderVisible = !selectedArticle && ![
+    LearningMode.Reels, 
+    LearningMode.Exam,
+    LearningMode.Timeline,
+    LearningMode.MindMap,
+    LearningMode.FillBlanks,
+    LearningMode.Match,
+  ].includes(mode);
+
   return (
     <>
       {isSplashVisible && <SplashScreen isFading={isSplashFading} />}
       <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <div className="flex-1 flex flex-col overflow-hidden">
-          {!selectedArticle && mode !== LearningMode.Reels && mode !== LearningMode.Exam && (
+          {mainHeaderVisible && (
             <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <AppLogo />

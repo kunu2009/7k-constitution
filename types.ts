@@ -3,6 +3,11 @@ export interface LandmarkCase {
   caseSummary: string;
 }
 
+export interface FillBlankQuestionType {
+  question: string; // "The State shall provide free and compulsory education to all children of theage of ____ to fourteen years."
+  answer: string; // "six"
+}
+
 export interface Article {
   id: string;
   title: string;
@@ -13,6 +18,8 @@ export interface Article {
   landmarkCases: LandmarkCase[];
   tags: string[];
   limitationsAndExceptions: string;
+  relatedArticles?: string[];
+  fillInTheBlanks?: FillBlankQuestionType[];
 }
 
 export enum LearningMode {
@@ -23,6 +30,12 @@ export enum LearningMode {
   Reels = 'REELS',
   Progress = 'PROGRESS',
   List = 'LIST',
+  Games = 'GAMES',
+  Explore = 'EXPLORE',
+  MindMap = 'MIND_MAP',
+  Timeline = 'TIMELINE',
+  FillBlanks = 'FILL_BLANKS',
+  Match = 'MATCH',
 }
 
 export interface MCQQuestion {
@@ -40,4 +53,12 @@ export interface UserArticleData {
 
 export interface UserData {
   [articleId: string]: UserArticleData;
+}
+
+export interface Amendment {
+  id: string;
+  year: number;
+  title: string;
+  summary: string;
+  affectedArticles: string[];
 }

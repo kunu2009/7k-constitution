@@ -1,6 +1,6 @@
 import React from 'react';
 import { LearningMode } from '../types';
-import { HomeIcon, ExamIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon } from '../constants/icons';
+import { HomeIcon, ExamIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon, GamesIcon, ExploreIcon } from '../constants/icons';
 
 interface NavigationProps {
   activeMode: LearningMode;
@@ -20,7 +20,7 @@ const NavButton: React.FC<{
     <button
       onClick={onClick}
       title={label}
-      className={`relative group flex flex-col md:flex-row items-center justify-center w-full md:w-auto md:h-14 md:px-0 px-2 py-2 rounded-lg transition-colors duration-200 font-medium ${isActive ? activeClasses : inactiveClasses}`}
+      className={`relative group flex flex-col items-center justify-center w-full md:w-auto md:h-14 md:px-0 px-2 py-2 rounded-lg transition-colors duration-200 font-medium ${isActive ? activeClasses : inactiveClasses}`}
       aria-label={`Switch to ${label} mode`}
     >
       {icon}
@@ -38,6 +38,8 @@ const NAV_ITEMS = [
     { mode: LearningMode.Flashcards, label: 'Flashcards', icon: <CardIcon /> },
     { mode: LearningMode.MCQ, label: 'MCQ', icon: <QuestionIcon /> },
     { mode: LearningMode.List, label: 'Browse', icon: <ListIcon /> },
+    { mode: LearningMode.Games, label: 'Games', icon: <GamesIcon /> },
+    { mode: LearningMode.Explore, label: 'Explore', icon: <ExploreIcon /> },
     { mode: LearningMode.Reels, label: 'Reels', icon: <ReelsIcon /> },
     { mode: LearningMode.Progress, label: 'Progress', icon: <ProgressIcon /> },
 ]
@@ -46,8 +48,17 @@ const Navigation: React.FC<NavigationProps> = ({ activeMode, setMode }) => {
   return (
     <>
       {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around p-1 z-20">
-        {NAV_ITEMS.map(item => (
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 grid grid-cols-5 gap-1 p-1 z-20">
+        {NAV_ITEMS.slice(0, 5).map(item => (
+            <NavButton
+                key={item.mode}
+                label={item.label}
+                icon={item.icon}
+                isActive={activeMode === item.mode}
+                onClick={() => setMode(item.mode)}
+            />
+        ))}
+        {NAV_ITEMS.slice(5).map(item => (
             <NavButton
                 key={item.mode}
                 label={item.label}
