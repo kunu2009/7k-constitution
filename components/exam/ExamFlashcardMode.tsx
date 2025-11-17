@@ -98,7 +98,7 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
     setAnimationClass('');
   }, [isDetailMode, userData]);
 
-  const handleReveal = () => !isRevealed && setIsRevealed(true);
+  const handleReveal = () => setIsRevealed(prev => !prev);
   
   const changeCard = (direction: 'next' | 'prev') => {
     if (isAnimating || flashcardDeck.length === 0) return;

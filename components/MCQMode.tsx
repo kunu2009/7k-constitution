@@ -98,55 +98,62 @@ const Explanation: React.FC<{ text: string }> = ({ text }) => {
 
 const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[]; isDetailMode: boolean }> = ({ onSelectArticle, articles: filteredArticles, isDetailMode }) => {
   const { userData, updateArticleMastery } = useUserData();
-  const [question, setQuestion] = useState<MCQQuestion | null>(null);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [isAnswered, setIsAnswered] = useState(false);
+  const [questions, setQuestions] = useState<MCQQuestion[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [score, setScore] = useState(0);
-  const [questionCount, setQuestionCount] = useState(0);
+  const [gameId, setGameId] = useState(1);
 
   const prioritizedArticlePool = useMemo(() => getPrioritizedArticles(filteredArticles, userData), [filteredArticles, userData]);
   const questionGenerator = useMemo(() => isDetailMode ? generateDetailMCQ : generateTitleMCQ, [isDetailMode]);
 
-  const generateNewQuestion = () => {
-    const newQuestion = questionGenerator(prioritizedArticlePool);
-    setQuestion(newQuestion);
-  };
-
   useEffect(() => {
-    generateNewQuestion();
-    setSelectedAnswer(null);
-    setIsAnswered(false);
+    const generatedQuestions: MCQQuestion[] = [];
+    const availableArticles = [...prioritizedArticlePool];
+    if (availableArticles.length > 0) {
+      const numQuestions = Math.min(availableArticles.length, 20);
+      for (let i = 0; i < numQuestions; i++) {
+        const q = questionGenerator(availableArticles);
+        if (q) generatedQuestions.push(q);
+      }
+    }
+    setQuestions(generatedQuestions);
+    setCurrentIndex(0);
+    setUserAnswers({});
     setScore(0);
-    setQuestionCount(0);
-  }, [filteredArticles, questionGenerator]);
+  }, [prioritizedArticlePool, questionGenerator, gameId]);
 
   const handleAnswer = (option: string) => {
-    if (isAnswered || !question) return;
+    if (userAnswers[currentIndex] || !question) return;
 
     const isCorrect = option === question.correctAnswer;
-    setSelectedAnswer(option);
-    setIsAnswered(true);
+    setUserAnswers(prev => ({ ...prev, [currentIndex]: option }));
     updateArticleMastery(question.article.id, isCorrect ? 'correct' : 'incorrect');
 
     if (isCorrect) {
-      setScore(score + 1);
+      setScore(s => s + 1);
+    }
+  };
+  
+  const handleNext = () => {
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(i => i + 1);
     }
   };
 
-  const handleNext = () => {
-    setIsAnswered(false);
-    setSelectedAnswer(null);
-    generateNewQuestion();
-    setQuestionCount(questionCount + 1);
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(i => i - 1);
+    }
   };
   
   const handleRestart = () => {
-    setIsAnswered(false);
-    setSelectedAnswer(null);
-    generateNewQuestion();
-    setScore(0);
-    setQuestionCount(0);
+    setGameId(id => id + 1);
   };
+
+  const question = questions[currentIndex];
+  const selectedAnswer = userAnswers[currentIndex];
+  const isAnswered = !!selectedAnswer;
 
   const getButtonClass = (option: string) => {
     const baseClasses = 'p-4 w-full rounded-lg text-left border-2 transition-all duration-300 flex items-center justify-between text-gray-800 dark:text-gray-200';
@@ -184,7 +191,7 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
     <div className="flex flex-col items-center justify-center min-h-full p-4 sm:p-6 bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-3xl">
         <div className="flex justify-between items-center mb-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <span>Question {questionCount + 1}</span>
+            <span>Question {currentIndex + 1} of {questions.length}</span>
             <span className="font-bold text-lg text-gray-800 dark:text-gray-200">Score: {score}</span>
         </div>
         
@@ -232,21 +239,37 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
                 <h4 className="font-bold text-lg mb-3 text-gray-800 dark:text-gray-200">Explanation</h4>
                 <Explanation text={question.explanation} />
               </div>
-
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <button 
-                    onClick={() => onSelectArticle(question.article)} 
-                    className="w-full sm:w-auto px-6 py-3 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white font-bold rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
-                  >
-                    Learn More
-                  </button>
-                  <button onClick={handleNext} className="w-full sm:w-auto px-6 py-3 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-blue-900 transition-colors">
-                    Next Question &rarr;
-                  </button>
-              </div>
             </div>
           )}
+          
+          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <button
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
+              className="w-full sm:w-auto px-6 py-3 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white font-bold rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors disabled:opacity-50"
+            >
+              &larr; Previous
+            </button>
+            
+            {isAnswered && (
+              <button 
+                onClick={() => onSelectArticle(question.article)} 
+                className="w-full sm:w-auto px-6 py-3 bg-blue-100 dark:bg-blue-900 text-navy dark:text-white font-bold rounded-lg shadow-md hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+              >
+                Learn More
+              </button>
+            )}
+
+            <button
+              onClick={handleNext}
+              disabled={currentIndex >= questions.length - 1}
+              className="w-full sm:w-auto px-6 py-3 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-blue-900 transition-colors disabled:opacity-50"
+            >
+              Next &rarr;
+            </button>
+          </div>
         </div>
+
         <div className="text-center mt-6">
             <button onClick={handleRestart} className="px-6 py-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
                 Restart Quiz

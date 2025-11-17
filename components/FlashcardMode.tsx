@@ -87,8 +87,8 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
 export const Flashcard: React.FC<{ question: React.ReactNode; answer: React.ReactNode; isRevealed: boolean; onClick: () => void; touchHandlers: object; animationClass: string }> = ({ question, answer, isRevealed, onClick, touchHandlers, animationClass }) => {
   return (
     <div
-      onClick={!isRevealed ? onClick : undefined}
-      className={`w-full h-full group flex flex-col justify-center items-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 relative overflow-hidden ${!isRevealed ? 'cursor-pointer' : ''} ${animationClass}`}
+      onClick={onClick}
+      className={`w-full h-full group flex flex-col justify-center items-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 relative overflow-hidden cursor-pointer ${animationClass}`}
       {...touchHandlers}
       aria-live="polite"
     >
@@ -121,7 +121,7 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
     setAnimationClass('');
   }, [filteredArticles, isDetailMode, userData]);
 
-  const handleReveal = () => !isRevealed && setIsRevealed(true);
+  const handleReveal = () => setIsRevealed(prev => !prev);
   
   const changeCard = (direction: 'next' | 'prev') => {
     if (isAnimating || flashcardDeck.length === 0) return;
