@@ -30,17 +30,17 @@ type ArticleFlashcard = { question: React.ReactNode; answer: React.ReactNode; };
 const generateArticleFlashcards = (article: Article): ArticleFlashcard[] => {
   const cards: ArticleFlashcard[] = [];
   cards.push({
-    question: <><span className="text-xs font-semibold text-saffron uppercase">{article.part}</span><p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Which article is titled:</p><h2 className="text-md font-bold text-navy dark:text-white mt-1">"{article.title}"?</h2></>,
+    question: <><span className="text-xs font-semibold text-orange-700 dark:text-saffron uppercase">{article.part}</span><p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Which article is titled:</p><h2 className="text-md font-bold text-navy dark:text-white mt-1">"{article.title}"?</h2></>,
     answer: <><h2 className="text-4xl font-extrabold text-navy dark:text-saffron mb-1">{article.id}</h2><p className="text-md font-semibold text-light-text dark:text-gray-300 text-center">{article.title}</p></>,
   });
   cards.push({
-    question: <><span className="text-xs font-semibold text-saffron uppercase">Summary</span><p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Which article states:</p><h2 className="text-sm font-bold text-navy dark:text-white mt-1">"{article.summary}"</h2></>,
+    question: <><span className="text-xs font-semibold text-orange-700 dark:text-saffron uppercase">Summary</span><p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Which article states:</p><h2 className="text-sm font-bold text-navy dark:text-white mt-1">"{article.summary}"</h2></>,
     answer: <><h2 className="text-4xl font-extrabold text-navy dark:text-saffron mb-1">{article.id}</h2><p className="text-md font-semibold text-light-text dark:text-gray-300 text-center">{article.title}</p></>,
   });
   if (article.landmarkCases.length > 0) {
     const caseItem = article.landmarkCases[0];
     cards.push({
-      question: <><span className="text-xs font-semibold text-saffron uppercase">Landmark Case</span><p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Which article is associated with the case "{caseItem.caseName}"?</p><p className="text-xs italic text-gray-500 dark:text-gray-400 mt-1">Hint: {caseItem.caseSummary.substring(0, 100)}...</p></>,
+      question: <><span className="text-xs font-semibold text-orange-700 dark:text-saffron uppercase">Landmark Case</span><p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Which article is associated with the case "{caseItem.caseName}"?</p><p className="text-xs italic text-gray-500 dark:text-gray-400 mt-1">Hint: {caseItem.caseSummary.substring(0, 100)}...</p></>,
       answer: <><h2 className="text-4xl font-extrabold text-navy dark:text-saffron mb-1">{article.id}</h2><p className="text-md font-semibold text-light-text dark:text-gray-300 text-center">{article.title}</p></>,
     });
   }

@@ -51,7 +51,7 @@ const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ article, userData
       <div className="flex-grow p-4 sm:p-8 overflow-y-auto">
         <div className="max-w-4xl mx-auto bg-light-surface dark:bg-gray-800 p-6 rounded-xl shadow-lg">
           
-          <DetailSection title="Part" borderColorClass="border-saffron">
+          <DetailSection title="Part" borderColorClass="border-orange-500">
              <p className="text-lg text-light-text dark:text-gray-200">{article.part}</p>
           </DetailSection>
 

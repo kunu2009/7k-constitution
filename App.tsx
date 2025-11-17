@@ -232,7 +232,7 @@ const App: React.FC = () => {
             <header className="w-full bg-light-surface dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <AppLogo />
-                <h1 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-saffron via-gray-500 to-green dark:via-gray-400">
+                <h1 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-orange-600 via-gray-500 to-green dark:from-saffron dark:via-gray-400">
                   7k Constitution
                 </h1>
               </div>

@@ -24,7 +24,7 @@ const TimelineMode: React.FC<TimelineModeProps> = ({ onSelectArticle }) => {
               <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-navy dark:bg-saffron border-4 border-light-background dark:border-gray-900"></div>
 
               {/* Content Card */}
-              <div className={`w-[calc(50%-2rem)] bg-light-surface dark:bg-gray-800 p-6 rounded-xl shadow-lg border-t-4 ${index % 2 === 0 ? 'border-saffron' : 'border-green'} animate-fade-in`}>
+              <div className={`w-[calc(50%-2rem)] bg-light-surface dark:bg-gray-800 p-6 rounded-xl shadow-lg border-t-4 ${index % 2 === 0 ? 'border-orange-500 dark:border-saffron' : 'border-green'} animate-fade-in`}>
                 <p className="text-xl font-bold text-navy dark:text-saffron mb-2">{amendment.year}</p>
                 <h3 className="text-lg font-semibold text-light-text dark:text-white mb-2">{amendment.title}</h3>
                 <p className="text-sm text-light-text-secondary dark:text-gray-400 leading-relaxed">{amendment.summary}</p>

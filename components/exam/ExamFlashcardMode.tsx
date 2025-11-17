@@ -44,7 +44,7 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
       return details.map(detail => ({
         question: (
           <>
-            <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{detail.type}</span>
+            <span className="text-sm font-semibold text-orange-700 dark:text-saffron uppercase tracking-wider">{detail.type}</span>
             <p className="text-md text-light-text-secondary dark:text-gray-400 mt-4">Which article covers the following point?</p>
             <h2 className="text-lg sm:text-xl font-bold text-navy dark:text-white mt-2 leading-tight">"{detail.question}"</h2>
           </>
@@ -63,7 +63,7 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
     return articles.map(article => ({
       question: (
         <>
-          <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{article.part}</span>
+          <span className="text-sm font-semibold text-orange-700 dark:text-saffron uppercase tracking-wider">{article.part}</span>
           <p className="text-lg text-light-text-secondary dark:text-gray-400 mt-4">Which article is titled:</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-navy dark:text-white mt-2">"{article.title}"?</h2>
         </>
