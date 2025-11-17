@@ -2,7 +2,12 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Article } from '../../types';
 import ExamHeader from '../exam/ExamHeader';
 
-const FillBlanksMode: React.FC<{ articles: Article[] }> = ({ articles }) => {
+interface FillBlanksModeProps {
+  articles: Article[];
+  onBack: () => void;
+}
+
+const FillBlanksMode: React.FC<FillBlanksModeProps> = ({ articles, onBack }) => {
   const [question, setQuestion] = useState<{ article: Article; question: string; answer: string } | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [isAnswered, setIsAnswered] = useState(false);
@@ -42,7 +47,7 @@ const FillBlanksMode: React.FC<{ articles: Article[] }> = ({ articles }) => {
   if (!question) {
     return (
       <div className="flex flex-col h-full">
-        <ExamHeader title="Fill in the Blanks" onBack={() => window.history.back()} />
+        <ExamHeader title="Fill in the Blanks" onBack={onBack} />
         <div className="flex-grow flex flex-col items-center justify-center p-4 text-center">
             <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">No Questions Found</h3>
             <p className="text-gray-500 dark:text-gray-400 mt-2">There are no "fill in the blank" questions for the current filter. Try selecting 'All' parts and tags.</p>
@@ -55,7 +60,7 @@ const FillBlanksMode: React.FC<{ articles: Article[] }> = ({ articles }) => {
 
   return (
     <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
-        <ExamHeader title="Fill in the Blanks" onBack={() => window.history.back()} />
+        <ExamHeader title="Fill in the Blanks" onBack={onBack} />
         <div className="flex-grow flex items-center justify-center p-4">
             <div className="w-full max-w-2xl bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl text-center">
                 <p className="text-sm font-semibold text-saffron uppercase tracking-wider mb-2">{question.article.id}: {question.article.title}</p>

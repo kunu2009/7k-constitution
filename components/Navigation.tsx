@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LearningMode } from '../types';
-import { HomeIcon, ExamIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon, GamesIcon, ExploreIcon } from '../constants/icons';
+import { HomeIcon, ExamIcon, CardIcon, QuestionIcon, ReelsIcon, ProgressIcon, ListIcon, GamesIcon, ExploreIcon, MoreIcon } from '../constants/icons';
 
 interface NavigationProps {
   activeMode: LearningMode;
@@ -32,7 +32,7 @@ const NavButton: React.FC<{
   );
 };
 
-const NAV_ITEMS = [
+const ALL_NAV_ITEMS = [
     { mode: LearningMode.Home, label: 'Home', icon: <HomeIcon /> },
     { mode: LearningMode.Exam, label: 'Exam', icon: <ExamIcon /> },
     { mode: LearningMode.Flashcards, label: 'Flashcards', icon: <CardIcon /> },
@@ -42,36 +42,85 @@ const NAV_ITEMS = [
     { mode: LearningMode.Explore, label: 'Explore', icon: <ExploreIcon /> },
     { mode: LearningMode.Reels, label: 'Reels', icon: <ReelsIcon /> },
     { mode: LearningMode.Progress, label: 'Progress', icon: <ProgressIcon /> },
-]
+];
+
+const PRIMARY_NAV_ITEMS = [
+    { mode: LearningMode.Home, label: 'Home', icon: <HomeIcon /> },
+    { mode: LearningMode.Flashcards, label: 'Flashcards', icon: <CardIcon /> },
+    { mode: LearningMode.MCQ, label: 'MCQ', icon: <QuestionIcon /> },
+    { mode: LearningMode.Progress, label: 'Progress', icon: <ProgressIcon /> },
+];
+
+const SECONDARY_NAV_ITEMS = [
+    { mode: LearningMode.Exam, label: 'Exam', icon: <ExamIcon /> },
+    { mode: LearningMode.List, label: 'Browse', icon: <ListIcon /> },
+    { mode: LearningMode.Games, label: 'Games', icon: <GamesIcon /> },
+    { mode: LearningMode.Explore, label: 'Explore', icon: <ExploreIcon /> },
+    { mode: LearningMode.Reels, label: 'Reels', icon: <ReelsIcon /> },
+];
+const SECONDARY_MODES = SECONDARY_NAV_ITEMS.map(item => item.mode);
+
 
 const Navigation: React.FC<NavigationProps> = ({ activeMode, setMode }) => {
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+
+  const handleSetMode = (mode: LearningMode) => {
+    setMode(mode);
+    setIsMoreMenuOpen(false);
+  };
+  
+  const isMoreActive = SECONDARY_MODES.includes(activeMode);
+  
   return (
     <>
       {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 grid grid-cols-5 gap-1 p-1 z-20">
-        {NAV_ITEMS.slice(0, 5).map(item => (
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around items-center p-1 z-20">
+        {PRIMARY_NAV_ITEMS.map(item => (
             <NavButton
                 key={item.mode}
                 label={item.label}
                 icon={item.icon}
                 isActive={activeMode === item.mode}
-                onClick={() => setMode(item.mode)}
+                onClick={() => handleSetMode(item.mode)}
             />
         ))}
-        {NAV_ITEMS.slice(5).map(item => (
-            <NavButton
-                key={item.mode}
-                label={item.label}
-                icon={item.icon}
-                isActive={activeMode === item.mode}
-                onClick={() => setMode(item.mode)}
-            />
-        ))}
+        <NavButton
+          label="More"
+          icon={<MoreIcon />}
+          isActive={isMoreActive}
+          onClick={() => setIsMoreMenuOpen(true)}
+        />
       </nav>
+
+      {/* More Menu Modal */}
+      {isMoreMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30 animate-fade-in"
+          onClick={() => setIsMoreMenuOpen(false)}
+        >
+          <div 
+            className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-2xl p-4 animate-slide-in-from-bottom"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="grid grid-cols-3 gap-4">
+              {SECONDARY_NAV_ITEMS.map(item => (
+                <button
+                  key={item.mode}
+                  onClick={() => handleSetMode(item.mode)}
+                  className="flex flex-col items-center justify-center space-y-2 p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-full">{item.icon}</div>
+                  <span className="text-xs font-medium">{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Desktop Right Sidebar */}
       <nav className="hidden md:flex flex-col w-20 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 items-center py-4 space-y-4 z-20">
-         {NAV_ITEMS.map(item => (
+         {ALL_NAV_ITEMS.map(item => (
             <NavButton
                 key={item.mode}
                 label={item.label}

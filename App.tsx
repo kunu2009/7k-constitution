@@ -154,6 +154,12 @@ const App: React.FC = () => {
     LearningMode.FillBlanks,
     LearningMode.Match
   ].includes(mode);
+  
+  const handleSetMode = (newMode: LearningMode) => {
+    setActivePartFilter('All');
+    setActiveTagFilter('All');
+    setMode(newMode);
+  };
 
   const renderContent = () => {
     switch (mode) {
@@ -174,7 +180,7 @@ const App: React.FC = () => {
       case LearningMode.Explore:
         return <ExploreDashboard setMode={setMode} />;
       case LearningMode.FillBlanks:
-        return <FillBlanksMode articles={filteredArticles} />;
+        return <FillBlanksMode articles={filteredArticles} onBack={() => handleSetMode(LearningMode.Games)} />;
       case LearningMode.Match:
         return <MatchMode articles={filteredArticles} />;
       case LearningMode.MindMap:
@@ -185,12 +191,6 @@ const App: React.FC = () => {
       default:
         return <Home setMode={setMode} onSelectArticle={handleSelectArticle} userData={userData} totalArticles={CONSTITUTION_ARTICLES.length} />;
     }
-  };
-  
-  const handleSetMode = (newMode: LearningMode) => {
-    setActivePartFilter('All');
-    setActiveTagFilter('All');
-    setMode(newMode);
   };
 
   const mainHeaderVisible = !selectedArticle && ![
@@ -274,7 +274,7 @@ const App: React.FC = () => {
                     />
                   </div>
                 )}
-                <div className="flex-grow overflow-y-auto pb-16 md:pb-0">
+                <div className="flex-grow overflow-y-auto pb-20 md:pb-0">
                   {renderContent()}
                 </div>
               </div>
