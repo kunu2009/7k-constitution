@@ -49,6 +49,8 @@ export interface MCQQuestion {
 export interface UserArticleData {
   isFavorite: boolean;
   notes: string;
+  masteryLevel: number; // 0 (unseen) to 5 (mastered)
+  lastReviewed: string | null; // ISO Date
 }
 
 export interface UserData {

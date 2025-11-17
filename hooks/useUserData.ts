@@ -1,8 +1,13 @@
 
-import { useState, useEffect } from 'react';
-import { UserData } from '../types';
+import { useState, useEffect, useCallback } from 'react';
+import { UserData, UserArticleData } from '../types';
 
 const USER_DATA_KEY = '7kConstitutionUserData';
+
+const getDefaultArticleData = (): Omit<UserArticleData, 'isFavorite' | 'notes'> => ({
+    masteryLevel: 0,
+    lastReviewed: null,
+});
 
 export const useUserData = () => {
   const [userData, setUserData] = useState<UserData>(() => {
@@ -24,31 +29,45 @@ export const useUserData = () => {
     }
   }, [userData]);
 
+  const getArticleData = useCallback((articleId: string): UserArticleData => {
+    return userData[articleId] || { isFavorite: false, notes: '', ...getDefaultArticleData() };
+  }, [userData]);
+
+  const updateArticleData = useCallback((articleId: string, updates: Partial<UserArticleData>) => {
+    setUserData(prev => ({
+      ...prev,
+      [articleId]: {
+        ...getArticleData(articleId),
+        ...updates,
+      },
+    }));
+  }, [getArticleData]);
+
+
   const toggleFavorite = (articleId: string) => {
-    setUserData(prev => {
-      const currentData = prev[articleId] || { isFavorite: false, notes: '' };
-      return {
-        ...prev,
-        [articleId]: {
-          ...currentData,
-          isFavorite: !currentData.isFavorite,
-        },
-      };
-    });
+    const currentData = getArticleData(articleId);
+    updateArticleData(articleId, { isFavorite: !currentData.isFavorite });
   };
 
   const updateNotes = (articleId: string, notes: string) => {
-     setUserData(prev => {
-      const currentData = prev[articleId] || { isFavorite: false, notes: '' };
-      return {
-       ...prev,
-       [articleId]: {
-         ...currentData,
-         notes,
-       },
-     };
+     updateArticleData(articleId, { notes });
+  };
+
+  const updateArticleMastery = (articleId: string, result: 'correct' | 'incorrect') => {
+    const currentData = getArticleData(articleId);
+    let newMasteryLevel = currentData.masteryLevel;
+
+    if (result === 'correct') {
+      newMasteryLevel = Math.min(5, newMasteryLevel + 1);
+    } else {
+      newMasteryLevel = Math.max(0, newMasteryLevel - 1);
+    }
+    
+    updateArticleData(articleId, {
+      masteryLevel: newMasteryLevel,
+      lastReviewed: new Date().toISOString(),
     });
   };
 
-  return { userData, toggleFavorite, updateNotes };
+  return { userData, getArticleData, toggleFavorite, updateNotes, updateArticleMastery };
 };

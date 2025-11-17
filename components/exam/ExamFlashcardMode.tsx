@@ -1,13 +1,28 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Article } from '../../types';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Article, UserData } from '../../types';
 import { CONSTITUTION_ARTICLES } from '../../constants/articles';
 import { InfoIcon } from '../../constants/icons';
 import { Flashcard } from '../FlashcardMode';
 import ExamHeader from './ExamHeader';
+import { useUserData } from '../../hooks/useUserData';
 
 const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
 };
+
+const getPrioritizedArticles = (articles: Article[], userData: UserData): Article[] => {
+  if (!articles.length) return [];
+  const pool: Article[] = [];
+  articles.forEach(article => {
+    const masteryLevel = userData[article.id]?.masteryLevel ?? 0;
+    const weight = Math.max(1, 6 - masteryLevel); // Weight: 6 for unseen, 1 for mastered
+    for (let i = 0; i < weight; i++) {
+      pool.push(article);
+    }
+  });
+  return pool.sort(() => Math.random() - 0.5);
+};
+
 
 type FlashcardContent = {
   question: React.ReactNode;
@@ -65,24 +80,24 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
 };
 
 const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; onBack: () => void; }> = ({ onSelectArticle, onBack }) => {
+  const { userData, updateArticleMastery } = useUserData();
   const [isDetailMode, setIsDetailMode] = useState(false);
-  const [flashcardDeck, setFlashcardDeck] = useState(() => shuffleArray(generateFlashcardContent(CONSTITUTION_ARTICLES, isDetailMode)));
+  const [flashcardDeck, setFlashcardDeck] = useState<FlashcardContent[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const touchState = useRef({ startX: 0, startY: 0, isScrolling: false, isSwiping: false });
-
   useEffect(() => {
-    const newDeck = shuffleArray(generateFlashcardContent(CONSTITUTION_ARTICLES, isDetailMode));
-    setFlashcardDeck(newDeck);
+    const prioritizedArticles = getPrioritizedArticles(CONSTITUTION_ARTICLES, userData);
+    const newDeck = generateFlashcardContent(prioritizedArticles, isDetailMode);
+    setFlashcardDeck(shuffleArray(newDeck));
     setCurrentIndex(0);
     setIsRevealed(false);
     setAnimationClass('');
-  }, [isDetailMode]);
+  }, [isDetailMode, userData]);
 
-  const handleReveal = () => setIsRevealed(!isRevealed);
+  const handleReveal = () => setIsRevealed(true);
   
   const changeCard = (direction: 'next' | 'prev') => {
     if (isAnimating || flashcardDeck.length === 0) return;
@@ -100,36 +115,12 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
       setTimeout(() => { setAnimationClass(''); setIsAnimating(false); }, 300);
     }, 300);
   };
-
-  const goToNext = () => changeCard('next');
-  const goToPrev = () => changeCard('prev');
-  const shuffleCards = () => {
-    if (flashcardDeck.length === 0) return;
-    setFlashcardDeck(shuffleArray(flashcardDeck));
-    setCurrentIndex(0);
-    setIsRevealed(false);
-  };
-
-  const touchHandlers = {
-    onTouchStart: (e: React.TouchEvent) => {
-      touchState.current = { startX: e.touches[0].clientX, startY: e.touches[0].clientY, isScrolling: false, isSwiping: false };
-    },
-    onTouchMove: (e: React.TouchEvent) => {
-      if (touchState.current.isScrolling || touchState.current.isSwiping) return;
-      const deltaX = Math.abs(e.touches[0].clientX - touchState.current.startX);
-      const deltaY = Math.abs(e.touches[0].clientY - touchState.current.startY);
-      if (deltaX > 10 || deltaY > 10) {
-        if (deltaY > deltaX) touchState.current.isScrolling = true;
-        else touchState.current.isSwiping = true;
-      }
-    },
-    onTouchEnd: (e: React.TouchEvent) => {
-      if (touchState.current.isScrolling) return;
-      const deltaX = e.changedTouches[0].clientX - touchState.current.startX;
-      if (touchState.current.isSwiping && Math.abs(deltaX) > 50) {
-        if (deltaX < 0) goToNext(); else goToPrev();
-      } else { handleReveal(); }
-    },
+  
+  const handleAssessment = (result: 'correct' | 'incorrect') => {
+    if (currentCard) {
+      updateArticleMastery(currentCard.article.id, result);
+    }
+    changeCard('next');
   };
   
   const currentCard = useMemo(() => flashcardDeck[currentIndex], [flashcardDeck, currentIndex]);
@@ -153,29 +144,33 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
           </button>
         </div>
         <div className="w-full max-w-2xl h-80 sm:h-96 mb-6">
-          <Flashcard 
-            question={currentCard?.question} 
-            answer={currentCard?.answer} 
-            isRevealed={isRevealed} 
-            onReveal={handleReveal}
-            touchHandlers={touchHandlers}
-            animationClass={animationClass}
-          />
+          {currentCard ? (
+            <Flashcard 
+              question={currentCard.question} 
+              answer={currentCard.answer} 
+              isRevealed={isRevealed} 
+              touchHandlers={{}}
+              animationClass={animationClass}
+            />
+          ) : <div className="w-full h-full flex items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-2xl"><p>Loading cards...</p></div>}
         </div>
         <div className="text-center text-gray-600 dark:text-gray-400 mb-6">
           Card {currentIndex + 1} of {flashcardDeck.length}
         </div>
-        <div className="flex items-center space-x-4">
-          <button onClick={goToPrev} disabled={isAnimating} className="px-6 py-3 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white font-semibold shadow-md hover:bg-gray-200 dark:hover:bg-gray-600 transition disabled:opacity-50">
-            Prev
-          </button>
-          <button onClick={shuffleCards} disabled={isAnimating} className="px-6 py-3 rounded-lg bg-saffron text-white font-semibold shadow-lg hover:bg-orange-500 transition disabled:opacity-50">
-            Shuffle
-          </button>
-          <button onClick={goToNext} disabled={isAnimating} className="px-6 py-3 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white font-semibold shadow-md hover:bg-gray-200 dark:hover:bg-gray-600 transition disabled:opacity-50">
-            Next
-          </button>
-        </div>
+        {!isRevealed ? (
+            <button onClick={handleReveal} className="w-full max-w-xs px-6 py-4 rounded-lg bg-navy text-white font-semibold shadow-lg hover:bg-blue-900 transition-colors">
+                Reveal Answer
+            </button>
+        ) : (
+            <div className="flex items-center space-x-4 animate-fade-in">
+                <button onClick={() => handleAssessment('incorrect')} className="px-6 py-3 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-semibold shadow-md hover:bg-red-200 dark:hover:bg-red-900 transition">
+                    Review Again
+                </button>
+                <button onClick={() => handleAssessment('correct')} className="px-6 py-3 rounded-lg bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 font-semibold shadow-md hover:bg-green-200 dark:hover:bg-green-900 transition">
+                    Got It!
+                </button>
+            </div>
+        )}
         <button 
           onClick={() => currentCard && onSelectArticle(currentCard.article)} 
           className="mt-6 flex items-center space-x-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"

@@ -1,11 +1,21 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { CONSTITUTION_ARTICLES } from '../constants/articles';
-import { Article, MCQQuestion } from '../types';
+import { Article, MCQQuestion, UserData } from '../types';
 import { CheckIcon, XIcon } from '../constants/icons';
+import { useUserData } from '../hooks/useUserData';
 
-const shuffleArray = <T,>(array: T[]): T[] => {
-  return [...array].sort(() => Math.random() - 0.5);
+const getPrioritizedArticles = (articles: Article[], userData: UserData): Article[] => {
+  if (!articles.length) return [];
+  const pool: Article[] = [];
+  articles.forEach(article => {
+    const masteryLevel = userData[article.id]?.masteryLevel ?? 0;
+    const weight = Math.max(1, 6 - masteryLevel); // Weight: 6 for unseen, 1 for mastered
+    for (let i = 0; i < weight; i++) {
+      pool.push(article);
+    }
+  });
+  return pool.sort(() => Math.random() - 0.5);
 };
 
 const generateTitleMCQ = (questionPool: Article[]): MCQQuestion | null => {
@@ -20,7 +30,7 @@ const generateTitleMCQ = (questionPool: Article[]): MCQQuestion | null => {
     wrongArticles.push(articlesCopy.splice(wrongArticleIndex, 1)[0]);
   }
 
-  const options = shuffleArray([correctArticle.title, ...wrongArticles.map(a => a.title)]);
+  const options = [...wrongArticles.map(a => a.title), correctArticle.title].sort(() => Math.random() - 0.5);
   
   const explanationParts: string[] = [];
   explanationParts.push(`**Correct:** "${correctArticle.title}" is the correct title for **${correctArticle.id}**. This article focuses on *${correctArticle.summary.split('.')[0]}*.`);
@@ -48,7 +58,7 @@ const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
   const details: string[] = [correctArticle.summary];
   if(correctArticle.limitationsAndExceptions) details.push(correctArticle.limitationsAndExceptions);
   
-  const selectedDetail = shuffleArray(details)[0];
+  const selectedDetail = details.sort(() => Math.random() - 0.5)[0];
   const questionText = `Which article covers the principle: "${selectedDetail.substring(0, 200)}..."?`;
   
   const wrongArticles: Article[] = [];
@@ -60,7 +70,7 @@ const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
   }
   
   const formatOption = (article: Article) => `${article.id}: ${article.title}`;
-  const options = shuffleArray([formatOption(correctArticle), ...wrongArticles.map(formatOption)]);
+  const options = [formatOption(correctArticle), ...wrongArticles.map(formatOption)].sort(() => Math.random() - 0.5);
   
   const explanation = `**${correctArticle.id}** is correct. The question refers to its summary/limitation: *"${selectedDetail.split('.')[0]}."*`;
   
@@ -72,7 +82,6 @@ const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
     explanation,
   };
 };
-
 
 const Explanation: React.FC<{ text: string }> = ({ text }) => {
     const lines = text.split('\n').map((line, i) => {
@@ -88,16 +97,23 @@ const Explanation: React.FC<{ text: string }> = ({ text }) => {
 };
 
 const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles: Article[]; isDetailMode: boolean }> = ({ onSelectArticle, articles: filteredArticles, isDetailMode }) => {
+  const { userData, updateArticleMastery } = useUserData();
   const [question, setQuestion] = useState<MCQQuestion | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
 
+  const prioritizedArticlePool = useMemo(() => getPrioritizedArticles(filteredArticles, userData), [filteredArticles, userData]);
   const questionGenerator = useMemo(() => isDetailMode ? generateDetailMCQ : generateTitleMCQ, [isDetailMode]);
 
+  const generateNewQuestion = () => {
+    const newQuestion = questionGenerator(prioritizedArticlePool);
+    setQuestion(newQuestion);
+  };
+
   useEffect(() => {
-    setQuestion(questionGenerator(filteredArticles));
+    generateNewQuestion();
     setSelectedAnswer(null);
     setIsAnswered(false);
     setScore(0);
@@ -105,10 +121,14 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
   }, [filteredArticles, questionGenerator]);
 
   const handleAnswer = (option: string) => {
-    if (isAnswered) return;
+    if (isAnswered || !question) return;
+
+    const isCorrect = option === question.correctAnswer;
     setSelectedAnswer(option);
     setIsAnswered(true);
-    if (option === question?.correctAnswer) {
+    updateArticleMastery(question.article.id, isCorrect ? 'correct' : 'incorrect');
+
+    if (isCorrect) {
       setScore(score + 1);
     }
   };
@@ -116,14 +136,14 @@ const MCQMode: React.FC<{ onSelectArticle: (article: Article) => void; articles:
   const handleNext = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(questionGenerator(filteredArticles));
+    generateNewQuestion();
     setQuestionCount(questionCount + 1);
   };
   
   const handleRestart = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(questionGenerator(filteredArticles));
+    generateNewQuestion();
     setScore(0);
     setQuestionCount(0);
   };

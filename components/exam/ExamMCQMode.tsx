@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { CONSTITUTION_ARTICLES } from '../../constants/articles';
-import { Article, MCQQuestion } from '../../types';
+import { Article, MCQQuestion, UserData } from '../../types';
 import { CheckIcon, XIcon } from '../../constants/icons';
 import ExamHeader from './ExamHeader';
+import { useUserData } from '../../hooks/useUserData';
 
-const shuffleArray = <T,>(array: T[]): T[] => {
-  return [...array].sort(() => Math.random() - 0.5);
+const getPrioritizedArticles = (articles: Article[], userData: UserData): Article[] => {
+  if (!articles.length) return [];
+  const pool: Article[] = [];
+  articles.forEach(article => {
+    const masteryLevel = userData[article.id]?.masteryLevel ?? 0;
+    const weight = Math.max(1, 6 - masteryLevel); // Weight: 6 for unseen, 1 for mastered
+    for (let i = 0; i < weight; i++) {
+      pool.push(article);
+    }
+  });
+  return pool.sort(() => Math.random() - 0.5);
 };
 
 const generateTitleMCQ = (questionPool: Article[]): MCQQuestion | null => {
@@ -17,7 +27,7 @@ const generateTitleMCQ = (questionPool: Article[]): MCQQuestion | null => {
     const wrongArticleIndex = Math.floor(Math.random() * articlesCopy.length);
     wrongArticles.push(articlesCopy.splice(wrongArticleIndex, 1)[0]);
   }
-  const options = shuffleArray([correctArticle.title, ...wrongArticles.map(a => a.title)]);
+  const options = [...wrongArticles.map(a => a.title), correctArticle.title].sort(() => Math.random() - 0.5);
   const explanationParts: string[] = [`**Correct:** "${correctArticle.title}" is the correct title for **${correctArticle.id}**. This article focuses on *${correctArticle.summary.split('.')[0]}*.`];
   if (wrongArticles.length > 0) {
       explanationParts.push(`\n**Incorrect Options:**`);
@@ -31,7 +41,7 @@ const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
   const correctArticle = questionPool[Math.floor(Math.random() * questionPool.length)];
   const details: string[] = [correctArticle.summary];
   if (correctArticle.limitationsAndExceptions) details.push(correctArticle.limitationsAndExceptions);
-  const selectedDetail = shuffleArray(details)[0];
+  const selectedDetail = details.sort(() => Math.random() - 0.5)[0];
   const questionText = `Which article covers the principle: "${selectedDetail.substring(0, 200)}..."?`;
   const wrongArticles: Article[] = [];
   const articlesCopy = [...CONSTITUTION_ARTICLES].filter(a => a.id !== correctArticle.id);
@@ -40,43 +50,30 @@ const generateDetailMCQ = (questionPool: Article[]): MCQQuestion | null => {
     wrongArticles.push(articlesCopy.splice(wrongArticleIndex, 1)[0]);
   }
   const formatOption = (article: Article) => `${article.id}: ${article.title}`;
-  const options = shuffleArray([formatOption(correctArticle), ...wrongArticles.map(formatOption)]);
+  const options = [formatOption(correctArticle), ...wrongArticles.map(formatOption)].sort(() => Math.random() - 0.5);
   const explanation = `**${correctArticle.id}** is correct. The question refers to its summary/limitation: *"${selectedDetail.split('.')[0]}."*`;
   return { questionText, article: correctArticle, options, correctAnswer: formatOption(correctArticle), explanation };
 };
 
 const Explanation: React.FC<{ text: string }> = ({ text }) => {
-    // This enhanced processor applies specific colors to keywords and handles markdown.
     const processLine = (line: string): string => {
         return line
             .replace(/\*\*(.*?)\*\*/g, (_, content) => {
-                // Apply specific styling for keywords
-                if (content === 'Correct:') {
-                    return `<strong class="text-green-600 dark:text-green-400">${content}</strong>`;
-                }
-                if (content === 'Incorrect Options:') {
-                    return `<strong class="text-red-600 dark:text-red-400">${content}</strong>`;
-                }
-                // Default bold styling
+                if (content === 'Correct:') return `<strong class="text-green-600 dark:text-green-400">${content}</strong>`;
+                if (content === 'Incorrect Options:') return `<strong class="text-red-600 dark:text-red-400">${content}</strong>`;
                 return `<strong class="text-navy dark:text-saffron">${content}</strong>`;
             })
-            // Italic styling
             .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
     };
 
     const lines = text.split('\n').map((line, i) => {
-        // Trim to handle empty lines from the input string
         const trimmedLine = line.trim();
         if (!trimmedLine) return null;
-
         let processedLine = processLine(trimmedLine);
-        
-        // Handle bullet points
         if (processedLine.startsWith('•')) {
             processedLine = `<span class="mr-2 text-gray-500 dark:text-gray-400">•</span>${processedLine.substring(1).trim()}`;
             return <p key={i} className="flex" dangerouslySetInnerHTML={{ __html: processedLine }} />;
         }
-        
         return <p key={i} dangerouslySetInnerHTML={{ __html: processedLine }} />;
     });
 
@@ -84,6 +81,7 @@ const Explanation: React.FC<{ text: string }> = ({ text }) => {
 };
 
 const ExamMCQMode: React.FC<{ onSelectArticle: (article: Article) => void; onBack: () => void; }> = ({ onSelectArticle, onBack }) => {
+  const { userData, updateArticleMastery } = useUserData();
   const [isDetailMode, setIsDetailMode] = useState(false);
   const [question, setQuestion] = useState<MCQQuestion | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -91,34 +89,42 @@ const ExamMCQMode: React.FC<{ onSelectArticle: (article: Article) => void; onBac
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
 
+  const prioritizedArticlePool = useMemo(() => getPrioritizedArticles(CONSTITUTION_ARTICLES, userData), [userData]);
   const questionGenerator = useMemo(() => isDetailMode ? generateDetailMCQ : generateTitleMCQ, [isDetailMode]);
 
+  const generateNewQuestion = () => {
+    const newQuestion = questionGenerator(prioritizedArticlePool);
+    setQuestion(newQuestion);
+  };
+  
   useEffect(() => {
-    setQuestion(questionGenerator(CONSTITUTION_ARTICLES));
+    generateNewQuestion();
     setSelectedAnswer(null);
     setIsAnswered(false);
     setScore(0);
     setQuestionCount(0);
-  }, [isDetailMode, questionGenerator]);
+  }, [isDetailMode]);
 
   const handleAnswer = (option: string) => {
-    if (isAnswered) return;
+    if (isAnswered || !question) return;
+    const isCorrect = option === question.correctAnswer;
     setSelectedAnswer(option);
     setIsAnswered(true);
-    if (option === question?.correctAnswer) setScore(score + 1);
+    updateArticleMastery(question.article.id, isCorrect ? 'correct' : 'incorrect');
+    if (isCorrect) setScore(score + 1);
   };
 
   const handleNext = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(questionGenerator(CONSTITUTION_ARTICLES));
+    generateNewQuestion();
     setQuestionCount(questionCount + 1);
   };
   
   const handleRestart = () => {
     setIsAnswered(false);
     setSelectedAnswer(null);
-    setQuestion(questionGenerator(CONSTITUTION_ARTICLES));
+    generateNewQuestion();
     setScore(0);
     setQuestionCount(0);
   };
@@ -129,7 +135,6 @@ const ExamMCQMode: React.FC<{ onSelectArticle: (article: Article) => void; onBac
       return `${baseClasses} bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-300 dark:border-gray-600`;
     }
     if (option === question?.correctAnswer) {
-      // Apply a pulse animation to the correct answer to make it stand out.
       return `${baseClasses} bg-green-100 dark:bg-green-900/50 border-green-500 font-semibold animate-correct-answer-pulse`;
     }
     if (option === selectedAnswer) {
