@@ -69,7 +69,7 @@ const App: React.FC = () => {
   const [activeTagFilter, setActiveTagFilter] = useState<string>('All');
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isDetailMode, setIsDetailMode] = useState(false);
-  const [isFilterBarVisible, setIsFilterBarVisible] = useState(true);
+  const [isFilterBarVisible, setIsFilterBarVisible] = useState(false);
 
 
   const allParts = useMemo(() => {

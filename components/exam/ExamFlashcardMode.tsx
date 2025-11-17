@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Article, UserData } from '../../types';
 import { CONSTITUTION_ARTICLES } from '../../constants/articles';
 import { InfoIcon } from '../../constants/icons';
@@ -87,6 +87,7 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
   const [isRevealed, setIsRevealed] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
+  const touchState = useRef({ startX: 0, startY: 0 });
 
   useEffect(() => {
     const prioritizedArticles = getPrioritizedArticles(CONSTITUTION_ARTICLES, userData);
@@ -97,7 +98,7 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
     setAnimationClass('');
   }, [isDetailMode, userData]);
 
-  const handleReveal = () => setIsRevealed(true);
+  const handleReveal = () => !isRevealed && setIsRevealed(true);
   
   const changeCard = (direction: 'next' | 'prev') => {
     if (isAnimating || flashcardDeck.length === 0) return;
@@ -116,6 +117,31 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
     }, 300);
   };
   
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchState.current.startX = e.touches[0].clientX;
+    touchState.current.startY = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchState.current.startX === 0) return;
+
+    const deltaX = e.changedTouches[0].clientX - touchState.current.startX;
+    const deltaY = e.changedTouches[0].clientY - touchState.current.startY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+      if (deltaX < 0) {
+        changeCard('next');
+      } else {
+        changeCard('prev');
+      }
+    }
+
+    touchState.current.startX = 0;
+    touchState.current.startY = 0;
+  };
+  
+  const touchHandlers = { onTouchStart: handleTouchStart, onTouchEnd: handleTouchEnd };
+
   const handleAssessment = (result: 'correct' | 'incorrect') => {
     if (currentCard) {
       updateArticleMastery(currentCard.article.id, result);
@@ -149,7 +175,8 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
               question={currentCard.question} 
               answer={currentCard.answer} 
               isRevealed={isRevealed} 
-              touchHandlers={{}}
+              onClick={handleReveal}
+              touchHandlers={touchHandlers}
               animationClass={animationClass}
             />
           ) : <div className="w-full h-full flex items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-2xl"><p>Loading cards...</p></div>}
@@ -158,11 +185,9 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
           Card {currentIndex + 1} of {flashcardDeck.length}
         </div>
         {!isRevealed ? (
-            <button onClick={handleReveal} className="w-full max-w-xs px-6 py-4 rounded-lg bg-navy text-white font-semibold shadow-lg hover:bg-blue-900 transition-colors">
-                Reveal Answer
-            </button>
+            <p className="text-gray-500 dark:text-gray-400 text-sm h-10 flex items-center px-6 py-3">Tap card to reveal. Swipe to change.</p>
         ) : (
-            <div className="flex items-center space-x-4 animate-fade-in">
+            <div className="flex items-center space-x-4 animate-fade-in h-10">
                 <button onClick={() => handleAssessment('incorrect')} className="px-6 py-3 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-semibold shadow-md hover:bg-red-200 dark:hover:bg-red-900 transition">
                     Review Again
                 </button>

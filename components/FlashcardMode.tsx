@@ -84,10 +84,11 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
   }
 };
 
-export const Flashcard: React.FC<{ question: React.ReactNode; answer: React.ReactNode; isRevealed: boolean; touchHandlers: object, animationClass: string }> = ({ question, answer, isRevealed, touchHandlers, animationClass }) => {
+export const Flashcard: React.FC<{ question: React.ReactNode; answer: React.ReactNode; isRevealed: boolean; onClick: () => void; touchHandlers: object; animationClass: string }> = ({ question, answer, isRevealed, onClick, touchHandlers, animationClass }) => {
   return (
     <div
-      className={`w-full h-full group flex flex-col justify-center items-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 relative overflow-hidden ${animationClass}`}
+      onClick={!isRevealed ? onClick : undefined}
+      className={`w-full h-full group flex flex-col justify-center items-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 relative overflow-hidden ${!isRevealed ? 'cursor-pointer' : ''} ${animationClass}`}
       {...touchHandlers}
       aria-live="polite"
     >
@@ -109,7 +110,7 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
   const [animationClass, setAnimationClass] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
   
-  const touchState = useRef({ startX: 0, startY: 0, isScrolling: false, isSwiping: false });
+  const touchState = useRef({ startX: 0, startY: 0 });
 
   useEffect(() => {
     const prioritizedArticles = getPrioritizedArticles(filteredArticles, userData);
@@ -120,7 +121,7 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
     setAnimationClass('');
   }, [filteredArticles, isDetailMode, userData]);
 
-  const handleReveal = () => setIsRevealed(true);
+  const handleReveal = () => !isRevealed && setIsRevealed(true);
   
   const changeCard = (direction: 'next' | 'prev') => {
     if (isAnimating || flashcardDeck.length === 0) return;
@@ -138,6 +139,31 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
       setTimeout(() => { setAnimationClass(''); setIsAnimating(false); }, 300);
     }, 300);
   };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchState.current.startX = e.touches[0].clientX;
+    touchState.current.startY = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchState.current.startX === 0) return;
+
+    const deltaX = e.changedTouches[0].clientX - touchState.current.startX;
+    const deltaY = e.changedTouches[0].clientY - touchState.current.startY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+      if (deltaX < 0) {
+        changeCard('next');
+      } else {
+        changeCard('prev');
+      }
+    }
+
+    touchState.current.startX = 0;
+    touchState.current.startY = 0;
+  };
+  
+  const touchHandlers = { onTouchStart: handleTouchStart, onTouchEnd: handleTouchEnd };
   
   const handleAssessment = (result: 'correct' | 'incorrect') => {
     if (currentCard) {
@@ -164,7 +190,8 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
           question={currentCard.question} 
           answer={currentCard.answer} 
           isRevealed={isRevealed} 
-          touchHandlers={{}}
+          onClick={handleReveal}
+          touchHandlers={touchHandlers}
           animationClass={animationClass}
         />
       </div>
@@ -174,11 +201,9 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
       </div>
 
       {!isRevealed ? (
-         <button onClick={handleReveal} className="w-full max-w-xs px-6 py-4 rounded-lg bg-navy text-white font-semibold shadow-lg hover:bg-blue-900 transition-colors">
-            Reveal Answer
-        </button>
+         <p className="text-gray-500 dark:text-gray-400 text-sm h-10 flex items-center px-6 py-4">Tap card to reveal. Swipe to change.</p>
       ) : (
-        <div className="flex items-center space-x-4 animate-fade-in">
+        <div className="flex items-center space-x-4 animate-fade-in h-10">
           <button onClick={() => handleAssessment('incorrect')} className="px-6 py-3 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-semibold shadow-md hover:bg-red-200 dark:hover:bg-red-900 transition">
             Review Again
           </button>
