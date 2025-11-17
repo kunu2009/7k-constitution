@@ -20,6 +20,12 @@
               'saffron': '#FF9933',
               'navy': '#000080',
               'green': '#138808',
+              'light': {
+                'background': '#DBD7C9', // Timberwolf
+                'surface': '#F8F4E3',    // Cosmic Latte-like
+                'text': '#403D39',       // Dark text
+                'text-secondary': '#6B6863'
+              }
             },
             animation: {
               'flip': 'flip 1s ease-in-out',
@@ -84,7 +90,7 @@
 }
 </script>
 </head>
-  <body class="bg-navy">
+  <body class="bg-light-background dark:bg-navy">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

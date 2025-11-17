@@ -45,14 +45,14 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
         question: (
           <>
             <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{detail.type}</span>
-            <p className="text-md text-gray-600 dark:text-gray-400 mt-4">Which article covers the following point?</p>
+            <p className="text-md text-light-text-secondary dark:text-gray-400 mt-4">Which article covers the following point?</p>
             <h2 className="text-lg sm:text-xl font-bold text-navy dark:text-white mt-2 leading-tight">"{detail.question}"</h2>
           </>
         ),
         answer: (
           <>
             <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
-            <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 text-center">{article.title}</p>
+            <p className="text-lg font-semibold text-light-text dark:text-gray-300 text-center">{article.title}</p>
           </>
         ),
         article: article
@@ -64,14 +64,14 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
       question: (
         <>
           <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{article.part}</span>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mt-4">Which article is titled:</p>
+          <p className="text-lg text-light-text-secondary dark:text-gray-400 mt-4">Which article is titled:</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-navy dark:text-white mt-2">"{article.title}"?</h2>
         </>
       ),
       answer: (
         <>
           <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
-          <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{article.title}</p>
+          <p className="text-lg font-semibold text-light-text dark:text-gray-300">{article.title}</p>
         </>
       ),
       article: article
@@ -152,17 +152,17 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
   const currentCard = useMemo(() => flashcardDeck[currentIndex], [flashcardDeck, currentIndex]);
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-light-background dark:bg-gray-900">
       <ExamHeader title="Flashcards" onBack={onBack} />
       <div className="flex-grow flex flex-col items-center justify-center p-4 overflow-hidden">
         <div className="flex items-center mb-4">
-          <label htmlFor="detail-mode-toggle" className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">
+          <label htmlFor="detail-mode-toggle" className="text-sm font-medium text-light-text dark:text-gray-300 mr-3">
             Focus on Details:
           </label>
           <button
             id="detail-mode-toggle"
             onClick={() => setIsDetailMode(!isDetailMode)}
-            className={`${isDetailMode ? 'bg-navy' : 'bg-gray-200 dark:bg-gray-600'} relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy`}
+            className={`${isDetailMode ? 'bg-navy' : 'bg-black/10 dark:bg-gray-600'} relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy`}
             aria-pressed={isDetailMode}
           >
             <span className="sr-only">Focus on Details</span>
@@ -179,13 +179,13 @@ const ExamFlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void;
               touchHandlers={touchHandlers}
               animationClass={animationClass}
             />
-          ) : <div className="w-full h-full flex items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-2xl"><p>Loading cards...</p></div>}
+          ) : <div className="w-full h-full flex items-center justify-center bg-light-surface dark:bg-gray-800 rounded-xl shadow-2xl"><p>Loading cards...</p></div>}
         </div>
-        <div className="text-center text-gray-600 dark:text-gray-400 mb-6">
+        <div className="text-center text-light-text-secondary dark:text-gray-400 mb-6">
           Card {currentIndex + 1} of {flashcardDeck.length}
         </div>
         {!isRevealed ? (
-            <p className="text-gray-500 dark:text-gray-400 text-sm h-10 flex items-center px-6 py-3">Tap card to reveal. Swipe to change.</p>
+            <p className="text-light-text-secondary dark:text-gray-400 text-sm h-10 flex items-center px-6 py-3">Tap card to reveal. Swipe to change.</p>
         ) : (
             <div className="flex items-center space-x-4 animate-fade-in h-10">
                 <button onClick={() => handleAssessment('incorrect')} className="px-6 py-3 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-semibold shadow-md hover:bg-red-200 dark:hover:bg-red-900 transition">

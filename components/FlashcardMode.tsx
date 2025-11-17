@@ -50,14 +50,14 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
         question: (
           <>
             <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{detail.type}</span>
-            <p className="text-md text-gray-600 dark:text-gray-400 mt-4">Which article covers the following point?</p>
+            <p className="text-md text-light-text-secondary dark:text-gray-400 mt-4">Which article covers the following point?</p>
             <h2 className="text-lg sm:text-xl font-bold text-navy dark:text-white mt-2 leading-tight">"{detail.question}"</h2>
           </>
         ),
         answer: (
           <>
             <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
-            <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 text-center">{article.title}</p>
+            <p className="text-lg font-semibold text-light-text dark:text-gray-300 text-center">{article.title}</p>
           </>
         ),
         article: article
@@ -69,14 +69,14 @@ const generateFlashcardContent = (articles: Article[], isDetailMode: boolean): F
       question: (
         <>
           <span className="text-sm font-semibold text-saffron uppercase tracking-wider">{article.part}</span>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mt-4">Which article is titled:</p>
+          <p className="text-lg text-light-text-secondary dark:text-gray-400 mt-4">Which article is titled:</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-navy dark:text-white mt-2">"{article.title}"?</h2>
         </>
       ),
       answer: (
         <>
           <h2 className="text-5xl sm:text-6xl font-extrabold text-navy dark:text-saffron mb-2">{article.id}</h2>
-          <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{article.title}</p>
+          <p className="text-lg font-semibold text-light-text dark:text-gray-300">{article.title}</p>
         </>
       ),
       article: article
@@ -88,7 +88,7 @@ export const Flashcard: React.FC<{ question: React.ReactNode; answer: React.Reac
   return (
     <div
       onClick={onClick}
-      className={`w-full h-full group flex flex-col justify-center items-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 relative overflow-hidden cursor-pointer ${animationClass}`}
+      className={`w-full h-full group flex flex-col justify-center items-center text-center p-6 bg-light-surface dark:bg-gray-800 rounded-xl shadow-2xl border border-black/10 dark:border-gray-700 relative overflow-hidden cursor-pointer ${animationClass}`}
       {...touchHandlers}
       aria-live="polite"
     >
@@ -177,14 +177,14 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
   if (flashcardDeck.length === 0 || !currentCard) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-4 text-center">
-        <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">No Articles Found</h3>
-        <p className="text-gray-500 dark:text-gray-400 mt-2">Please change your filter to see more articles.</p>
+        <h3 className="text-xl font-semibold text-light-text dark:text-gray-300">No Articles Found</h3>
+        <p className="text-light-text-secondary dark:text-gray-400 mt-2">Please change your filter to see more articles.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4 bg-gray-100 dark:bg-gray-900 overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-full p-4 bg-light-background dark:bg-gray-900 overflow-hidden">
       <div className="w-full max-w-2xl h-80 sm:h-96 mb-6">
         <Flashcard 
           question={currentCard.question} 
@@ -196,18 +196,18 @@ const FlashcardMode: React.FC<{ onSelectArticle: (article: Article) => void; art
         />
       </div>
 
-      <div className="text-center text-gray-600 dark:text-gray-400 mb-6">
+      <div className="text-center text-light-text-secondary dark:text-gray-400 mb-6">
         Card {currentIndex + 1} of {flashcardDeck.length}
       </div>
 
       {!isRevealed ? (
-         <p className="text-gray-500 dark:text-gray-400 text-sm h-10 flex items-center px-6 py-4">Tap card to reveal. Swipe to change.</p>
+         <p className="text-light-text-secondary dark:text-gray-400 text-sm h-10 flex items-center px-6 py-4">Tap card to reveal. Swipe to change.</p>
       ) : (
         <div className="flex items-center space-x-4 animate-fade-in h-10">
-          <button onClick={() => handleAssessment('incorrect')} className="px-6 py-3 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-semibold shadow-md hover:bg-red-200 dark:hover:bg-red-900 transition">
+          <button onClick={() => handleAssessment('incorrect')} className="px-6 py-3 rounded-lg bg-red-500/10 dark:bg-red-900/50 text-red-800 dark:text-red-300 font-semibold shadow-md hover:bg-red-500/20 dark:hover:bg-red-900 transition">
             Review Again
           </button>
-          <button onClick={() => handleAssessment('correct')} className="px-6 py-3 rounded-lg bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 font-semibold shadow-md hover:bg-green-200 dark:hover:bg-green-900 transition">
+          <button onClick={() => handleAssessment('correct')} className="px-6 py-3 rounded-lg bg-green-500/10 dark:bg-green-900/50 text-green-700 dark:text-green-300 font-semibold shadow-md hover:bg-green-500/20 dark:hover:bg-green-900 transition">
             Got It!
           </button>
         </div>

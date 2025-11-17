@@ -90,18 +90,18 @@ const MindMapMode: React.FC<{ articles: Article[]; onSelectArticle: (article: Ar
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-light-background dark:bg-gray-900">
       <ExamHeader title="Concept Mind Map" onBack={() => window.history.back()} />
       <div className="flex-grow relative overflow-hidden">
         <svg
           ref={svgRef}
-          className="w-full h-full"
+          className="w-full h-full bg-light-background dark:bg-gray-900"
           onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
           onMouseMove={handleMouseMove}
-          style={{ cursor: 'grab', background: 'var(--bg-color)' }}
+          style={{ cursor: 'grab' }}
         >
           <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
             {edges.map(({ source, target }, i) => (
@@ -120,8 +120,8 @@ const MindMapMode: React.FC<{ articles: Article[]; onSelectArticle: (article: Ar
                  onDoubleClick={() => onSelectArticle(node.article)}
                  className="cursor-pointer group"
                  style={{ transition: 'opacity 0.3s', opacity: getOpacity(node) }}>
-                <circle r="30" className="fill-current text-white dark:text-gray-800" strokeWidth="2" stroke="currentColor" />
-                <circle r="28" className={`fill-current ${selectedNode?.id === node.id ? 'text-blue-200 dark:text-blue-900' : 'text-gray-100 dark:text-gray-700'}`} />
+                <circle r="30" className="fill-current text-light-surface dark:text-gray-800" strokeWidth="2" stroke="currentColor" />
+                <circle r="28" className={`fill-current ${selectedNode?.id === node.id ? 'text-blue-200 dark:text-blue-900' : 'text-light-background dark:text-gray-700'}`} />
                 <text textAnchor="middle" dy="0.3em" className="fill-current text-navy dark:text-saffron font-bold text-sm select-none">
                   {node.article.id.replace('Article ', '')}
                 </text>
@@ -130,15 +130,15 @@ const MindMapMode: React.FC<{ articles: Article[]; onSelectArticle: (article: Ar
             ))}
           </g>
         </svg>
-        <div className="absolute bottom-4 left-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg text-xs text-gray-600 dark:text-gray-400">
+        <div className="absolute bottom-4 left-4 bg-light-surface dark:bg-gray-800 p-3 rounded-lg shadow-lg text-xs text-light-text-secondary dark:text-gray-400">
             <p>Scroll to zoom, Drag to pan.</p>
             <p>Click a node to highlight relations.</p>
             <p>Double-click to view article details.</p>
         </div>
          {selectedNode && (
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md text-center animate-fade-in">
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-light-surface dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md text-center animate-fade-in">
                 <h3 className="font-bold text-navy dark:text-saffron">{selectedNode.article.id}: {selectedNode.article.title}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{selectedNode.article.summary}</p>
+                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">{selectedNode.article.summary}</p>
             </div>
         )}
       </div>

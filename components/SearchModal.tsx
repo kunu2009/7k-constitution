@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Article } from '../types';
 
@@ -121,17 +122,17 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, articles, on
       onClick={onClose}
     >
       <div 
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-xl flex flex-col"
+        className="bg-light-surface dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-xl flex flex-col"
         onClick={e => e.stopPropagation()}
       >
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-b border-black/10 dark:border-gray-700">
           <input
             type="text"
             placeholder="Search by ID, Title, or Tag (e.g. 'Article 14 equality')"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             autoFocus
-            className="w-full p-2 bg-gray-100 dark:bg-gray-700 rounded-md border-transparent focus:ring-2 focus:ring-navy focus:border-transparent text-gray-900 dark:text-gray-100"
+            className="w-full p-2 bg-light-background dark:bg-gray-700 rounded-md border-transparent focus:ring-2 focus:ring-navy focus:border-transparent text-light-text dark:text-gray-100"
           />
         </div>
         <div className="overflow-y-auto max-h-[60vh]">
@@ -141,23 +142,23 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, articles, on
                 <li key={article.id}>
                   <button
                     onClick={() => onSelectArticle(article)}
-                    className="w-full text-left px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    className="w-full text-left px-4 py-3 hover:bg-light-background dark:hover:bg-gray-700 transition-colors"
                   >
                     <span className="font-bold text-navy dark:text-saffron">{article.id}:</span>
-                    <span className="ml-2 text-gray-800 dark:text-gray-200">{article.title}</span>
+                    <span className="ml-2 text-light-text dark:text-gray-200">{article.title}</span>
                   </button>
                 </li>
               ))}
             </ul>
           ) : (
             searchQuery && (
-              <p className="p-8 text-center text-gray-500 dark:text-gray-400">
+              <p className="p-8 text-center text-light-text-secondary dark:text-gray-400">
                 No articles found for "{searchQuery}".
               </p>
             )
           )}
            {!searchQuery && (
-              <p className="p-8 text-center text-gray-500 dark:text-gray-400">
+              <p className="p-8 text-center text-light-text-secondary dark:text-gray-400">
                 Start typing to find an article.
               </p>
             )}

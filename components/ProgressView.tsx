@@ -1,4 +1,5 @@
 
+
 import React, { useMemo } from 'react';
 import { UserData, LearningMode } from '../types';
 
@@ -12,17 +13,17 @@ const ProgressCard: React.FC<{ title: string; value: number; max: number; color:
   const percentage = max > 0 ? (value / max) * 100 : 0;
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-      <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">{title}</h3>
+    <div className="bg-light-surface dark:bg-gray-800 p-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+      <h3 className="text-lg font-semibold text-light-text dark:text-gray-300 mb-2">{title}</h3>
       <div className="flex justify-between items-center mb-2">
         <span className="text-2xl font-bold text-navy dark:text-saffron">
           {format === 'count' ? value : `${Math.round(percentage)}%`}
         </span>
-        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+        <span className="text-sm font-medium text-light-text-secondary dark:text-gray-400">
           {value} / {max}
         </span>
       </div>
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+      <div className="w-full bg-light-background/80 dark:bg-gray-700 rounded-full h-2.5">
         <div
           className={`${color} h-2.5 rounded-full`}
           style={{ width: `${percentage}%`, transition: 'width 0.5s ease-in-out' }}
@@ -76,12 +77,12 @@ const ProgressView: React.FC<ProgressViewProps> = ({ userData, totalArticles, se
   const studiedPercentage = totalArticles > 0 ? (stats.studiedCount / totalArticles) * 100 : 0;
 
   return (
-    <div className="flex flex-col items-center h-full p-4 sm:p-8 bg-gray-50 dark:bg-gray-900 overflow-y-auto">
+    <div className="flex flex-col items-center h-full p-4 sm:p-8 bg-light-background dark:bg-gray-900 overflow-y-auto">
       <div className="w-full max-w-4xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 dark:text-white mb-2 text-center">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-light-text dark:text-white mb-2 text-center">
           Your Learning Progress
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-10 text-center">
+        <p className="text-light-text-secondary dark:text-gray-400 mb-10 text-center">
           {getMotivationalQuote(studiedPercentage)}
         </p>
 
@@ -109,18 +110,18 @@ const ProgressView: React.FC<ProgressViewProps> = ({ userData, totalArticles, se
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">Mastery Breakdown</h2>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-light-text dark:text-white mb-4 text-center">Mastery Breakdown</h2>
+          <div className="bg-light-surface dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
             {stats.masteryCounts.map((count, level) => {
               const levelInfo = MASTERY_LEVELS[level as keyof typeof MASTERY_LEVELS];
               const percentage = totalArticles > 0 ? (count / totalArticles) * 100 : 0;
               return (
                 <div key={level} className="mb-4 last:mb-0">
                   <div className="flex justify-between items-center mb-1 text-sm">
-                    <span className="font-semibold text-gray-700 dark:text-gray-300">{levelInfo.label}</span>
-                    <span className="font-medium text-gray-500 dark:text-gray-400">{count} Articles</span>
+                    <span className="font-semibold text-light-text dark:text-gray-300">{levelInfo.label}</span>
+                    <span className="font-medium text-light-text-secondary dark:text-gray-400">{count} Articles</span>
                   </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                  <div className="w-full bg-light-background/80 dark:bg-gray-700 rounded-full h-2.5">
                     <div
                       className={`${levelInfo.color} h-2.5 rounded-full`}
                       style={{ width: `${percentage}%`, transition: 'width 0.5s ease-in-out' }}

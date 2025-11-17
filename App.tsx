@@ -205,10 +205,10 @@ const App: React.FC = () => {
   return (
     <>
       {isSplashVisible && <SplashScreen isFading={isSplashFading} />}
-      <div className={`flex h-screen font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
+      <div className={`flex h-screen font-sans bg-light-background text-light-text dark:bg-gray-900 dark:text-gray-200 ${isSplashVisible ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <div className="flex-1 flex flex-col overflow-hidden">
           {mainHeaderVisible && (
-            <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
+            <header className="w-full bg-light-surface dark:bg-gray-800 shadow-md p-4 flex items-center justify-between z-10 flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <AppLogo />
                 <h1 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-saffron via-gray-500 to-green dark:via-gray-400">
@@ -219,7 +219,7 @@ const App: React.FC = () => {
                  {installPrompt && (
                     <button
                         onClick={handleInstallClick}
-                        className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2 bg-blue-100 dark:bg-blue-900"
+                        className="p-2 rounded-full text-light-text-secondary dark:text-gray-400 hover:bg-black/5 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2 bg-blue-200/50 dark:bg-blue-900"
                         aria-label="Install App"
                         title="Install App"
                     >
@@ -230,7 +230,7 @@ const App: React.FC = () => {
                  {showFilterBar && (
                   <button
                     onClick={() => setIsFilterBarVisible(!isFilterBarVisible)}
-                    className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    className="p-2 rounded-full text-light-text-secondary dark:text-gray-400 hover:bg-black/5 dark:hover:bg-gray-700 transition-colors"
                     aria-label="Toggle filters"
                     title="Toggle filters"
                   >
@@ -239,7 +239,7 @@ const App: React.FC = () => {
                 )}
                 <button
                   onClick={() => setIsSearchModalOpen(true)}
-                  className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  className="p-2 rounded-full text-light-text-secondary dark:text-gray-400 hover:bg-black/5 dark:hover:bg-gray-700 transition-colors"
                   aria-label="Search for an article"
                 >
                   <SearchIcon />

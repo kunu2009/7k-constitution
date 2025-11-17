@@ -29,9 +29,9 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
   const studiedPercentage = totalArticles > 0 ? Math.round((studiedCount / totalArticles) * 100) : 0;
 
   return (
-    <div className="flex flex-col h-full p-4 sm:p-6 lg:p-8 bg-gray-100 dark:bg-gray-900 overflow-y-auto">
+    <div className="flex flex-col h-full p-4 sm:p-6 lg:p-8 bg-light-background dark:bg-gray-900 overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-6">
+        <h1 className="text-3xl sm:text-4xl font-bold text-light-text dark:text-white mb-6">
           Welcome Back!
         </h1>
         
@@ -42,7 +42,7 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
             <p className="mt-2 text-blue-200 leading-relaxed truncate" title={briefSummaryOfTheDay}>{briefSummaryOfTheDay}</p>
             <button 
                 onClick={() => onSelectArticle(articleOfTheDay)}
-                className="mt-4 px-4 py-2 bg-white text-navy font-semibold rounded-lg shadow-md hover:bg-gray-200 transition-colors"
+                className="mt-4 px-4 py-2 bg-light-surface text-navy font-semibold rounded-lg shadow-md hover:bg-white/80 transition-colors"
             >
                 Read More
             </button>
@@ -50,7 +50,7 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
 
         {/* Practice Modes */}
         <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Start Learning</h2>
+            <h2 className="text-2xl font-bold text-light-text dark:text-white mb-4">Start Learning</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <QuickStartCard 
                     title="Flashcards" 
@@ -87,19 +87,19 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
 
         {/* Progress Snapshot */}
         <div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Your Progress</h2>
+            <h2 className="text-2xl font-bold text-light-text dark:text-white mb-4">Your Progress</h2>
             <div 
-                className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                className="bg-light-surface dark:bg-gray-800 p-6 rounded-2xl shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
                 onClick={() => setMode(LearningMode.Progress)}
             >
                 <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-semibold text-gray-700 dark:text-gray-300">Articles Studied</h3>
+                    <h3 className="font-semibold text-light-text dark:text-gray-300">Articles Studied</h3>
                     <span className="font-bold text-navy dark:text-saffron">{studiedPercentage}%</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div className="w-full bg-light-background/80 dark:bg-gray-700 rounded-full h-2.5">
                     <div className="bg-gradient-to-r from-green-400 to-blue-500 h-2.5 rounded-full" style={{ width: `${studiedPercentage}%` }}></div>
                 </div>
-                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 text-right">
+                 <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-3 text-right">
                     {studiedCount} of {totalArticles} articles
                 </p>
             </div>
@@ -112,14 +112,14 @@ const Home: React.FC<HomeProps> = ({ setMode, onSelectArticle, userData, totalAr
 const QuickStartCard: React.FC<{ title: string; description: string; icon: React.ReactNode; color: string; onClick: () => void; }> = ({ title, description, icon, color, onClick }) => (
     <button 
         onClick={onClick}
-        className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-left flex items-center space-x-4 transform hover:scale-105 transition-transform duration-300 w-full"
+        className="bg-light-surface dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-left flex items-center space-x-4 transform hover:scale-105 transition-transform duration-300 w-full"
     >
         <div className={`text-3xl ${color} [&>svg]:h-8 [&>svg]:w-8`}>
             {icon}
         </div>
         <div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{title}</h3>
-            <p className="text-gray-500 dark:text-gray-400">{description}</p>
+            <h3 className="text-xl font-semibold text-light-text dark:text-white">{title}</h3>
+            <p className="text-light-text-secondary dark:text-gray-400">{description}</p>
         </div>
     </button>
 );

@@ -63,7 +63,7 @@ const MatchMode: React.FC<{ articles: Article[] }> = ({ articles }) => {
 
   const getButtonClass = (id: string, column: 'left' | 'right') => {
     const base = 'w-full p-4 rounded-lg text-left transition-all duration-200 border-2';
-    const content = column === 'left' ? `font-bold text-navy dark:text-saffron` : `text-sm text-gray-700 dark:text-gray-300`;
+    const content = column === 'left' ? `font-bold text-navy dark:text-saffron` : `text-sm text-light-text dark:text-gray-300`;
 
     if ((column === 'left' && matchedPairs[id]) || (column === 'right' && Object.values(matchedPairs).includes(id))) {
       return `${base} ${content} bg-green-100 dark:bg-green-900/50 border-green-500 opacity-50 cursor-not-allowed`;
@@ -74,7 +74,7 @@ const MatchMode: React.FC<{ articles: Article[] }> = ({ articles }) => {
     if ((column === 'left' && selectedLeft === id) || (column === 'right' && selectedRight === id)) {
         return `${base} ${content} bg-blue-100 dark:bg-blue-900/50 border-blue-500 ring-2 ring-blue-500`;
     }
-    return `${base} ${content} bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700`;
+    return `${base} ${content} bg-light-surface dark:bg-gray-800 border-black/10 dark:border-gray-600 hover:bg-light-background/80 dark:hover:bg-gray-700`;
   };
 
   if (gameItems.length === 0) {
@@ -82,22 +82,22 @@ const MatchMode: React.FC<{ articles: Article[] }> = ({ articles }) => {
         <div className="flex flex-col h-full">
             <ExamHeader title="Match the Following" onBack={() => window.history.back()} />
             <div className="flex-grow flex flex-col items-center justify-center p-4 text-center">
-                <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">Not Enough Articles</h3>
-                <p className="text-gray-500 dark:text-gray-400 mt-2">At least {GAME_SIZE} articles are needed to start a game. Please broaden your filter.</p>
+                <h3 className="text-xl font-semibold text-light-text dark:text-gray-300">Not Enough Articles</h3>
+                <p className="text-light-text-secondary dark:text-gray-400 mt-2">At least {GAME_SIZE} articles are needed to start a game. Please broaden your filter.</p>
             </div>
         </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-light-background dark:bg-gray-900">
       <ExamHeader title="Match the Following" onBack={() => window.history.back()} />
       <div className="flex-grow flex items-center justify-center p-4">
         <div className="w-full max-w-4xl">
             {isGameWon ? (
-                <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl animate-fade-in">
+                <div className="text-center p-8 bg-light-surface dark:bg-gray-800 rounded-2xl shadow-xl animate-fade-in">
                     <h2 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-4">Congratulations!</h2>
-                    <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">You've successfully matched all the articles.</p>
+                    <p className="text-lg text-light-text dark:text-gray-300 mb-6">You've successfully matched all the articles.</p>
                     <button onClick={setupGame} className="px-8 py-3 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-blue-900 transition-colors">
                         Play Again
                     </button>

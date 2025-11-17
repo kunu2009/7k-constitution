@@ -49,8 +49,8 @@ const FillBlanksMode: React.FC<FillBlanksModeProps> = ({ articles, onBack }) => 
       <div className="flex flex-col h-full">
         <ExamHeader title="Fill in the Blanks" onBack={onBack} />
         <div className="flex-grow flex flex-col items-center justify-center p-4 text-center">
-            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">No Questions Found</h3>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">There are no "fill in the blank" questions for the current filter. Try selecting 'All' parts and tags.</p>
+            <h3 className="text-xl font-semibold text-light-text dark:text-gray-300">No Questions Found</h3>
+            <p className="text-light-text-secondary dark:text-gray-400 mt-2">There are no "fill in the blank" questions for the current filter. Try selecting 'All' parts and tags.</p>
         </div>
       </div>
     );
@@ -59,12 +59,12 @@ const FillBlanksMode: React.FC<FillBlanksModeProps> = ({ articles, onBack }) => 
   const questionTextParts = question.question.split('____');
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-light-background dark:bg-gray-900">
         <ExamHeader title="Fill in the Blanks" onBack={onBack} />
         <div className="flex-grow flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl text-center">
+            <div className="w-full max-w-2xl bg-light-surface dark:bg-gray-800 p-8 rounded-2xl shadow-xl text-center">
                 <p className="text-sm font-semibold text-saffron uppercase tracking-wider mb-2">{question.article.id}: {question.article.title}</p>
-                <div className="text-xl md:text-2xl font-serif text-gray-700 dark:text-gray-300 leading-relaxed my-6">
+                <div className="text-xl md:text-2xl font-serif text-light-text dark:text-gray-300 leading-relaxed my-6">
                     "{questionTextParts[0]}
                     <form onSubmit={handleCheckAnswer} className="inline-block mx-2">
                         <input
@@ -75,7 +75,7 @@ const FillBlanksMode: React.FC<FillBlanksModeProps> = ({ articles, onBack }) => 
                             className={`w-32 text-center text-xl md:text-2xl font-bold bg-transparent border-b-2 transition-colors pb-1 ${
                                 isAnswered 
                                     ? (isCorrect ? 'border-green-500 text-green-600 dark:text-green-400' : 'border-red-500 text-red-600 dark:text-red-400')
-                                    : 'border-gray-400 dark:border-gray-500 focus:border-navy dark:focus:border-saffron text-navy dark:text-saffron'
+                                    : 'border-light-text/50 dark:border-gray-500 focus:border-navy dark:focus:border-saffron text-navy dark:text-saffron'
                             } outline-none`}
                             aria-label="Your answer"
                         />

@@ -14,7 +14,7 @@ const NavButton: React.FC<{
   onClick: () => void;
 }> = ({ label, icon, isActive, onClick }) => {
   const activeClasses = 'bg-blue-100 text-navy dark:bg-blue-900 dark:text-white';
-  const inactiveClasses = 'text-gray-600 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700';
+  const inactiveClasses = 'text-light-text-secondary hover:bg-black/5 dark:text-gray-400 dark:hover:bg-gray-700';
   
   return (
     <button
@@ -74,7 +74,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeMode, setMode }) => {
   return (
     <>
       {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around items-center p-1 z-20">
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-light-surface dark:bg-gray-800 border-t border-black/10 dark:border-gray-700 flex justify-around items-center p-1 z-20">
         {PRIMARY_NAV_ITEMS.map(item => (
             <NavButton
                 key={item.mode}
@@ -99,7 +99,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeMode, setMode }) => {
           onClick={() => setIsMoreMenuOpen(false)}
         >
           <div 
-            className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-2xl p-4 animate-slide-in-from-bottom"
+            className="fixed bottom-0 left-0 right-0 bg-light-surface dark:bg-gray-800 rounded-t-2xl p-4 animate-slide-in-from-bottom"
             onClick={e => e.stopPropagation()}
           >
             <div className="grid grid-cols-3 gap-4">
@@ -107,9 +107,9 @@ const Navigation: React.FC<NavigationProps> = ({ activeMode, setMode }) => {
                 <button
                   key={item.mode}
                   onClick={() => handleSetMode(item.mode)}
-                  className="flex flex-col items-center justify-center space-y-2 p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex flex-col items-center justify-center space-y-2 p-2 rounded-lg text-light-text dark:text-gray-300 hover:bg-light-background dark:hover:bg-gray-700"
                 >
-                  <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-full">{item.icon}</div>
+                  <div className="p-3 bg-light-background dark:bg-gray-700 rounded-full">{item.icon}</div>
                   <span className="text-xs font-medium">{item.label}</span>
                 </button>
               ))}
@@ -119,7 +119,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeMode, setMode }) => {
       )}
 
       {/* Desktop Right Sidebar */}
-      <nav className="hidden md:flex flex-col w-20 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 items-center py-4 space-y-4 z-20">
+      <nav className="hidden md:flex flex-col w-20 bg-light-surface dark:bg-gray-800 border-l border-black/10 dark:border-gray-700 items-center py-4 space-y-4 z-20">
          {ALL_NAV_ITEMS.map(item => (
             <NavButton
                 key={item.mode}
